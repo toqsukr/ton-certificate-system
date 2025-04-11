@@ -1,7 +1,9 @@
 {
   "name": "ton-cert-system",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "author": "toqsukr",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",

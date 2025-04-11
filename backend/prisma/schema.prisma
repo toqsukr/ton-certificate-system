@@ -6,3 +6,38 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           String         @id @default(uuid())
+  name         String
+  image        String
+  role         UserRole
+  createdOrgs  Organization[] @relation("OrganizationCreator")
+  certificates Certificate[]  @relation("CertificateOwner")
+  createdCerts Certificate[]  @relation("CertificateCreator")
+}
+
+model Organization {
+  code         String        @id
+  name         String
+  image        String
+  description  String
+  creatorID    String
+  creator      User          @relation("OrganizationCreator", fields: [creatorID], references: [id])
+  certificates Certificate[]
+}
+
+model Certificate {
+  id               String       @id @default(uuid())
+  owner            User         @relation("CertificateOwner", fields: [ownerID], references: [id])
+  ownerID          String
+  creator          User         @relation("CertificateCreator", fields: [creatorID], references: [id])
+  creatorID        String
+  organization     Organization @relation(fields: [organizationCode], references: [code])
+  organizationCode String
+}
+
+enum UserRole {
+  admin
+  common
+}
