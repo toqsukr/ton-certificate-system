@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     Unfonts({
       google: {
-        families: ['Open Sans', 'Roboto'],
+        families: ['Inter'],
       },
     }),
   ],
