@@ -1,4 +1,5 @@
 import Button from '@shared/uikit/button'
+import ContentField from '@shared/uikit/content-field'
 import { TONIcon } from '@shared/uikit/icons'
 import Input from '@shared/uikit/input'
 import LabelBelow from '@shared/uikit/label-below'
@@ -7,27 +8,35 @@ import ToggleButtonGroup from '@shared/uikit/toggle-button'
 
 function App() {
   return (
-    <main>
-      <Input placeholder='Name' />
+    <main className='p-12'>
+      <ContentField title='TITLE'>
+        <Input placeholder='Name' />
+        <Input
+          placeholder='Enter certificate ID'
+          Button={
+            <Button>
+              <TONIcon />
+            </Button>
+          }
+        />
 
-      <Button>Submit</Button>
+        <Button>Submit</Button>
 
-      <Button>
-        <TONIcon />
-      </Button>
+        <LabelBelow title='Description:'>
+          <p>
+            fakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjasfakljs;dfkja;skldfja;lsjdflkjas
+          </p>
+        </LabelBelow>
 
-      <LabelBelow title='Description:'>
-        <p>fakljs;dfkja;skldfja;lsjdflkjas</p>
-      </LabelBelow>
+        <LabelOpposite title='Name:'>Elijahs</LabelOpposite>
 
-      <LabelOpposite title='Name:'>Elijahs</LabelOpposite>
-
-      <ToggleButtonGroup>
-        <ToggleButtonGroup.Button selected value='check'>
-          Check
-        </ToggleButtonGroup.Button>
-        <ToggleButtonGroup.Button value='profile'>Profile</ToggleButtonGroup.Button>
-      </ToggleButtonGroup>
+        <ToggleButtonGroup>
+          <ToggleButtonGroup.Button value='check'>Check</ToggleButtonGroup.Button>
+          <ToggleButtonGroup.Button selected value='profile'>
+            Profile
+          </ToggleButtonGroup.Button>
+        </ToggleButtonGroup>
+      </ContentField>
     </main>
   )
 }

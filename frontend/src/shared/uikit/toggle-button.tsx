@@ -12,13 +12,13 @@ const buttonStyle: SxProps = {
   height: '3rem',
   fontWeight: 'bold',
   padding: '0.625rem 0',
+  border: '0',
   borderRadius: '3rem !important',
-  color: 'var(--text-primary-color)',
+  color: 'var(--text-third-color)',
   '&.Mui-selected': {
     backgroundColor: '#fff',
     '&:hover': {
       backgroundColor: '#fff',
-      cursor: 'auto',
     },
   },
 }
