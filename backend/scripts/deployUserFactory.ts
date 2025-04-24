@@ -1,11 +1,11 @@
 import { toNano } from '@ton/core';
-import { CertificateManager } from '../wrappers/CertificateManager';
+import { UserFactory } from '../wrappers/UserFactory';
 import { NetworkProvider } from '@ton/blueprint';
 
 export async function run(provider: NetworkProvider) {
-    const certificateManager = provider.open(await CertificateManager.fromInit());
+    const userFactory = provider.open(await UserFactory.fromInit());
 
-    await certificateManager.send(
+    await userFactory.send(
         provider.sender(),
         {
             value: toNano('0.05'),
@@ -16,7 +16,7 @@ export async function run(provider: NetworkProvider) {
         }
     );
 
-    await provider.waitForDeploy(certificateManager.address);
+    await provider.waitForDeploy(userFactory.address);
 
-    // run methods on `certificateManager`
+    // run methods on `userFactory`
 }

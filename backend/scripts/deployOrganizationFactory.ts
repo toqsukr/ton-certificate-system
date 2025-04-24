@@ -1,0 +1,22 @@
+import { toNano } from '@ton/core';
+import { OrganizationFactory } from '../wrappers/OrganizationFactory';
+import { NetworkProvider } from '@ton/blueprint';
+
+export async function run(provider: NetworkProvider) {
+    const organizationFactory = provider.open(await OrganizationFactory.fromInit());
+
+    await organizationFactory.send(
+        provider.sender(),
+        {
+            value: toNano('0.05'),
+        },
+        {
+            $$type: 'Deploy',
+            queryId: 0n,
+        }
+    );
+
+    await provider.waitForDeploy(organizationFactory.address);
+
+    // run methods on `organizationFactory`
+}
