@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 
 @layer base {
+  #root {
+    height: 100%;
+  }
+
   :root {
     --background-color: #12172c;
     --text-primary-color: #fff;
