@@ -14,7 +14,7 @@ const SearchPage = () => {
           </Button>
         }
       />
-      <p style={{ lineHeight: '1.5rem' }} className='text-[1rem] mt-4'>
+      <p className='text-[1rem] mt-4'>
         TCS is a certificate management system based on the TON blockchain. You can get information
         about user’s achievements. To do this, enter the user unique TCS-ID in the field above.
       </p>

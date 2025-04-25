@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite'
+import basicSSL from '@vitejs/plugin-basic-ssl'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path'
 import Unfonts from 'unplugin-fonts/vite'
@@ -9,6 +10,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    basicSSL(),
     Unfonts({
       google: {
         families: ['Inter'],

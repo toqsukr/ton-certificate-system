@@ -1,49 +1,58 @@
 import "@stdlib/deploy";
 
-contract User {
-    persistent storage: {
-        id: Int as uint32;
-        userPublicKey: Int as uint256; // храним ключ кошелька
-    };
+contract User with Deployable {
+    persistent owner: Address;
+    persistent data: Cell;  // Данные храним в Cell вместо String
 
-    init(publicKey: Int) {
-        self.storage.ownerPublicKey = publicKey;
+    init(owner: Address) {
+        self.owner = owner;
+        self.data = emptyCell();
     }
 
-    receive("approve_request", requestId: Int, certData: String) {
-        require(sender() == self.storage.owner, "Not owner");
-
-        send(SendParameters{
-            to: self.storage.org,
-            value: toNano("0.15"), // Газ для минта + комиссия
-            body: beginCell()
-                .storeUint(0x5678, 32) // op-code для "mint_certificate"
-                .storeAddress(self.address) // user
-                .storeString(certData)
-                .endCell()
-        });
+    // Бинарное обновление данных
+    receive(msg: UpdateDataMessage) {
+        require(context.sender == self.owner, "Not owner");
+        require(checkSignature(msg.data, msg.signature), "Invalid signature");
+        self.data = msg.data;
     }
 
-    get fun get_public_key(): Int {
-        return self.storage.ownerPublicKey;
+    fun checkSignature(data: Cell, signature: Slice): Bool {
+        return verifySignature(data.hash(), signature, self.owner);
     }
-}
 
-message UserInitData {
-    name: String;
-    surname: String;
-    publicKey: Int as uint256; // Добавляем публичный ключ в сообщение из фронта
+    // Структура бинарного сообщения
+    message UpdateDataMessage {
+        data: Cell;
+        signature: Slice as "signature";
+    }
 }
 
 contract UserFactory with Deployable {
-    receive("create_user", data: UserInitData) {
-        let user = User(data.name, data.surname, data.publicKey);
-        
+    // Бинарное сообщение для создания
+    message CreateUserMessage {
+        salt: Int as uint32? = 0;  // Опциональный salt для разных контрактов
+    }
+
+    receive(msg: CreateUserMessage) {
+        let userAddress = calculateUserAddress(context.sender, msg.salt);
+        if (getDeployed(userAddress)) return;
+
+        let user = User(context.sender);
         send(SendParameters{
-            to: user.address,
+            to: userAddress,
             value: toNano("0.5"),
-            body: beginCell().storeUint(0, 32).endCell(),
-            stateInit: user.stateInit
+            stateInit: user.stateInit,
+            body: emptyCell()
         });
     }
+}
+
+fun calculateUserAddress(owner: Address, salt: Int): Address {
+    let data = beginCell()
+        .storeAddress(owner)
+        .storeUint(salt, 32)
+        .endCell();
+    
+    let user = User{owner = owner, initData = data};
+    return user.address;
 }

@@ -13,7 +13,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   }
 
   return (
-    <section className='h-full flex flex-col gap-8 max-w-[30rem] px-12 py-16 mx-auto'>
+    <section className='h-full flex flex-col gap-8 max-w-[30rem] p-12 mx-auto'>
       <h1 className='flex flex-col gap-2 text-[3rem] text-[var(--button-bg-color)] font-bold'>
         <span>TON</span>
         <span>Certificate</span>
@@ -26,7 +26,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
           Search
         </ToggleButtonGroup.Button>
         <ToggleButtonGroup.Button
-          selected={location.pathname === Routes.PROFILE}
+          selected={location.pathname === Routes.PROFILE || location.pathname === Routes.AUTH}
           value={Routes.PROFILE}>
           Profile
         </ToggleButtonGroup.Button>

@@ -1,3 +1,4 @@
+import AuthPage from '@pages/auth'
 import ProfilePage from '@pages/profile'
 import SearchPage from '@pages/search'
 import { Routes } from '@shared/model/routes'
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: Routes.PROFILE,
         element: <ProfilePage />,
+      },
+      {
+        path: Routes.AUTH,
+        element: <AuthPage />,
       },
       {
         path: Routes.SEARCH,

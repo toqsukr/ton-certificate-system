@@ -5,4 +5,5 @@ export const Routes = {
   ORGANIZATION_INFO: '/organization-info',
   SEARCH: '/search',
   PROFILE: '/profile',
+  AUTH: '/auth',
 } as const
