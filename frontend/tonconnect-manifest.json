@@ -1,5 +1,5 @@
 {
-  "url": "http://localhost:5173/",
+  "url": "https://ton-certificate-system.vercel.app/",
   "name": "TCS - TON Certificate System",
-  "iconUrl": "#"
+  "iconUrl": ""
 }
