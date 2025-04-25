@@ -8,11 +8,13 @@ import {
 import { FC, PropsWithChildren } from 'react'
 
 const buttonStyle: SxProps = {
+  border: '0',
   width: '100%',
   height: '3rem',
+  fontSize: '1rem',
   fontWeight: 'bold',
   padding: '0.625rem 0',
-  border: '0',
+  textTransform: 'math-auto',
   borderRadius: '3rem !important',
   color: 'var(--text-third-color)',
   '&.Mui-selected': {
