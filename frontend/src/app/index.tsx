@@ -6,7 +6,7 @@ import './index.css'
 import { router } from './router.tsx'
 
 const testManifestURL =
-  'https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json'
+  'https://raw.githubusercontent.com/toqsukr/ton-certificate-system/refs/heads/master/frontend/tonconnect-manifest.json'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
