@@ -1,64 +1,68 @@
 import "@stdlib/deploy";
 
-// Сообщение для запроса выпуска NFT
-message MintNFT {
-    owner: Address; // Кто получит NFT
-    content: String; // Метаданные (ссылка на JSON)
+struct OrgData {
+    name: String;
+    admin: Address;
+    wallet: Address;
 }
 
-contract Organization {
-    persistent storage: {
-        id: Int as uint32;
-        name: String;
-        orgPublicKey: Int as uint256; // храним ключ кошелька
-    };
+message MintNFT {
+    owner: Address;
+    content: String;
+    signature: Slice;
+}
 
-    init(name: String, publicKey: Int) {
-        self.storage.name = name;
-        self.storage.ownerPublicKey = publicKey;
-    }
+contract Organization(orgData: OrgData) {
 
-    // Добавление пользователя (только для admin)
-    receive("add_user", user: Address) {
-        require(sender() == self.storage.admin, "Not admin");
-        self.storage.users.add(user);
-    }
+    // receive(user: Address) {
+    //     require(context.sender == self.orgData.admin, "Not admin");
+    // }
 
-    // Функция выпуска NFT
-    receive("mint_cert", msg: MintNFT) {
-        // Проверяем, что отправитель == admin
-        require(sender() == self.storage.admin, "Not admin");
+    // receive("mint_cert", msg: MintNFT) {
+    //     require(context.sender == self.orgData.admin, "Not admin");
 
-        // Создаем NFT и отправляем владельцу
-        let nft = NFT.std();
-        nft.mint(
-            owner = msg.owner, // Владелец из сообщения
-            content = msg.content, // Метаданные (например, IPFS ссылка)
-        );
+    //     let data = beginCell()
+    //         .storeAddress(msg.owner)
+    //         .storeString(msg.content)
+    //         .endCell();
+        
+    //     require(
+    //         verifySignature(data.hash(), msg.signature, self.orgData.admin),
+    //         "Invalid signature"
+    //     );
 
-        // Отправляем NFT на адрес владельца
-        send(SendParameters{
-            to: msg.owner,
-            value: 0.1 TON, // Газ для обработки
-            body: nft.asMessage(),
-        });
-    }
+    //     let nft = NFT.std();
+    //     nft.mint(
+    //         owner = msg.owner,
+    //         content = msg.content
+    //     );
+
+    //     send(SendParameters{
+    //         to: msg.owner,
+    //         value: toNano("0.1"),
+    //         body: nft.asMessage(),
+    //         bounce: false
+    //     });
+    // }
 }
 
 message OrgInitData {
     name: String;
-    publicKey: Int as uint256; // Добавляем публичный ключ в сообщение из фронта
+    wallet: Address;
 }
 
 contract OrganizationFactory with Deployable {
-    receive("create_org", data: OrgInitData) {
-        let org = Organization(data);
+    receive(msg: OrgInitData) {
+        let ctx = context();
+        throwUnless(1024, ctx.value >= ton("0.1"));
 
-        send(SendParameters{
-            to: org.address,
-            value: toNano("0.5"),
-            body: beginCell().storeUint(0, 32).endCell(),
-            stateInit: org.stateInit
+        let orgInit: OrgData = OrgData {admin: ctx.sender, name: msg.name, wallet: msg.wallet};
+
+        deploy(DeployParameters {
+            init:  initOf Organization(orgInit),
+            value: ton("0.05"),
         });
+
+        cashback(ctx.sender);
     }
 }

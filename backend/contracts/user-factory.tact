@@ -1,58 +1,62 @@
 import "@stdlib/deploy";
 
-contract User with Deployable {
-    persistent owner: Address;
-    persistent data: Cell;  // Данные храним в Cell вместо String
+struct UserData {
+    name: String;
+    surname: String;
+    owner: Address;
+}
 
-    init(owner: Address) {
-        self.owner = owner;
-        self.data = emptyCell();
+message UpdateDataMessage {
+    name: String;
+    surname: String;
+    signature: Slice;
+}
+
+contract User(userData: UserData) {
+    get fun getUserData(): UserData {
+        return self.userData;
     }
 
-    // Бинарное обновление данных
     receive(msg: UpdateDataMessage) {
-        require(context.sender == self.owner, "Not owner");
-        require(checkSignature(msg.data, msg.signature), "Invalid signature");
-        self.data = msg.data;
-    }
+        throwUnless(1024, sender() == self.userData.owner);
 
-    fun checkSignature(data: Cell, signature: Slice): Bool {
-        return verifySignature(data.hash(), signature, self.owner);
-    }
+        // let data = beginCell()
+        //     .storeUint(0x5555, 16) 
+        //     .storeUint(0, 8)
+        //     .storeSlice(msg.name.asSlice())
+        //     .storeUint(0, 8)
+        //     .storeSlice(msg.surname.asSlice())
+        //     .endCell();
+    
+        // require(verifySignature(data.hash(), msg.signature, self.userData.owner), "Invalid signature");
 
-    // Структура бинарного сообщения
-    message UpdateDataMessage {
-        data: Cell;
-        signature: Slice as "signature";
+        self.userData.name = msg.name;
+        self.userData.surname = msg.surname;
     }
+}
+
+message CreateUserMessage {
+    name: String;
+    surname: String;
+    signature: Slice;
 }
 
 contract UserFactory with Deployable {
-    // Бинарное сообщение для создания
-    message CreateUserMessage {
-        salt: Int as uint32? = 0;  // Опциональный salt для разных контрактов
-    }
-
     receive(msg: CreateUserMessage) {
-        let userAddress = calculateUserAddress(context.sender, msg.salt);
-        if (getDeployed(userAddress)) return;
+        let ctx = context();
+        throwUnless(1024, ctx.value >= ton("0.1"));
 
-        let user = User(context.sender);
-        send(SendParameters{
-            to: userAddress,
-            value: toNano("0.5"),
-            stateInit: user.stateInit,
-            body: emptyCell()
+        let userData = UserData{
+            name: msg.name,
+            surname: msg.surname,
+            owner: ctx.sender
+        };
+
+        deploy(DeployParameters {
+            init: initOf User(userData),
+            value: ton("0.05"),
         });
-    }
-}
 
-fun calculateUserAddress(owner: Address, salt: Int): Address {
-    let data = beginCell()
-        .storeAddress(owner)
-        .storeUint(salt, 32)
-        .endCell();
-    
-    let user = User{owner = owner, initData = data};
-    return user.address;
+        cashback(sender())
+    }
 }
