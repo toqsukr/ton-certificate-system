@@ -19,19 +19,21 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
         <span>Certificate</span>
         <span>System</span>
       </h1>
-      <ToggleButtonGroup onChange={handleRouteChange}>
-        <ToggleButtonGroup.Button
-          selected={location.pathname === Routes.SEARCH}
-          value={Routes.SEARCH}>
-          Search
-        </ToggleButtonGroup.Button>
-        <ToggleButtonGroup.Button
-          selected={location.pathname === Routes.PROFILE || location.pathname === Routes.AUTH}
-          value={location.pathname === Routes.PROFILE ? Routes.PROFILE : Routes.AUTH}>
-          Profile
-        </ToggleButtonGroup.Button>
-      </ToggleButtonGroup>
-      {children}
+      <section className='flex flex-col gap-6'>
+        <ToggleButtonGroup onChange={handleRouteChange}>
+          <ToggleButtonGroup.Button
+            selected={location.pathname === Routes.SEARCH}
+            value={Routes.SEARCH}>
+            Search
+          </ToggleButtonGroup.Button>
+          <ToggleButtonGroup.Button
+            selected={location.pathname === Routes.PROFILE || location.pathname === Routes.AUTH}
+            value={location.pathname === Routes.PROFILE ? Routes.PROFILE : Routes.AUTH}>
+            Profile
+          </ToggleButtonGroup.Button>
+        </ToggleButtonGroup>
+        {children}
+      </section>
     </section>
   )
 }

@@ -27,7 +27,7 @@ const style: SxProps = {
   width: '100%',
   height: '2.8rem',
   fontWeight: 'bold',
-  padding: '0.625rem',
+  padding: '0.8rem',
   borderRadius: '0.625rem',
   color: 'var(--text-primary-color)',
 }

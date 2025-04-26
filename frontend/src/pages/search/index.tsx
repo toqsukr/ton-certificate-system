@@ -5,7 +5,7 @@ import Input from '@shared/uikit/input'
 
 const SearchPage = () => {
   return (
-    <ContentField title='User searching'>
+    <ContentField title='Information'>
       <Input
         placeholder='Enter TCS-ID'
         Button={
