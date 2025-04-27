@@ -1,6 +1,6 @@
+import { NetworkProvider } from '@ton/blueprint';
 import { toNano } from '@ton/core';
 import { OrganizationFactory } from '../wrappers/OrganizationFactory';
-import { NetworkProvider } from '@ton/blueprint';
 
 export async function run(provider: NetworkProvider) {
     const organizationFactory = provider.open(await OrganizationFactory.fromInit());
@@ -13,7 +13,7 @@ export async function run(provider: NetworkProvider) {
         {
             $$type: 'Deploy',
             queryId: 0n,
-        }
+        },
     );
 
     await provider.waitForDeploy(organizationFactory.address);

@@ -1,6 +1,6 @@
+import { NetworkProvider } from '@ton/blueprint';
 import { toNano } from '@ton/core';
 import { User } from '../wrappers/User';
-import { NetworkProvider } from '@ton/blueprint';
 
 export async function run(provider: NetworkProvider) {
     const user = provider.open(await User.fromInit());
@@ -13,7 +13,7 @@ export async function run(provider: NetworkProvider) {
         {
             $$type: 'Deploy',
             queryId: 0n,
-        }
+        },
     );
 
     await provider.waitForDeploy(user.address);

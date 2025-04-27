@@ -33,7 +33,7 @@ async function calculateUserAddress(walletAddress: string, publicKey: bigint) {
     .storeBit(0) // нет library
     .endCell()
 
-  const address = new Address(-3, stateInit.hash()) // ???
+  const address = new Address(0, stateInit.hash()) // ???
 
   return address.toString()
 }
@@ -50,7 +50,9 @@ export const useUserContract = () => {
 
     const contract = new User(Address.parse(address))
 
-    return client.open(contract) as OpenedContract<User>
+    const openedContract = client.open(contract) as OpenedContract<User>
+
+    return openedContract
   }, [client])
 
   return userContract

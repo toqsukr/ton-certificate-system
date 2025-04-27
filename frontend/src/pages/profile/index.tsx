@@ -1,7 +1,6 @@
 import { Routes } from '@shared/model/routes'
 import Button from '@shared/uikit/button'
 import ContentField from '@shared/uikit/content-field'
-import { Address } from '@ton/core'
 import { TonConnectButton, useTonWallet } from '@tonconnect/ui-react'
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
@@ -17,19 +16,12 @@ const ProfilePage = () => {
   if (!wallet) return <Navigate to={Routes.AUTH} />
 
   const createUserContract = () => {
-    const hexPublicKey = BigInt(`0x${wallet.account.publicKey}`)
-
-    userFactory?.sendExternal({
-      $$type: 'CreateUserRequest',
-      seqno: BigInt(`0x42`),
-      wallet: Address.parse(wallet.account.address),
-      publicKey: hexPublicKey,
-    })
+    userFactory?.createUser()
   }
 
   const getContractData = async () => {
-    console.log(user?.getGetUserData())
-    user && setUserContract((await user.getGetUserData()).publicKey.toString().slice(0, 15))
+    const res = await user?.getGetUserData()
+    res && setUserContract(res.publicKey.toString().slice(0, 15))
   }
 
   return (
