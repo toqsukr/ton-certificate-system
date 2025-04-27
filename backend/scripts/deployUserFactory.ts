@@ -1,6 +1,6 @@
+import { NetworkProvider } from '@ton/blueprint';
 import { toNano } from '@ton/core';
 import { UserFactory } from '../wrappers/UserFactory';
-import { NetworkProvider } from '@ton/blueprint';
 
 export async function run(provider: NetworkProvider) {
     const userFactory = provider.open(await UserFactory.fromInit());
@@ -10,10 +10,7 @@ export async function run(provider: NetworkProvider) {
         {
             value: toNano('0.05'),
         },
-        {
-            $$type: 'Deploy',
-            queryId: 0n,
-        }
+        null,
     );
 
     await provider.waitForDeploy(userFactory.address);

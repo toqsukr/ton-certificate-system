@@ -1,62 +1,48 @@
 import "@stdlib/deploy";
+import "./user.tact";
 
-struct UserData {
-    name: String;
-    surname: String;
-    owner: Address;
+message(0xd53276db) Excesses {}
+
+message CreateUserRequest {
+    wallet: Address;
+    seqno: Int as uint32;
+    publicKey: Int as uint256;
 }
 
-message UpdateDataMessage {
-    name: String;
-    surname: String;
-    signature: Slice;
-}
+contract UserFactory {
+    const TOO_FEW_COINS: Int = 700;
+    const DUPLICATE_MSG: Int = 701;
 
-contract User(userData: UserData) {
-    get fun getUserData(): UserData {
-        return self.userData;
+    seqno: Int;
+
+    init() {
+        self.seqno = 0;
     }
 
-    receive(msg: UpdateDataMessage) {
-        throwUnless(1024, sender() == self.userData.owner);
+    external(msg: CreateUserRequest) {
+        throwUnless(self.TOO_FEW_COINS, context().value >= ton("0.1"));
 
-        // let data = beginCell()
-        //     .storeUint(0x5555, 16) 
-        //     .storeUint(0, 8)
-        //     .storeSlice(msg.name.asSlice())
-        //     .storeUint(0, 8)
-        //     .storeSlice(msg.surname.asSlice())
-        //     .endCell();
-    
-        // require(verifySignature(data.hash(), msg.signature, self.userData.owner), "Invalid signature");
-
-        self.userData.name = msg.name;
-        self.userData.surname = msg.surname;
-    }
-}
-
-message CreateUserMessage {
-    name: String;
-    surname: String;
-    signature: Slice;
-}
-
-contract UserFactory with Deployable {
-    receive(msg: CreateUserMessage) {
-        let ctx = context();
-        throwUnless(1024, ctx.value >= ton("0.1"));
+        throwUnless(self.DUPLICATE_MSG, msg.seqno == self.seqno);
+        self.seqno += 1;
 
         let userData = UserData{
-            name: msg.name,
-            surname: msg.surname,
-            owner: ctx.sender
+            orgs: null,
+            wallet: msg.wallet,
+            publicKey: msg.publicKey,
         };
 
         deploy(DeployParameters {
-            init: initOf User(userData),
             value: ton("0.05"),
+            init: initOf User(userData),
         });
 
-        cashback(sender())
+        message(MessageParameters {
+            value: 0,
+            to: sender(),
+            body: Excesses {}.toCell(),
+            mode: SendRemainingValue | SendIgnoreErrors,
+        });
     }
+
+    receive() { cashback(sender()) }
 }

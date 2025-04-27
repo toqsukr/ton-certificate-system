@@ -1,68 +1,114 @@
-import "@stdlib/deploy";
+message(0xd53276db) Excesses {}
 
 struct OrgData {
-    name: String;
-    admin: Address;
-    wallet: Address;
-}
-
-message MintNFT {
     owner: Address;
-    content: String;
-    signature: Slice;
+    wallet: Address;
+    publicKey: Int as uint256
 }
 
-contract Organization(orgData: OrgData) {
+struct MintCertBody {
+    certOwner: Address;
+    content: Slice;
+    seqno: Int as uint32;
+}
 
-    // receive(user: Address) {
-    //     require(context.sender == self.orgData.admin, "Not admin");
-    // }
+message(0x988d4037) MintCertRequest {
+    signature: Slice as bytes64;
+    requestBody: MintCertBody;
+}
 
-    // receive("mint_cert", msg: MintNFT) {
-    //     require(context.sender == self.orgData.admin, "Not admin");
+contract Organization {
+    const DUPLICATE_MSG: Int = 701;
+    const OWNER_ONLY: Int = 703;
+    const NON_COMPARED_SIGNATURE: Int = 704;
 
-    //     let data = beginCell()
-    //         .storeAddress(msg.owner)
-    //         .storeString(msg.content)
-    //         .endCell();
+    seqno: Int;
+    orgData: OrgData;
+
+    init(orgData: OrgData) {
+        self.seqno = 0;
+        self.orgData = orgData;
+    }
+
+    get fun getOrgData(): OrgData {
+        return self.orgData
+    }
+
+    receive(msg: MintCertRequest) {
+        throwUnless(self.OWNER_ONLY, sender() == self.orgData.owner);
+
+        throwUnless(self.DUPLICATE_MSG, msg.requestBody.seqno == self.seqno);
+        self.seqno += 1;
+
+        throwUnless(
+            self.NON_COMPARED_SIGNATURE,
+            checkSignature(msg.requestBody.toCell().hash(), msg.signature, self.orgData.publicKey)
+        );
+
+        // ZHESTKII MINTING
+        // deploy(DeployParameters {
+        //     value: ton("0.05"),
+        //     init: initOf User(userData),
+        // });
+        // 
+        // let nftData = NFTTransfer {
+        //     queryId: 42,
+        //     newOwner: msg.requestBody.certOwner,
+        //     responseDestination: myAddress(),
+        //     forwardAmount: 1,
+        // }.toCell()
+
+        // send(SendParameters {
+        //     to: nftData.hash(),
+        //     value: ton("0.1"),
+        //     body: nftData,
+        // });
         
-    //     require(
-    //         verifySignature(data.hash(), msg.signature, self.orgData.admin),
-    //         "Invalid signature"
-    //     );
-
-    //     let nft = NFT.std();
-    //     nft.mint(
-    //         owner = msg.owner,
-    //         content = msg.content
-    //     );
-
-    //     send(SendParameters{
-    //         to: msg.owner,
-    //         value: toNano("0.1"),
-    //         body: nft.asMessage(),
-    //         bounce: false
-    //     });
-    // }
+        message(MessageParameters {
+            to: sender(),
+            value: 0,
+            mode: SendRemainingValue | SendIgnoreErrors,
+            body: Excesses {}.toCell(),
+        });
+    }
 }
 
 message OrgInitData {
-    name: String;
     wallet: Address;
+    seqno: Int as uint32;
+    publicKey: Int as uint256;
 }
 
-contract OrganizationFactory with Deployable {
-    receive(msg: OrgInitData) {
-        let ctx = context();
-        throwUnless(1024, ctx.value >= ton("0.1"));
+contract OrganizationFactory {
+    const TOO_FEW_COINS: Int = 700;
+    const DUPLICATE_MSG: Int = 701;
 
-        let orgInit: OrgData = OrgData {admin: ctx.sender, name: msg.name, wallet: msg.wallet};
+    seqno: Int;
+
+    init() {
+        self.seqno = 0;
+    }
+
+    external(msg: OrgInitData) {
+        throwUnless(self.TOO_FEW_COINS, context().value >= ton("0.1"));
+        
+        throwUnless(self.DUPLICATE_MSG, msg.seqno == self.seqno);
+        self.seqno += 1;
+
+        let orgInit: OrgData = OrgData {owner: sender(), publicKey: msg.publicKey, wallet: msg.wallet};
 
         deploy(DeployParameters {
             init:  initOf Organization(orgInit),
             value: ton("0.05"),
         });
 
-        cashback(ctx.sender);
+        message(MessageParameters {
+            to: sender(),
+            value: 0,
+            mode: SendRemainingValue | SendIgnoreErrors,
+            body: Excesses {}.toCell(),
+        });
     }
+
+    receive() { cashback(sender()) }
 }

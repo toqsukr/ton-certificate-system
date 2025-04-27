@@ -5,5 +5,6 @@ export const compile: CompilerConfig = {
     target: 'contracts/organization-factory.tact',
     options: {
         debug: true,
+        external: true,
     },
 };
