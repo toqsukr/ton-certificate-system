@@ -1,6 +1,8 @@
+import { Address } from '@ton/core'
+
 export type TOrganization = {
   code: string
-  name: string
   publicKey: string
-  creatorID: string
+  wallet: Address
+  creator: string
 }
