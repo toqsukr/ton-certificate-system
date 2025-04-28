@@ -9,7 +9,7 @@ struct UserData {
     orgs: Array?;
 }
 
-contract User(userData: UserData) {
+contract User(userData: UserData) with NFTCollection {
     const MAX_ORGS_NUM: Int = 5;
     const TOO_MUCH_ORGS: Int = 800;
 
@@ -17,5 +17,5 @@ contract User(userData: UserData) {
         return self.userData;
     }
 
-    receive() { cashback(sender()) }
+    receive() {}
 }
