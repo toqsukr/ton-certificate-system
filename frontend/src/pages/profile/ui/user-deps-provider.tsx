@@ -1,27 +1,22 @@
 import { authDepsContext } from '@features/auth'
+import tonClient from '@shared/api/ton-client'
 import { useTonConnect } from '@shared/lib/use-ton-connect'
-import { TonClient } from '@ton/ton'
 import { Wallet, WalletInfoWithOpenMethod } from '@tonconnect/ui-react'
 import { FC, PropsWithChildren } from 'react'
 
 type UserDepsProviderProp = {
   wallet: Wallet | (Wallet & WalletInfoWithOpenMethod)
-  client: TonClient
 }
 
-const UserDepsProvider: FC<PropsWithChildren<UserDepsProviderProp>> = ({
-  children,
-  client,
-  wallet,
-}) => {
+const UserDepsProvider: FC<PropsWithChildren<UserDepsProviderProp>> = ({ children, wallet }) => {
   const { sender } = useTonConnect()
 
   return (
     <authDepsContext.Provider
       value={{
         sender,
-        client,
         wallet,
+        client: tonClient,
         onUserCreated: () => {
           console.log('created')
         },

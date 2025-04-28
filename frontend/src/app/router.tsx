@@ -3,6 +3,7 @@ import ProfilePage from '@pages/profile'
 import SearchPage from '@pages/search'
 import { Routes } from '@shared/model/routes'
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
+import ContentLayout from './ui/content-layout'
 import MainLayout from './ui/main-layout'
 
 const UserInfoPageLazy = async () => {
@@ -23,39 +24,48 @@ const OrganizationInfoPageLazy = async () => {
 export const router = createBrowserRouter([
   {
     element: (
-      <MainLayout>
+      <ContentLayout>
         <Outlet />
-      </MainLayout>
+      </ContentLayout>
     ),
     children: [
       {
-        path: Routes.HOME,
-        element: <Navigate to={Routes.SEARCH} replace />,
+        element: (
+          <MainLayout>
+            <Outlet />
+          </MainLayout>
+        ),
+        children: [
+          {
+            path: Routes.HOME,
+            element: <Navigate to={Routes.SEARCH} replace />,
+          },
+          {
+            path: Routes.PROFILE,
+            element: <ProfilePage />,
+          },
+          {
+            path: Routes.AUTH,
+            element: <AuthPage />,
+          },
+          {
+            path: Routes.SEARCH,
+            element: <SearchPage />,
+          },
+        ],
       },
       {
-        path: Routes.PROFILE,
-        element: <ProfilePage />,
+        path: Routes.CERTIFICATE_INFO,
+        lazy: CertificateInfoPageLazy,
       },
       {
-        path: Routes.AUTH,
-        element: <AuthPage />,
+        path: Routes.USER_INFO,
+        lazy: UserInfoPageLazy,
       },
       {
-        path: Routes.SEARCH,
-        element: <SearchPage />,
+        path: Routes.ORGANIZATION_INFO,
+        lazy: OrganizationInfoPageLazy,
       },
     ],
-  },
-  {
-    path: Routes.CERTIFICATE_INFO,
-    lazy: CertificateInfoPageLazy,
-  },
-  {
-    path: Routes.USER_INFO,
-    lazy: UserInfoPageLazy,
-  },
-  {
-    path: Routes.ORGANIZATION_INFO,
-    lazy: OrganizationInfoPageLazy,
   },
 ])

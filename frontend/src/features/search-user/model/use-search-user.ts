@@ -1,15 +1,10 @@
-import { useUserStore } from '@entities/user'
-import { useMutateSearchUser } from '../api/mutate-search-user'
+import { Routes } from '@shared/model/routes'
+import { useNavigate } from 'react-router-dom'
 
 export const useSearchUser = (address: string) => {
-  const { mutateAsync } = useMutateSearchUser(address)
-  const { setUser } = useUserStore()
+  const navigate = useNavigate()
 
   return async () => {
-    const response = await mutateAsync()
-    if (response) {
-      const { wallet, publicKey } = response
-      setUser({ wallet: wallet.toString(), publicKey: publicKey.toString() })
-    }
+    navigate(Routes.USER_INFO, { state: { address } })
   }
 }

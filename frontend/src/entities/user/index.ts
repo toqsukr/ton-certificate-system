@@ -1,3 +1,4 @@
+export { useInvaliateUserData, userByAddressQuery } from './api/queries'
 export { openUserContract } from './model/open-user-contract'
 export { openUserFactoryContract } from './model/open-user-factory-contract'
 export { useUserStore } from './model/store'
