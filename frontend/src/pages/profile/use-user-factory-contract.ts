@@ -20,7 +20,7 @@ export const useUserFactoryContract = () => {
     const openedContract = client.open(contract) as OpenedContract<UserFactory>
 
     return {
-      ...openedContract,
+      contract: openedContract,
       createUser: () => {
         openedContract.send(
           sender,

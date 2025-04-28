@@ -52,7 +52,10 @@ export const useUserContract = () => {
 
     const openedContract = client.open(contract) as OpenedContract<User>
 
-    return openedContract
+    return {
+      contract: openedContract,
+      address,
+    }
   }, [client])
 
   return userContract
