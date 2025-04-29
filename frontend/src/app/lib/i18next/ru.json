@@ -1,0 +1,16 @@
+{
+  "search_tab_title": "Поиск",
+  "profile_tab_title": "Профиль",
+
+  "search_unit_title": "Информация",
+  "search_input_placeholder": "Введите адрес пользователя",
+  "search_about_text": "TCS - это система управления сертификатами на основе блокчейна TON. Вы можете получить информацию о достижениях пользователя. Для этого введите адрес пользователя в поле выше.",
+
+  "user_info_unit_title": "Пользователь",
+  "address_label": "Адрес:",
+  "wallet_label": "Кошелек:",
+  "public_key_label": "Публичный ключ:",
+  "certificates_label": "Сертификаты:",
+
+  "profile_unit_title": "Аккаунт"
+}

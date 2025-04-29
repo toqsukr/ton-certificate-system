@@ -1,16 +1,15 @@
 import { SearchUserInput } from '@features/search-user'
 import ContentField from '@shared/uikit/content-field'
+import { useTranslation } from 'react-i18next'
 
 const SearchPage = () => {
+  const { t } = useTranslation()
+
   return (
-    <ContentField title='Information'>
+    <ContentField title={t('search_unit_title')}>
       <div className='flex flex-col gap-3'>
-        <SearchUserInput />
-        <p className='text-[1rem] mt-4'>
-          TCS is a certificate management system based on the TON blockchain. You can get
-          information about user’s achievements. To do this, enter the user unique TCS-ID in the
-          field above.
-        </p>
+        <SearchUserInput placeholder={t('search_input_placeholder')} />
+        <p className='text-[1rem] mt-4'>{t('search_about_text')}</p>
       </div>
     </ContentField>
   )

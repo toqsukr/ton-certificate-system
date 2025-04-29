@@ -3,6 +3,7 @@ import { Routes } from '@shared/model/routes'
 import ToggleButtonGroup from '@shared/uikit/toggle-button'
 import { useTonWallet, Wallet, WalletInfoWithOpenMethod } from '@tonconnect/ui-react'
 import { FC, PropsWithChildren } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const getAuthRoute = (
@@ -20,6 +21,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const wallet = useTonWallet()
+  const { t } = useTranslation()
 
   const handleRouteChange: ToggleButtonGroupProps['onChange'] = (_, route) => {
     navigate(route[0])
@@ -37,12 +39,12 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
           <ToggleButtonGroup.Button
             selected={location.pathname.includes(Routes.SEARCH)}
             value={Routes.SEARCH}>
-            Search
+            {t('search_tab_title')}
           </ToggleButtonGroup.Button>
           <ToggleButtonGroup.Button
             selected={location.pathname === Routes.PROFILE || location.pathname === Routes.AUTH}
             value={getAuthRoute(wallet, location.pathname)}>
-            Profile
+            {t('profile_tab_title')}
           </ToggleButtonGroup.Button>
         </ToggleButtonGroup>
         {children}

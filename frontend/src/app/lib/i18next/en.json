@@ -1,0 +1,16 @@
+{
+  "search_tab_title": "Search",
+  "profile_tab_title": "Profile",
+
+  "search_unit_title": "Information",
+  "search_input_placeholder": "Enter User Address",
+  "search_about_text": "TCS is a certificate management system based on the TON blockchain. You can get information about user’s achievements. To do this, enter the user unique TCS-ID in the field above.",
+
+  "user_info_unit_title": "User Information",
+  "address_label": "Address",
+  "wallet_label": "Wallet",
+  "public_key_label": "Public Key",
+  "certificates_label": "Certificates",
+
+  "profile_unit_title": "Аккаунт"
+}

@@ -4,7 +4,7 @@ import SearchPage from '@pages/search'
 import { Routes } from '@shared/model/routes'
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
 import AuthDeps from './ui/auth-deps'
-import AuthLayout from './ui/auth-layout'
+import ConfigLayout from './ui/config-layout'
 import ContentLayout from './ui/content-layout'
 import MainLayout from './ui/main-layout'
 
@@ -27,11 +27,11 @@ export const router = createBrowserRouter([
   {
     element: (
       <AuthDeps>
-        <AuthLayout>
+        <ConfigLayout>
           <ContentLayout>
             <Outlet />
           </ContentLayout>
-        </AuthLayout>
+        </ConfigLayout>
       </AuthDeps>
     ),
     children: [
