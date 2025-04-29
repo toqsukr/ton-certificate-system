@@ -1,5 +1,6 @@
 import { userByAddressQuery } from '@entities/user'
 import ContentField from '@shared/uikit/content-field'
+import LabelBelow from '@shared/uikit/label-below'
 import LabelOpposite from '@shared/uikit/label-opposite'
 import Spinner from '@shared/uikit/spinner'
 import { useQuery } from '@tanstack/react-query'
@@ -21,8 +22,20 @@ export const UserInfoPage = () => {
     )
 
   return (
-    <ContentField title={data?.publicKey.toString().slice(0, 15) ?? ''}>
-      <LabelOpposite title='Wallet'>{data?.wallet.toString().slice(0, 15)}</LabelOpposite>
+    <ContentField title={'User Information'}>
+      <div className='flex flex-col gap-6'>
+        <LabelOpposite title='Address:'>{state.address.slice(0, 20)}</LabelOpposite>
+        <LabelOpposite title='Wallet:'>{data?.wallet.toString().slice(0, 20)}</LabelOpposite>
+        <LabelOpposite title='Public Key:'>{data?.publicKey.toString().slice(0, 20)}</LabelOpposite>
+        <LabelBelow title='Certificates:'>
+          <ul className='*:ml-4 flex flex-col gap-2'>
+            <li>{'• akdjf8asldjfkmzpo_fj?jf89slflsjoz;vnkls6'}</li>
+            <li>{'• hkerf85jf8_9sjdlxAAGSnvo-jznkas284'}</li>
+            <li>{'• lIoxcljarmofabosdfn45faofk5mASIDUA'}</li>
+            <li>{'• a$djf8fjjf89sdsjdsjzcvsaklsloJFLKAAD'}</li>
+          </ul>
+        </LabelBelow>
+      </div>
     </ContentField>
   )
 }

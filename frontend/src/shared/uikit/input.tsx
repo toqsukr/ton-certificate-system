@@ -1,27 +1,5 @@
-import {
-  createTheme,
-  Input as MUIInput,
-  InputProps as MUIInputProps,
-  SxProps,
-  ThemeProvider,
-} from '@mui/material'
-import { forwardRef, ReactNode } from 'react'
-
-export const customTheme = createTheme({
-  components: {
-    MuiInput: {
-      styleOverrides: {
-        input: {
-          '::placeholder': {
-            color: 'var(--text-secondary-color)',
-          },
-          marginRight: '2.8rem',
-          padding: 0,
-        },
-      },
-    },
-  },
-})
+import { Input as MUIInput, SxProps } from '@mui/material'
+import { forwardRef, HTMLProps, ReactNode } from 'react'
 
 const style: SxProps = {
   width: '100%',
@@ -34,18 +12,26 @@ const style: SxProps = {
 
 type InputProps = {
   Button?: ReactNode
-} & MUIInputProps
+} & HTMLProps<HTMLInputElement>
 
 const Input = forwardRef<HTMLInputElement, InputProps>(({ Button, ...props }, ref) => {
   return (
-    <ThemeProvider theme={customTheme}>
-      <div className='relative border-1 border-[white] rounded-[.625rem]'>
-        <MUIInput {...props} ref={ref} sx={style} disableUnderline />
-        <div className='absolute top-0 right-0 w-[2.8rem] border-l-1 [&>button]:rounded-[0.5625rem]! [&>button]:rounded-l-none!'>
-          {Button}
-        </div>
+    <div className='relative border-1 border-[white] rounded-[.625rem]'>
+      <MUIInput
+        sx={style}
+        disableUnderline
+        inputComponent={() => (
+          <input
+            {...props}
+            className='w-full mr-[2.8rem] placeholder:text-[var(--text-third-color)]'
+            ref={ref}
+          />
+        )}
+      />
+      <div className='absolute top-0 right-0 w-[2.8rem] border-l-1 [&>button]:rounded-[0.5625rem]! [&>button]:rounded-l-none!'>
+        {Button}
       </div>
-    </ThemeProvider>
+    </div>
   )
 })
 

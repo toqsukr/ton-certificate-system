@@ -1,24 +1,34 @@
 import Button from '@shared/uikit/button'
 import { TONIcon } from '@shared/uikit/icons'
 import Input from '@shared/uikit/input'
-import { useState } from 'react'
+import { Address } from '@ton/core'
+import { useRef } from 'react'
 import { useSearchUser } from '../model/use-search-user'
 
 export const SearchUserInput = () => {
-  const [address, setAddress] = useState('')
-  const searchUser = useSearchUser(address)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const searchUser = useSearchUser()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setAddress(e.target.value)
+  const handleSearch = () => {
+    const inputAddress = inputRef.current?.value
+
+    if (!inputAddress) return
+
+    new Promise<Address>(res => {
+      const address = Address.parse(inputAddress)
+      res(address)
+    })
+      .then(address => searchUser(address.toString()))
+      .catch(() => {})
   }
 
   return (
     <Input
-      placeholder='Enter TCS-ID'
-      onChange={handleChange}
+      ref={inputRef}
+      placeholder='Enter User Address'
       Button={
-        <Button>
-          <TONIcon onClick={searchUser} />
+        <Button onClick={handleSearch}>
+          <TONIcon />
         </Button>
       }
     />

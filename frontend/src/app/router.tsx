@@ -52,15 +52,15 @@ export const router = createBrowserRouter([
             path: Routes.SEARCH,
             element: <SearchPage />,
           },
+          {
+            path: Routes.USER_INFO,
+            lazy: UserInfoPageLazy,
+          },
         ],
       },
       {
         path: Routes.CERTIFICATE_INFO,
         lazy: CertificateInfoPageLazy,
-      },
-      {
-        path: Routes.USER_INFO,
-        lazy: UserInfoPageLazy,
       },
       {
         path: Routes.ORGANIZATION_INFO,

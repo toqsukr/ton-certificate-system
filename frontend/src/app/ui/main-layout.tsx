@@ -22,13 +22,13 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
       <section className='flex flex-col gap-6'>
         <ToggleButtonGroup onChange={handleRouteChange}>
           <ToggleButtonGroup.Button
-            selected={location.pathname === Routes.SEARCH}
+            selected={location.pathname.includes(Routes.SEARCH)}
             value={Routes.SEARCH}>
             Search
           </ToggleButtonGroup.Button>
           <ToggleButtonGroup.Button
             selected={location.pathname === Routes.PROFILE || location.pathname === Routes.AUTH}
-            value={location.pathname === Routes.PROFILE ? Routes.PROFILE : Routes.AUTH}>
+            value={location.pathname.includes(Routes.PROFILE) ? Routes.PROFILE : Routes.AUTH}>
             Profile
           </ToggleButtonGroup.Button>
         </ToggleButtonGroup>

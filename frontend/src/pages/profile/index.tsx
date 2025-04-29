@@ -1,25 +1,32 @@
-import { useUserStore } from '@entities/user'
-import { useCreateUser } from '@features/auth'
 import { Routes } from '@shared/model/routes'
-import Button from '@shared/uikit/button'
 import ContentField from '@shared/uikit/content-field'
+import LabelBelow from '@shared/uikit/label-below'
 import LabelOpposite from '@shared/uikit/label-opposite'
 import { TonConnectButton, useTonWallet } from '@tonconnect/ui-react'
 import { Navigate } from 'react-router-dom'
+import css from './styles.module.scss'
 import UserDepsProvider from './ui/user-deps-provider'
 
 const Content = () => {
-  const { mutate: createUser } = useCreateUser()
-  const { user } = useUserStore()
+  // const { user } = useUserStore()
 
   return (
-    <ContentField title={'USER-ID'}>
-      <div className='flex flex-col gap-4'>
-        {user && <LabelOpposite title='Public Key'>{user.publicKey.slice(0, 15)}</LabelOpposite>}
-        <LabelOpposite title='Wallet'>
-          <TonConnectButton />
+    <ContentField title='Account'>
+      <div className='flex flex-col gap-6'>
+        <LabelOpposite title='Wallet:'>
+          <div className={css.ton_connect_wrapper}>
+            <TonConnectButton />
+          </div>
         </LabelOpposite>
-        <Button onClick={() => createUser()}>Create account</Button>
+
+        <LabelBelow title='Certificates:'>
+          <ul className='*:ml-4 flex flex-col gap-2'>
+            <li>{'• akdjf8asldjfkmzpo_fj?jf89slflsjoz;vnkls6'}</li>
+            <li>{'• hkerf85jf8_9sjdlxAAGSnvo-jznkas284'}</li>
+            <li>{'• lIoxcljarmofabosdfn45faofk5mASIDUA'}</li>
+            <li>{'• a$djf8fjjf89sdsjdsjzcvsaklsloJFLKAAD'}</li>
+          </ul>
+        </LabelBelow>
       </div>
     </ContentField>
   )

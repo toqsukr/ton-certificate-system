@@ -1,6 +1,6 @@
 export const Routes = {
   HOME: '/',
-  USER_INFO: '/user-info',
+  USER_INFO: '/search/user-info',
   CERTIFICATE_INFO: '/certificate-info',
   ORGANIZATION_INFO: '/organization-info',
   SEARCH: '/search',
