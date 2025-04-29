@@ -9,11 +9,11 @@ struct UserData {
     orgs: Array?;
 }
 
-contract User(userData: UserData) with NFTCollection {
+contract User(userData: UserData) {
     const MAX_ORGS_NUM: Int = 5;
     const TOO_MUCH_ORGS: Int = 800;
 
-    get fun getUserData(): UserData {
+    get fun get_user_data(): UserData {
         return self.userData;
     }
 
