@@ -4,6 +4,10 @@
   "search_tab_title": "Search",
   "profile_tab_title": "Profile",
 
+  "auth_unit_title": "Authorization",
+  "auth_unit_text": "Connect TON Wallet to access your TCS account.;No account yet? It will be created automatically after the Wallet is connected!;Each TCS account may be connected with only single Wallet!",
+  "connect_wallet_button": "Connect Wallet",
+
   "search_unit_title": "Information",
   "search_input_placeholder": "Enter User Address",
   "search_about_text": "To view user information, enter their address in the field above.",
