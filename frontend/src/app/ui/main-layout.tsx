@@ -1,12 +1,25 @@
 import { ToggleButtonGroupProps } from '@mui/material'
 import { Routes } from '@shared/model/routes'
 import ToggleButtonGroup from '@shared/uikit/toggle-button'
+import { useTonWallet, Wallet, WalletInfoWithOpenMethod } from '@tonconnect/ui-react'
 import { FC, PropsWithChildren } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+
+const getAuthRoute = (
+  wallet: Wallet | (Wallet & WalletInfoWithOpenMethod) | null,
+  pathname: string
+) => {
+  if (pathname === Routes.PROFILE) return pathname
+
+  if (!wallet) return Routes.AUTH
+
+  return Routes.PROFILE
+}
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate()
   const location = useLocation()
+  const wallet = useTonWallet()
 
   const handleRouteChange: ToggleButtonGroupProps['onChange'] = (_, route) => {
     navigate(route[0])
@@ -19,7 +32,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
         <span>Certificate</span>
         <span>System</span>
       </h1>
-      <section className='flex flex-col gap-6 last:mb-[40px]'>
+      <section className='flex flex-col gap-6'>
         <ToggleButtonGroup onChange={handleRouteChange}>
           <ToggleButtonGroup.Button
             selected={location.pathname.includes(Routes.SEARCH)}
@@ -28,7 +41,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
           </ToggleButtonGroup.Button>
           <ToggleButtonGroup.Button
             selected={location.pathname === Routes.PROFILE || location.pathname === Routes.AUTH}
-            value={location.pathname.includes(Routes.PROFILE) ? Routes.PROFILE : Routes.AUTH}>
+            value={getAuthRoute(wallet, location.pathname)}>
             Profile
           </ToggleButtonGroup.Button>
         </ToggleButtonGroup>

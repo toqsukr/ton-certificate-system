@@ -3,6 +3,8 @@ import ProfilePage from '@pages/profile'
 import SearchPage from '@pages/search'
 import { Routes } from '@shared/model/routes'
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
+import AuthDeps from './ui/auth-deps'
+import AuthLayout from './ui/auth-layout'
 import ContentLayout from './ui/content-layout'
 import MainLayout from './ui/main-layout'
 
@@ -24,9 +26,13 @@ const OrganizationInfoPageLazy = async () => {
 export const router = createBrowserRouter([
   {
     element: (
-      <ContentLayout>
-        <Outlet />
-      </ContentLayout>
+      <AuthDeps>
+        <AuthLayout>
+          <ContentLayout>
+            <Outlet />
+          </ContentLayout>
+        </AuthLayout>
+      </AuthDeps>
     ),
     children: [
       {

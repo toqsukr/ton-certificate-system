@@ -1,6 +1,12 @@
 @import 'tailwindcss';
 
 @layer base {
+  #root {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
   :root {
     --background-color: #12172c;
     --text-primary-color: #fff;

@@ -1,5 +1,6 @@
 import { userByAddressQuery } from '@entities/user'
 import ContentField from '@shared/uikit/content-field'
+import CopyableText from '@shared/uikit/copyable-text'
 import LabelBelow from '@shared/uikit/label-below'
 import LabelOpposite from '@shared/uikit/label-opposite'
 import Spinner from '@shared/uikit/spinner'
@@ -15,7 +16,7 @@ export const UserInfoPage = () => {
     return (
       <div className=' relative'>
         <ContentField title={''}>
-          <div className='h-40' />
+          <div className='h-50' />
           <Spinner className='absolute left-1/2 top-1/2 -translate-1/2' />
         </ContentField>
       </div>
@@ -24,15 +25,21 @@ export const UserInfoPage = () => {
   return (
     <ContentField title={'User Information'}>
       <div className='flex flex-col gap-6'>
-        <LabelOpposite title='Address:'>{state.address.slice(0, 20)}</LabelOpposite>
-        <LabelOpposite title='Wallet:'>{data?.wallet.toString().slice(0, 20)}</LabelOpposite>
-        <LabelOpposite title='Public Key:'>{data?.publicKey.toString().slice(0, 20)}</LabelOpposite>
+        <LabelOpposite title='Address:'>
+          <CopyableText text={state.address} />
+        </LabelOpposite>
+        <LabelOpposite title='Wallet:'>
+          <CopyableText text={data?.wallet.toString() ?? ''} />
+        </LabelOpposite>
+        <LabelOpposite title='Public Key:'>
+          <CopyableText text={data?.publicKey.toString() ?? ''} />
+        </LabelOpposite>
         <LabelBelow title='Certificates:'>
           <ul className='*:ml-4 flex flex-col gap-2'>
-            <li>{'• akdjf8asldjfkmzpo_fj?jf89slfl'}</li>
-            <li>{'• hkerf85jf8_9sjdlxAAGSnv'}</li>
-            <li>{'• lIoxcljarmofabosdfn45fa'}</li>
-            <li>{'• a$djf8fjjf89sdsjdsjzcvsak'}</li>
+            <li>{'• akdjf8asldjfkmzpo_fj?jf89slfllIoxcljarmofabosdfn45fa'}</li>
+            <li>{'• hkerf85jf8_9sjdlxAAGSnvlIoxcljarmofabosdfn45fa'}</li>
+            <li>{'• lIoxcljarmofabosdfn45falIoxcljarmofabosdfn45fa'}</li>
+            <li>{'• a$djf8fjjf89sdsjdsjzcvsaklIoxcljarmofabosdfn45fa'}</li>
           </ul>
         </LabelBelow>
       </div>

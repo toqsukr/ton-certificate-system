@@ -7,8 +7,7 @@ import { WalletInfoWithOpenMethod } from '@tonconnect/ui-react'
 type AuthDeps = {
   sender: Sender
   client: TonClient
-  wallet: Wallet | (Wallet & WalletInfoWithOpenMethod)
-  onUserCreated: () => void
+  wallet: Wallet | (Wallet & WalletInfoWithOpenMethod) | null
 }
 
 export const authDepsContext = createStrictContext<AuthDeps>()

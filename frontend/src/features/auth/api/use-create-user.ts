@@ -2,19 +2,18 @@ import { openUserFactoryContract } from '@entities/user'
 import { useMutation } from '@tanstack/react-query'
 import { Address, toNano } from '@ton/core'
 import { useAuthDeps } from '../deps'
+import { walletKeyToHex } from '../lib/wallet-key-to-hex'
 
 const createUserKey = 'create-user-key'
 
-const walletKeyToHex = (key: string | undefined) => {
-  return BigInt(`0x${key}`)
-}
-
 export const useCreateUser = () => {
-  const { sender, wallet, client, onUserCreated } = useAuthDeps()
+  const { sender, wallet, client } = useAuthDeps()
 
   return useMutation({
     mutationKey: [createUserKey],
     mutationFn: async () => {
+      if (!wallet) return
+
       const hexPublicKey = walletKeyToHex(wallet.account.publicKey)
 
       await openUserFactoryContract(client)?.send(
@@ -29,6 +28,5 @@ export const useCreateUser = () => {
         }
       )
     },
-    onSuccess: onUserCreated,
   })
 }

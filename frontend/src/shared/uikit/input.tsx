@@ -8,6 +8,7 @@ const style: SxProps = {
   padding: '0.8rem',
   borderRadius: '0.625rem',
   color: 'var(--text-primary-color)',
+  backgroundColor: 'var(--background-color)',
 }
 
 type InputProps = {
@@ -16,7 +17,7 @@ type InputProps = {
 
 const Input = forwardRef<HTMLInputElement, InputProps>(({ Button, ...props }, ref) => {
   return (
-    <div className='relative border-1 border-[white] rounded-[.625rem]'>
+    <div className='relative rounded-[.625rem]'>
       <MUIInput
         sx={style}
         disableUnderline
@@ -28,7 +29,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ Button, ...props }, re
           />
         )}
       />
-      <div className='absolute top-0 right-0 w-[2.8rem] border-l-1 [&>button]:rounded-[0.5625rem]! [&>button]:rounded-l-none!'>
+      <div className='absolute top-0 right-0 w-[2.8rem] [&>button]:rounded-[0.5625rem]! [&>button]:rounded-l-none!'>
         {Button}
       </div>
     </div>

@@ -1,0 +1,36 @@
+#tonconnect-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#ton-connect-button {
+  min-width: 100%;
+}
+
+.go157313249.go3974562317.go54158285 {
+  gap: 0.75rem;
+  transform: scale(1);
+  width: 100%;
+  padding: 0 !important;
+  height: 2rem;
+  border-radius: 0.8rem !important;
+  background-color: var(--background-color) !important;
+}
+
+.go157313249.go3974562317.go54158285 > * {
+  color: white;
+}
+
+.go3572451881 {
+  width: 100%;
+}
+
+.go3349661836 > path {
+  fill: white;
+}
+
+.go526437840,
+.go2628359365 {
+  background-color: var(--background-color) !important;
+}

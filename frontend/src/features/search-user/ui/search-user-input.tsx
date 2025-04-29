@@ -9,6 +9,11 @@ export const SearchUserInput = () => {
   const inputRef = useRef<HTMLInputElement>(null)
   const searchUser = useSearchUser()
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    handleSearch()
+  }
+
   const handleSearch = () => {
     const inputAddress = inputRef.current?.value
 
@@ -23,14 +28,16 @@ export const SearchUserInput = () => {
   }
 
   return (
-    <Input
-      ref={inputRef}
-      placeholder='Enter User Address'
-      Button={
-        <Button onClick={handleSearch}>
-          <TONIcon />
-        </Button>
-      }
-    />
+    <form onSubmit={handleSubmit}>
+      <Input
+        ref={inputRef}
+        placeholder='Enter User Address'
+        Button={
+          <Button onClick={handleSearch}>
+            <TONIcon />
+          </Button>
+        }
+      />
+    </form>
   )
 }

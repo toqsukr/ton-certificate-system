@@ -13,10 +13,10 @@ export const userByAddressQuery = (address: string) => {
   }
 }
 
-export const useInvaliateUserData = (address: string) => {
+export const useInvaliateUserData = () => {
   const queryClient = useQueryClient()
 
-  return () =>
+  return (address: string) =>
     queryClient.invalidateQueries({
       queryKey: [userDataQueryKey, address],
     })
