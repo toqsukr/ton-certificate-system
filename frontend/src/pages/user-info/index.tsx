@@ -1,4 +1,5 @@
 import { userByAddressQuery } from '@entities/user'
+import { Routes } from '@shared/model/routes'
 import ContentField from '@shared/uikit/content-field'
 import CopyableText from '@shared/uikit/copyable-text'
 import LabelBelow from '@shared/uikit/label-below'
@@ -6,11 +7,12 @@ import LabelOpposite from '@shared/uikit/label-opposite'
 import Spinner from '@shared/uikit/spinner'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export const UserInfoPage = () => {
   const { state } = useLocation()
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   const { data, isFetching } = useQuery(userByAddressQuery(state.address ?? ''))
 
@@ -25,7 +27,7 @@ export const UserInfoPage = () => {
     )
 
   return (
-    <ContentField title={t('user_info_unit_title')}>
+    <ContentField title={t('user_info_unit_title')} onBack={() => navigate(Routes.SEARCH)}>
       <div className='flex flex-col gap-6'>
         <LabelOpposite title={t('address_label')}>
           <CopyableText text={state.address} />

@@ -1,5 +1,6 @@
 import { ToggleButtonGroupProps } from '@mui/material'
 import { Routes } from '@shared/model/routes'
+import ContentField from '@shared/uikit/content-field'
 import ToggleButtonGroup from '@shared/uikit/toggle-button'
 import { useTonWallet, Wallet, WalletInfoWithOpenMethod } from '@tonconnect/ui-react'
 import { FC, PropsWithChildren } from 'react'
@@ -29,11 +30,16 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <h1 className='flex flex-col gap-2 text-[3rem] text-[var(--button-bg-color)] font-bold'>
+      <h1
+        style={{ letterSpacing: '.2rem' }}
+        className='flex flex-col gap-4 text-[3rem] text-[var(--button-bg-color)] font-bold'>
         <span>TON</span>
         <span>Certificate</span>
         <span>System</span>
       </h1>
+      <ContentField title={t('app_about_title')}>
+        <p>{t('app_about_text')}</p>
+      </ContentField>
       <section className='flex flex-col gap-6'>
         <ToggleButtonGroup onChange={handleRouteChange}>
           <ToggleButtonGroup.Button

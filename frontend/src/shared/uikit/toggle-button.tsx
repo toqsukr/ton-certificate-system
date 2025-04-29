@@ -15,7 +15,7 @@ const buttonStyle: SxProps = {
   fontWeight: 'bold',
   padding: '0.625rem 0',
   textTransform: 'math-auto',
-  borderRadius: '3rem !important',
+  borderRadius: '1.25rem !important',
   color: 'var(--text-third-color)',
   '&.Mui-selected': {
     backgroundColor: '#fff',
@@ -36,7 +36,7 @@ const ToggleButton: FC<PropsWithChildren<ToggleButtonProps>> = ({ children, ...p
 const groupStyle: SxProps = {
   width: '100%',
   backgroundColor: 'rgba(255,255,255,.05)',
-  borderRadius: '3rem',
+  borderRadius: '1.25rem',
 }
 
 interface ToggleButtonGroupComponent extends FC<PropsWithChildren<MUIToggleButtonGroupProps>> {
