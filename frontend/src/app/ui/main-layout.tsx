@@ -19,7 +19,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
         <span>Certificate</span>
         <span>System</span>
       </h1>
-      <section className='flex flex-col gap-6'>
+      <section className='flex flex-col gap-6 last:mb-[40px]'>
         <ToggleButtonGroup onChange={handleRouteChange}>
           <ToggleButtonGroup.Button
             selected={location.pathname.includes(Routes.SEARCH)}

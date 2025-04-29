@@ -21,10 +21,10 @@ const Content = () => {
 
         <LabelBelow title='Certificates:'>
           <ul className='*:ml-4 flex flex-col gap-2'>
-            <li>{'• akdjf8asldjfkmzpo_fj?jf89slflsjoz;vnkls6'}</li>
-            <li>{'• hkerf85jf8_9sjdlxAAGSnvo-jznkas284'}</li>
-            <li>{'• lIoxcljarmofabosdfn45faofk5mASIDUA'}</li>
-            <li>{'• a$djf8fjjf89sdsjdsjzcvsaklsloJFLKAAD'}</li>
+            <li>{'• akdjf8asldjfkmzpo_fj?jf89slfl'}</li>
+            <li>{'• hkerf85jf8_9sjdlxAAGSnv'}</li>
+            <li>{'• lIoxcljarmofabosdfn45fa'}</li>
+            <li>{'• a$djf8fjjf89sdsjdsjzcvsak'}</li>
           </ul>
         </LabelBelow>
       </div>
