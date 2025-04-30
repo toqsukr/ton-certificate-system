@@ -6,6 +6,7 @@ import { useTonWallet, Wallet, WalletInfoWithOpenMethod } from '@tonconnect/ui-r
 import { FC, PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
+import css from './main-layout.module.scss'
 
 const getAuthRoute = (
   wallet: Wallet | (Wallet & WalletInfoWithOpenMethod) | null,
@@ -30,10 +31,8 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <h1
-        style={{ letterSpacing: '.2rem' }}
-        className='flex flex-col gap-4 text-[3rem] text-[var(--button-bg-color)] font-bold'>
-        <span>TON</span>
+      <h1 className={css.app_title}>
+        The
         <span>Certificate</span>
         <span>System</span>
       </h1>

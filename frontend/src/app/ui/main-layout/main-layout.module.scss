@@ -1,0 +1,16 @@
+.app_title {
+  display: flex;
+  flex-direction: column;
+  font-size: 3.5rem;
+  color: var(--button-bg-color);
+  font-weight: bold;
+  line-height: 4rem;
+  > span {
+    color: transparent;
+    width: max-content;
+    background: linear-gradient(90deg, #0198ea 41.35%, #14bcfa 80.71%);
+    background-clip: text;
+    --webkit-background-clip: text;
+    --webkit-text-fill-color: transparent;
+  }
+}

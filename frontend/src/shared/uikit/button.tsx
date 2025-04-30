@@ -7,7 +7,7 @@ const style: SxProps = {
   fontWeight: 'bold',
   borderRadius: '0.625rem',
   color: 'var(--text-primary-color)',
-  backgroundColor: 'var(--button-bg-color)',
+  background: 'linear-gradient(90deg, #0198ea 51.35%, #14bcfa 80.71%)',
 }
 
 const Button: FC<PropsWithChildren<ButtonProps>> = ({ children, ...props }) => {

@@ -6,7 +6,7 @@ import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
 import AuthDeps from './ui/auth-deps'
 import ConfigLayout from './ui/config-layout'
 import ContentLayout from './ui/content-layout'
-import MainLayout from './ui/main-layout'
+import MainLayout from './ui/main-layout/main-layout'
 
 const UserInfoPageLazy = async () => {
   const { UserInfoPage } = await import('@pages/user-info')

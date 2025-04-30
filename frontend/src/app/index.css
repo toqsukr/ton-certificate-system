@@ -57,6 +57,7 @@
     -webkit-text-size-adjust: 100%;
     background-color: var(--background-color);
     font-family: 'Inter', 'Open Sans', sans-serif;
+    font-feature-settings: 'liga', 'calt';
   }
 
   input,
