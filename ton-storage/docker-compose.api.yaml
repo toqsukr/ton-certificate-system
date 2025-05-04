@@ -1,0 +1,9 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    network_mode: host
+    volumes:
+      - ./api:/app
+      - /var/run/docker.sock:/var/run/docker.sock

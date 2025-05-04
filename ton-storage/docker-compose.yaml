@@ -1,0 +1,61 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    depends_on:
+      - gateway
+    networks:
+        - ton-network
+    ports:
+      - "5174:5174"
+    volumes:
+      - shared-temp:/app/shared-temp
+      - ton-storage-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      STORAGE_DAEMON_ADDRESS: "127.0.0.1:5555"
+  gateway:
+    image: localhost:5000/tonstorage-gateway:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        TON_REPO: https://github.com/ton-blockchain/ton
+        TON_BRANCH: master
+    ports:
+      - "3000:3000"
+      - "2222:22"
+      - "3333:3333"
+    networks:
+        - ton-network
+    environment:
+      TON_STORAGE_ADNL_PORT:
+      TON_STORAGE_CONTROL_PORT:
+      TON_STORAGE_VERBOSITY_LEVEL:
+      TON_PUBLIC_IP:
+      TON_STORAGE_GLOBAL_CONFIG: /run/secrets/global-config
+      TON_STORAGE_DATABASE_NAME:
+      TON_STORAGE_GATEWAY_PORT:
+      TON_STORAGE_GATEWAY_DOMAIN:
+    secrets:
+      - global-config
+    volumes:
+      - shared-temp:/app/shared-temp
+      - ./exchange:/exchange
+      - ton-storage-data:/data
+    restart: always
+
+networks:
+  ton-network:
+    driver: bridge
+
+volumes:
+  ton-storage-data:
+  shared-temp:
+
+secrets:
+  global-config:
+    file: ${TON_STORAGE_GLOBAL_CONFIG:?}

@@ -1,0 +1,32 @@
+{
+  "name": "tonstorage-gateway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "pm2 start ecosystem.config.js",
+    "stop": "pm2 delete ecosystem.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "ndatg",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/bell": "^13.0.0",
+    "@hapi/boom": "^10.0.0",
+    "@hapi/cookie": "^12.0.0",
+    "@hapi/hapi": "^21.1.0",
+    "@hapi/vision": "^7.0.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "handlebars": "^4.7.7",
+    "joi": "^17.7.0",
+    "mime-types": "^2.1.35",
+    "tonstorage-cli": "^1.0.3"
+  },
+  "devDependencies": {
+    "eslint": "8.22.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}
