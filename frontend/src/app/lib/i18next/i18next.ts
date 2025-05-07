@@ -4,7 +4,6 @@ import translationEN from './en.json'
 import translationRU from './ru.json'
 
 i18n.use(initReactI18next).init({
-  lng: 'en',
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,

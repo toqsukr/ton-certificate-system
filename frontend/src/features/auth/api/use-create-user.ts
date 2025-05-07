@@ -16,7 +16,7 @@ export const useCreateUser = () => {
 
       const hexPublicKey = walletKeyToHex(wallet.account.publicKey)
 
-      await openUserFactoryContract(client)?.send(
+      return await openUserFactoryContract(client)?.send(
         sender,
         {
           value: toNano('0.1'),

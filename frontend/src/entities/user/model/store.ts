@@ -3,7 +3,7 @@ import { TUser } from './user'
 
 type UserStore = {
   user: TUser | null
-  setUser: (user: TUser) => void
+  setUser: (user: TUser | null) => void
 }
 
 export const useUserStore = create<UserStore>((set, get) => ({

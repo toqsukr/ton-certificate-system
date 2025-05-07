@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
-import { useCreateUser } from '../api/use-create-user'
-
 import { openUserContract, UserData, useUserStore } from '@entities/user'
 import tonClient from '@shared/api/ton-client'
 import { Address, beginCell, Cell } from '@ton/core'
+import { useTonConnectUI } from '@tonconnect/ui-react'
+import { useEffect } from 'react'
+import { useCreateUser } from '../api/use-create-user'
 import { useAuthDeps } from '../deps'
 import { walletKeyToHex } from '../lib/wallet-key-to-hex'
 
@@ -56,15 +56,22 @@ const checkResponseType = (response: unknown): response is UserData => {
   )
 }
 
+const isNonExistError = (error: unknown) => {
+  if (typeof error !== 'object' || !error || !('toString' in error)) return false
+  return error.toString().includes('exit_code: -13')
+}
+
 export const useAuth = () => {
   const { user, setUser } = useUserStore()
   const { wallet } = useAuthDeps()
   const { mutateAsync: createUser } = useCreateUser()
+  const [tonConnect] = useTonConnectUI()
 
   useEffect(() => {
     const getUserData = async () => {
       if (!wallet) {
         console.log('LOG: WALLET NOT CONNECTED')
+        setUser(null)
       } else {
         console.log('LOG: WALLET CONNECTED')
       }
@@ -78,7 +85,7 @@ export const useAuth = () => {
           if (checkResponseType(response)) {
             const { publicKey, wallet } = response
             setUser({ address, publicKey: publicKey.toString(), wallet: wallet.toString() })
-            console.log('LOG: DATA SAVED')
+            console.log('LOG: DATA SAVED LOCAL')
           }
         }
 
@@ -86,12 +93,13 @@ export const useAuth = () => {
           const response = await fetchData?.()
           console.log('LOG: FOUND EXIST CONTRACT')
           saveData(response)
-        } catch {
-          console.log('LOG: NOT FOUND EXIST CONTRACT')
-          await createUser()
-          console.log('LOG: CREATED CONTRACT')
-          const response = await fetchData?.()
-          saveData(response)
+        } catch (error) {
+          console.error(error)
+          if (isNonExistError(error)) {
+            console.log('LOG: NOT FOUND EXIST CONTRACT')
+            await createUser()
+            console.log('LOG: CREATED CONTRACT')
+          }
         }
       }
     }
