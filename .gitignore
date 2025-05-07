@@ -45,6 +45,8 @@ temp
 dist
 .DS_Store
 
+*.key
+
 # VS Code
 .vscode/*
 .history/

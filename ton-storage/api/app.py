@@ -2,7 +2,8 @@ import os
 import time
 import paramiko
 import logging
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, make_response
+import json
 from flask_cors import CORS
 from io import BytesIO
 from contextlib import contextmanager
@@ -20,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 CORS(app)
-TEMP_DIR = "/app/shared-temp"
+TEMP_DIR = "/app/shared-temp/"
 os.makedirs(TEMP_DIR, exist_ok=True)
 
 # SSH конфигурация
@@ -58,7 +59,7 @@ def save_uploaded_file(file, path):
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    temp_path = msg_path = None
+    temp_path = None
     try:
         logger.info("Начало обработки запроса /upload")
         
@@ -72,43 +73,43 @@ def upload_file():
             return {"error": "Empty filename"}, 400
 
         temp_path = os.path.join(TEMP_DIR, file.filename)
-        msg_path = f"{temp_path}-msg"
-        
         save_uploaded_file(file, temp_path)
 
         with ssh_connection() as ssh:
-            remote_script = f"/app/process-file.py {temp_path}"
+            remote_script = f"python3 /app/process-file.py {temp_path}"
             logger.info(f"Запускаем скрипт: {remote_script}")
             
+            # Выполняем команду и получаем вывод
             stdin, stdout, stderr = ssh.exec_command(remote_script)
             exit_status = stdout.channel.recv_exit_status()
-            
+            output = stdout.read().decode().strip()
+            error_output = stderr.read().decode().strip()
+
             if exit_status != 0:
-                error_msg = stderr.read().decode()
-                logger.error(f"Ошибка выполнения скрипта: {error_msg}")
-                raise Exception(f"Script failed: {error_msg}")
+                logger.error(f"Ошибка выполнения скрипта: {error_output}")
+                return {"error": f"Remote script failed: {error_output}"}, 500
 
-            logger.info(f"Результат выполнения: {stdout.read().decode()}")
+            if not output:
+                logger.error("Скрипт не вернул результат")
+                return {"error": "Remote script returned empty response"}, 500
 
-        if not os.path.exists(msg_path):
-            raise Exception(f"Файл сообщения не создан: {msg_path}")
-
-        logger.info(f"Отправка файла: {msg_path}")
-        return send_file(
-            msg_path,
-            as_attachment=True,
-            download_name=temp_path
-        )
+            logger.info(f"Успешный результат: {output}")
+            response_data = {"bag_id": output}
+            
+            return send_file(
+                os.path.join(TEMP_DIR, f"{file.filename}-msg"),
+                as_attachment=True
+            )
 
     except Exception as e:
         logger.error(f"Ошибка обработки запроса: {str(e)}", exc_info=True)
         return {"error": str(e)}, 500
 
     finally:
-        for path in [temp_path, msg_path]:
-            if path and os.path.exists(path):
-                try:
-                    # os.remove(path)
-                    logger.info(f"Удален временный файл: {path}")
-                except Exception as e:
-                    logger.warning(f"Ошибка удаления файла: {path} - {str(e)}")
+        if temp_path and os.path.exists(temp_path):
+            try:
+                os.remove(temp_path)
+                logger.info(f"Удален временный файл: {temp_path}")
+            except Exception as e:
+                logger.warning(f"Ошибка удаления файла: {temp_path} - {str(e)}")
+                

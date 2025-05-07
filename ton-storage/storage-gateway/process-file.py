@@ -18,6 +18,13 @@ def validate_path(path):
         raise ValueError(f"Файл не существует: {path}")
     return os.path.abspath(path)
 
+def copy_with_open(src, dst):
+    """Копирование файла"""
+    with open(src, 'rb') as src_file:
+        with open(dst, 'wb') as dst_file:
+            dst_file.write(src_file.read())
+    return dst
+
 if len(sys.argv) < 2:
     logging.error("Usage: python3 script.py <filename>")
     sys.exit(1)
@@ -25,9 +32,14 @@ if len(sys.argv) < 2:
 try:
     filepath = validate_path(sys.argv[1])
     filename = os.path.basename(filepath)
-    target_dir = "/app/shared-temp/"
+    target_dir = "/exchange/"
+    target_msg_dir = "/app/shared-temp/"
 
-    logging.info(f"Обработка файла: {filepath}")
+    logging.info(f"Обработка файла: {filename}")
+
+    copy_with_open(filepath, os.path.join(target_dir, filename))
+
+    logging.info(f"Файл {filename} сохранен в {target_dir}")
 
     child = pexpect.spawn(
         "storage-daemon-cli -I 127.0.0.1:5555 "
@@ -44,30 +56,32 @@ try:
     logging.info(f"Выполнение: {create_cmd}")
     child.sendline(create_cmd)
 
-    child.expect("BagID = ", timeout=30)
+    child.expect(["BagID = ", 'Query error: Cannot add torrent: duplicate hash '], timeout=10)
     bag_id = child.readline().strip()
     logging.info(f"Получен BagID: {bag_id}")
 
-    msg_path = os.path.join(target_dir, f'{filename}-msg')
+    msg_path = os.path.join(target_msg_dir, f'{filename}-msg')
 
     contract_cmd = (
         f"new-contract-message {bag_id} {msg_path} "
-        "--query-id 0 --provider 0:3BB3631BD98FB29DC4663820C46F1E2CF19A2FB1E308FF210C0091E5EA5B6DC0"
+        "--provider 0:8C21A0017D763959CB3BB1671AADE9AE104E5597870DAEC94CA539702C244F6B"
     )
     logging.info(f"Выполнение: {contract_cmd}")
     child.sendline(contract_cmd)
 
-    child.expect(["Saved message body to file", "Query error"], timeout=10)
-    
+    index = child.expect(["Saved message body to file", "Query error"], timeout=10)
+
+    logging.info('Successfull saved' if index == 0 else "Saving error")
+
     # Явное завершение сессии
     child.sendline("exit")
     logging.info("Сессия завершена")
 
+    print(bag_id)  # Возвращаем путь к файлу
+
     # Проверка результата
     if not os.path.exists(msg_path):
         raise Exception(f"Файл контракта не создан: {msg_path}")
-
-    print(msg_path)  # Возвращаем путь к файлу
 
 except Exception as e:
     logging.error(f"Ошибка: {str(e)}", exc_info=True)
