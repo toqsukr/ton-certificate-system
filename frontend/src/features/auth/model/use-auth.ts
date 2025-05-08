@@ -1,7 +1,6 @@
 import { openUserContract, UserData, useUserStore } from '@entities/user'
 import tonClient from '@shared/api/ton-client'
 import { Address, beginCell, Cell } from '@ton/core'
-import { useTonConnectUI } from '@tonconnect/ui-react'
 import { useEffect } from 'react'
 import { useCreateUser } from '../api/use-create-user'
 import { useAuthDeps } from '../deps'
@@ -65,7 +64,6 @@ export const useAuth = () => {
   const { user, setUser } = useUserStore()
   const { wallet } = useAuthDeps()
   const { mutateAsync: createUser } = useCreateUser()
-  const [tonConnect] = useTonConnectUI()
 
   useEffect(() => {
     const getUserData = async () => {

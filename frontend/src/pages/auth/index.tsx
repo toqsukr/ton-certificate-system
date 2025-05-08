@@ -1,13 +1,12 @@
 import ConnectWalletButton from '@features/auth/ui/connect-wallet-button'
 import { Routes } from '@shared/model/routes'
 import ContentField from '@shared/uikit/content-field'
-import { useTonConnectModal, useTonWallet } from '@tonconnect/ui-react'
+import { useTonWallet } from '@tonconnect/ui-react'
 import { useTranslation } from 'react-i18next'
 import { Navigate } from 'react-router-dom'
 
 const AuthPage = () => {
   const wallet = useTonWallet()
-  const { open } = useTonConnectModal()
   const { t } = useTranslation()
 
   if (wallet) return <Navigate to={Routes.PROFILE} />
