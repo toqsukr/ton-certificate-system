@@ -1,11 +1,11 @@
 import { toNano } from '@ton/core';
-import { NFTItem } from '../wrappers/NFTItem';
+import { CertificateNFT } from '../wrappers/CertificateNFT';
 import { NetworkProvider } from '@ton/blueprint';
 
 export async function run(provider: NetworkProvider) {
-    const nFTItem = provider.open(await NFTItem.fromInit());
+    const certificateNFT = provider.open(await CertificateNFT.fromInit());
 
-    await nFTItem.send(
+    await certificateNFT.send(
         provider.sender(),
         {
             value: toNano('0.05'),
@@ -16,7 +16,7 @@ export async function run(provider: NetworkProvider) {
         }
     );
 
-    await provider.waitForDeploy(nFTItem.address);
+    await provider.waitForDeploy(certificateNFT.address);
 
-    // run methods on `nFTItem`
+    // run methods on `certificateNFT`
 }

@@ -1,20 +1,18 @@
+import "./constant";
 import "./organization";
 
-message OrgInitRequest {
+message(0x2a732d61) OrgInitRequest {
     content: Cell;
     wallet: Address;
-    publicKey: Int as uint256;
 }
 
 contract OrganizationFactory {
-    const TOO_FEW_COINS: Int = 700;
-
     receive(msg: OrgInitRequest) {
-        throwUnless(self.TOO_FEW_COINS, context().value >= ton("0.1"));
+        throwUnless(TOO_FEW_COINS, context().value >= MIN_COINS);
         
         deploy(DeployParameters {
-            init:  initOf Organization(msg.content, sender(), msg.wallet, publicKey),
-            value: ton("0.05"),
+            init:  initOf Organization(msg.content, sender()),
+            value: DEPLOY_COINS,
         });
 
         message(MessageParameters {

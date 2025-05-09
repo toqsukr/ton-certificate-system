@@ -1,10 +1,5 @@
 import "@stdlib/deploy";
-
-const NOT_DEPLOYED: Int = 1000;
-const INVALID_OWNER: Int = 1001;
-const INVALID_AMOUNT: Int = 1002;
-const min_balance: Int = ton("0.05");
-const gas_consumption: Int = ton("0.02");
+import "./constant";
 
 message(0x5fcc3d14) NftTransfer {
     query_id: Int as uint64;
@@ -39,15 +34,13 @@ message(0x1f04537a) NftDestroy {
     query_id: Int as uint64;
 }
 
-message NftDeploy {
+message(0xb7c0c11b) NftDeploy {
     index: Int as uint256;
     owner: Address;
     content: Cell;
 }
 
-message RequestNftDeploy {
-    index: Int as uint256;
-    amount: Int as coins;
+message(0xbebeed9a) RequestNftDeploy {
     owner: Address;
     content: Cell;
 }
@@ -67,17 +60,27 @@ trait NftStandart {
     index: Int;
     content: Cell;
 
+    get fun get_nft_data(): NftData {
+        return NftData{
+            deployed: self.deployed,
+            index: self.index,
+            collection: self.collection,
+            owner: self.owner,
+            content: self.content
+        };
+    }
+
     receive(msg: NftTransfer) {
         let ctx: Context = context();
         throwUnless(NOT_DEPLOYED, self.deployed);
         throwUnless(INVALID_OWNER, ctx.sender == self.owner);
-        let min: Int = min_balance - min(min_balance, myBalance());
-        let required: Int = gas_consumption + msg.forward_amount + min;
+        let min: Int = MIN_COINS - min(MIN_COINS, myBalance());
+        let required: Int = GAS_CONSUMPTION + msg.forward_amount + min;
         if (msg.forward_amount != 0) {
             required += ctx.readForwardFee();
         }
         throwUnless(INVALID_AMOUNT, ctx.value >= required);
-        let cashback: Int = ctx.value - gas_consumption - msg.forward_amount - min;
+        let cashback: Int = ctx.value - GAS_CONSUMPTION - msg.forward_amount - min;
         if (msg.forward_amount != 0) {
             cashback -= ctx.readForwardFee();
             message(MessageParameters{
@@ -114,8 +117,41 @@ trait NftStandart {
             }.toCell()
         });
     }
+}
 
-    get fun get_nft_data(): NftData {
-        return NftData{deployed: self.deployed, index: self.index, collection: self.collection, owner: self.owner, content: self.content};
+contract CertificateNFT with NftStandart {
+    deployed: Bool = false;
+    collection: Address;
+    owner: Address;
+    index: Int;
+    content: Cell;
+
+    init(collection: Address, index: Int) {
+        self.collection = collection;
+        self.index = index;
+
+        self.owner = self.collection;
+        self.content = emptyCell();
+    }
+
+    receive(msg: NftDeploy) {
+        throwUnless(NON_AUTHORIZED, sender() == self.collection);
+        throwUnless(BAD_REQUEST, self.index == msg.index && !self.deployed);
+        self.owner = msg.owner;
+        self.content = msg.content;
+        self.deployed = true;
+    }
+
+    receive(msg: NftDestroy) {
+        throwUnless(NON_AUTHORIZED, sender() == self.collection);
+        self.owner = myAddress();
+        message(MessageParameters {
+            to: sender(),
+            value: 0,
+            mode: SendRemainingBalance,
+            body: NftExcesses{
+                query_id: msg.query_id
+            }.toCell()
+        });
     }
 }

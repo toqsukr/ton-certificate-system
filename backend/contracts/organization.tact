@@ -1,80 +1,86 @@
 import "@stdlib/deploy";
 import "@stdlib/ownable";
-import "./nft-item";
+import "./constant";
+import "./certificate-nft";
 
 message(0xd53276db) Excesses {}
 
-struct CollectionData {
-    next_index: Int;
+struct GetOrgData {
     content: Cell;
     owner: Address;
 }
 
-struct OrgData {
+message(0xa9930d) AddManagerRequest {
+    manager: Address
+}
+
+message(0xd31373) RemoveManagerRequest {
+    manager: Address
+}
+
+contract Organization with Ownable {
     content: Cell;
     owner: Address;
-    wallet: Address;
-    publicKey: Int as uint256;
     next_index: Int as uint256;
-}
-
-contract Organization with Ownable, Deployable {
-    const INVALID_INDEX: Int = 701;
-    const NON_COMPARED_SIGNATURE: Int = 703;
+    wallet_whitelist: map<Address, Bool>;
 
     init(
         content: Cell, 
         owner: Address,
-        wallet: Address, 
-        publicKey: Int as uint256, 
     ) {
         self.owner = owner;
         self.next_index = 0;
-        self.wallet = wallet;
         self.content = content;
-        self.publicKey = publicKey;
+        self.wallet_whitelist = emptyMap();
     }
 
-    get fun get_org_data(): OrgData {
-        return OrgData {
+    get fun get_nft_address_by_index(index: Int): Address {
+        return contractAddress(initOf CertificateNFT(myAddress(), index));
+    }
+    get fun get_nft_content(_: Int, individual_content: Cell): Cell {
+        return individual_content;
+    }
+
+    get fun get_org_data(): GetOrgData {
+        return GetOrgData {
             content: self.content, 
-            next_index: self.next_index, 
-            owner: self.owner, 
-            publicKey: self.publicKey, 
-            wallet: self.wallet
+            owner: self.owner,
         }
     }
 
+    receive(msg: AddManagerRequest) {
+        throwUnless(NON_AUTHORIZED, sender() == self.owner);
+        throwUnless(CONFLICT, self.wallet_whitelist.exists(msg.manager));
+        self.wallet_whitelist.set(msg.manager, true);
+    }
+
+    receive(msg: RemoveManagerRequest) {
+        throwUnless(NON_AUTHORIZED, sender() == self.owner);
+        let _ = self.wallet_whitelist.del(msg.manager);
+    }
+
     receive(msg: RequestNftDeploy) {
-        self.requireOwner();
-        throwUnless(self.INVALID_INDEX, msg.index <= self.next_index);
-        let nft_init: StateInit = initOf NftItem(myAddress(), msg.index);
+        throwUnless(TOO_FEW_COINS, context().value >= MIN_COINS);
+        throwUnless(NON_AUTHORIZED, self.wallet_whitelist.exists(msg.owner));
+
+        let nft_init: StateInit = initOf CertificateNFT(myAddress(), self.next_index);
         let nft_address: Address = contractAddress(nft_init);
-        message(MessageParameters{
+        send(SendParameters {
             to: nft_address,
-            value: msg.amount,
+            value: MIN_COINS,
             mode: SendPayGasSeparately,
             bounce: false,
             data: nft_init.data,
             code: nft_init.code,
             body: NftDeploy{
-                index: msg.index,
+                index: self.next_index,
                 owner: msg.owner,
                 content: msg.content,
             }.toCell()
         });
-        if(msg.index == self.next_index) {
-            self.next_index += 1;
-        }
+      
+        self.next_index += 1;
     }
 
-    get fun get_collection_data(): CollectionData {
-        return CollectionData{next_index: self.next_index, content: self.content, owner: self.owner};
-    }
-    get fun get_nft_address_by_index(index: Int): Address {
-        return contractAddress(initOf NftItem(myAddress(), index));
-    }
-    get fun get_nft_content(index: Int, individual_content: Cell): Cell {
-        return individual_content;
-    }
+    receive() { cashback(sender()); }
 }
