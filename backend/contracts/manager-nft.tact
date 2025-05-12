@@ -2,7 +2,7 @@ import "@stdlib/deploy";
 import "./constant";
 import "./nft-item";
 
-contract CertificateNFT with NftStandart {
+contract ManagerNFT with NftStandart {
     deployed: Bool = false;
     collection: Address;
     owner: Address;
