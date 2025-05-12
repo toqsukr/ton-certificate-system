@@ -10,10 +10,7 @@ export async function run(provider: NetworkProvider) {
         {
             value: toNano('0.05'),
         },
-        {
-            $$type: 'Deploy',
-            queryId: 0n,
-        },
+        null,
     );
 
     await provider.waitForDeploy(organizationFactory.address);

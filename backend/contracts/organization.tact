@@ -7,7 +7,8 @@ import "./nft-item";
 
 message(0xd53276db) Excesses {}
 
-struct GetOrgData {
+struct CollectionData {
+    next_index: Int;
     content: Cell;
     owner: Address;
 }
@@ -47,11 +48,8 @@ contract Organization with Ownable {
         return individual_content;
     }
 
-    get fun get_org_data(): GetOrgData {
-        return GetOrgData {
-            content: self.content, 
-            owner: self.owner,
-        }
+    get fun get_collection_data(): CollectionData {
+        return CollectionData{next_index: self.next_index, content: self.content, owner: self.owner};
     }
 
     receive(msg: AddManagerRequest) {
@@ -120,5 +118,5 @@ contract Organization with Ownable {
         self.next_index += 1;
     }
 
-    receive() { cashback(sender()); }
+    receive() {}
 }
