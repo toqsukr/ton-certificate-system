@@ -19,7 +19,7 @@
   "chain_label": "Chain:",
   "id_label": "Index: ",
   "owner_label": "Owner: ",
-  "collection_label": "Organization: ",
+  "organization_label": "Organization: ",
 
   "certificates_not_found": "Certificates Not Found",
 

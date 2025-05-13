@@ -31,7 +31,7 @@ export const CertificateInfoPage = () => {
         <LabelOpposite title={t('owner_label')}>
           <CopyableText text={data.owner} />
         </LabelOpposite>
-        <LabelOpposite title={t('collection_label')}>
+        <LabelOpposite title={t('organization_label')}>
           <CopyableText text={data.collection} />
         </LabelOpposite>
       </div>

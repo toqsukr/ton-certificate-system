@@ -19,7 +19,7 @@
   "chain_label": "Сеть:",
   "id_label": "Идентификатор: ",
   "owner_label": "Владелец: ",
-  "collection_label": "Организация: ",
+  "organization_label": "Организация: ",
 
   "certificates_not_found": "Нет доступных сертификатов",
 
