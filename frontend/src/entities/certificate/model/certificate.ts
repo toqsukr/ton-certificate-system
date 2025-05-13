@@ -1,6 +1,7 @@
 export type TCertificate = {
-  id: string
-  data: TData
+  id: number
+  owner: string
+  content: string
+  deployed: boolean
+  collection: string
 }
-
-type TData = { ownerID: string; organizationID: string } & { [key: string]: string }

@@ -12,11 +12,20 @@
   "search_input_placeholder": "Введите адрес пользователя",
   "search_about_text": "Для просмотра информации о пользователе введите его адрес в поле выше.",
 
-  "user_info_unit_title": "Пользователь",
   "address_label": "Адрес:",
   "wallet_label": "Кошелек:",
   "public_key_label": "Публичный ключ:",
   "certificates_label": "Сертификаты:",
+  "chain_label": "Сеть:",
+  "id_label": "Идентификатор: ",
+  "owner_label": "Владелец: ",
+  "collection_label": "Организация: ",
 
-  "profile_unit_title": "Мой Аккаунт"
+  "certificates_not_found": "Нет доступных сертификатов",
+
+  "certificate_info_unit_title": "Сертификат",
+
+  "profile_unit_title": "Мой Аккаунт",
+
+  "user_info_unit_title": "Пользователь"
 }

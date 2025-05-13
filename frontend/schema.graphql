@@ -1,0 +1,4418 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+directive @cacheControl(inheritMaxAge: Boolean, maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | INTERFACE | OBJECT | UNION
+
+type AbsurdDropStatus {
+  maxSpots: Int!
+  todayCheckins: Int!
+  totalSpots: Int!
+}
+
+union ActionButton = ActionButtonEmpty | ActionButtonSubdomain | ActionButtonUrl
+
+type ActionButtonEmpty {
+  name: String!
+}
+
+type ActionButtonSubdomain {
+  url: String!
+}
+
+type ActionButtonUrl {
+  title: String!
+  url: String!
+}
+
+type AdminActionsHistoryItem {
+  changer: String!
+  createdAt: String!
+  entityAddress: String!
+  updatedState: String!
+}
+
+type AdminActionsHistoryListResponse {
+  cursor: String
+  items: [AdminActionsHistoryItem!]!
+}
+
+input AnalyticsUtmTags {
+  campaign: String
+  content: String
+  medium: String
+  source: String
+  term: String
+}
+
+type AttributesCheckResponse {
+  attributes: [NftAttribute!]!
+}
+
+enum AuctionVersion {
+  v1
+  v2
+}
+
+enum AuctionsTopType {
+  getgems
+  numbers
+  usernames
+}
+
+type AuthSession {
+  authSource: AuthSource
+  jwt: JWT
+}
+
+union AuthSource = TonConnectAuthSource | TonKeeperAuthSource | WalletExtensionAuthSource
+
+enum AuthSourceType {
+  TonConnect
+  Tonkeeper
+  WalletExtension
+}
+
+enum BadgeType {
+  common
+  epic
+  legendary
+  rare
+}
+
+type BannerGameInfo {
+  collection: NftCollection!
+  finishedStats: [GameStatsItem]
+  forSaleCount: Int
+  isLastRound: Boolean!
+  link: String!
+  roundCalculationStartsAt: Int!
+  roundEndsAt: Int!
+  roundNum: Int!
+  roundStartsAt: Int!
+  state: GameState!
+  text: String!
+}
+
+union BannerResponse = BannerGameInfo | NoGame
+
+input BlockchainContent {
+  avatarId: String
+  coverId: String
+  description: String
+  name: String
+  royalty: Float
+  royaltyAddress: String
+  socialLinks: [SocialLinkInput!]
+}
+
+input BuyNftEvent {
+  clientTimestampMs: Float!
+  firstInSession: Boolean!
+  firstInTab: Boolean!
+  nftAddress: String!
+  saleAddress: String!
+}
+
+enum CacheControlScope {
+  PRIVATE
+  PUBLIC
+}
+
+input CartAcceptNftOfferInput {
+  offerAddress: String!
+}
+
+input CartBuyNftInput {
+  nftAddress: String!
+  version: String!
+}
+
+input CartCalculationInput {
+  cart: [CartCalculationItemInput!]!
+}
+
+input CartCalculationItemInput {
+  acceptNftOffer: CartAcceptNftOfferInput
+  buyNft: CartBuyNftInput
+  cancelNftAuction: CartCancelNftAuctionInput
+  cancelNftOffer: CartCancelNftOfferInput
+  changeSaleNft: CartChangeSaleNftInput
+  claimJettonFromNft: CartBuyNftInput
+  claimNft: CartNftClaimInput
+  createGetGemsDns: CartCreateGetGemsDnsInput
+  createNft: CartCreateNftInput
+  createNftCollection: CartCreateNftCollectionInput
+  createNftComment: CartCreateNftCommentInput
+  createNftOffer: CartCreateNftOfferInput
+  createSubdomainCollection: CartInitSubdomainInput
+  createSubdomainNft: CartCreateSubdomainInput
+  finishNftAuction: CartFinishNftAuctionInput
+  id: String!
+  linkNftAddress: CartLinkNftAddressInput
+  payLaunchpadBill: CartPayLaunchpadBillInput
+  placeNftBid: CartPlaceNftBidInput
+  putUpForAuctionNft: CartPutUpForAuctionNftInput
+  putUpForSaleNft: CartPutUpForSaleNftInput
+  removeNftFromSale: CartRemoveNftFromSaleInput
+  transferNft: CartTransferNftInput
+  updateNftCollection: CartUpdateNftCollectionInput
+}
+
+type CartCalculationItemPayload {
+  currency: Currency!
+  error: String @deprecated(reason: "use errorPayload")
+  errorPayload: CreateCartTxError
+  id: String!
+  networkFeeTon: String!
+  rub: String!
+  ton: String!
+  usd: String!
+  value: String!
+}
+
+input CartCancelNftAuctionInput {
+  auctionAddress: String!
+}
+
+input CartCancelNftOfferInput {
+  offerAddress: String!
+}
+
+input CartChangeSaleNftInput {
+  currency: Currency
+  fullPrice: String!
+  nftAddress: String!
+}
+
+input CartCreateGetGemsDnsInput {
+  bidNano: String!
+  domain: String!
+}
+
+input CartCreateNftCollectionInput {
+  avatarId: String!
+  coverId: String!
+  description: String!
+  editableNft: Boolean
+  name: String!
+  royalty: Float
+  royaltyStr: String
+  socialLinks: [SocialLinkInput!]
+}
+
+input CartCreateNftCommentInput {
+  collectionAddress: String
+  comment: String!
+  nftAddress: String
+  userAddress: String!
+}
+
+input CartCreateNftInput {
+  attributes: [MetadataAttributeInput!]
+  collectionAddress: String
+  description: String!
+  imageId: String!
+  name: String!
+  royalty: Int
+  royaltyStr: String
+  videoId: String
+}
+
+input CartCreateNftOfferInput {
+  finishAt: Int!
+  nftAddress: String!
+  nftVersion: String
+  omitRoyalty: Boolean
+  price: String!
+}
+
+input CartCreateSubdomainInput {
+  bidNano: String!
+  collectionAddress: String!
+  domain: String!
+}
+
+input CartFinishNftAuctionInput {
+  auctionAddress: String!
+}
+
+input CartInitSubdomainInput {
+  data: SubdomainData!
+  nftAddress: String!
+}
+
+input CartLinkNftAddressInput {
+  newAddress: String
+  nftAddress: String!
+}
+
+input CartNftClaimInput {
+  nftAddress: String!
+}
+
+input CartPayLaunchpadBillInput {
+  billId: String
+  count: Int
+  launchpadItemId: String!
+}
+
+input CartPlaceNftBidInput {
+  amount: String!
+  saleAddress: String!
+  version: String!
+}
+
+input CartPutUpForAuctionNftInput {
+  currency: Currency
+  finishAt: Int!
+  maxBid: String
+  minBid: String!
+  minPercentStep: Int!
+  nftAddress: String!
+  omitRoyalty: Boolean
+}
+
+input CartPutUpForSaleNftInput {
+  currency: Currency!
+  fullPrice: String!
+  nftAddress: String!
+  omitRoyalty: Boolean
+}
+
+input CartRemoveNftFromSaleInput {
+  nftAddress: String!
+}
+
+input CartStopNftAuctionInput {
+  auctionAddress: String!
+}
+
+input CartTransferNftInput {
+  newOwnerAddress: String!
+  nftAddress: String!
+}
+
+input CartUpdateNftCollectionInput {
+  address: String!
+  blockchainContent: BlockchainContent!
+}
+
+input CheckTxPayload {
+  amount: String!
+  check: String!
+  context: [TonTxContextItemInput!]!
+  from: String
+  to: String!
+  uuid: String!
+}
+
+input CollectionDeployParams {
+  collectionContent: String!
+  commonContent: String!
+  ownerAddress: String!
+  royaltyParams: RoyaltyParamsInput
+}
+
+type CollectionNftsCount {
+  collection: NftCollection!
+  count: Int!
+}
+
+type CollectionNftsCountConnection {
+  cursor: String
+  items: [CollectionNftsCount!]!
+}
+
+type CollectionNotificationSetting {
+  availableTypes: [FilterType!]!
+  filterType: FilterType!
+  floorPercent: String
+  gtePrice: String
+  isActive: Boolean!
+  ltePrice: String
+}
+
+input CollectionNotificationSettingInput {
+  filterType: FilterType!
+  floorPercent: String
+  gtePrice: String
+  isActive: Boolean!
+  ltePrice: String
+}
+
+type CollectionNotificationSettings {
+  putUpForAuction: CollectionNotificationSetting!
+  putUpForSale: CollectionNotificationSetting!
+  sold: CollectionNotificationSetting!
+}
+
+input CollectionNotificationSettingsInput {
+  putUpForAuction: CollectionNotificationSettingInput
+  putUpForSale: CollectionNotificationSettingInput
+  sold: CollectionNotificationSettingInput
+}
+
+type CollectionNotificationsList {
+  cursor: String
+  items: [NotificationSubscribedCollection!]
+}
+
+type CreateCartTxError {
+  cartItemId: String!
+  code: String!
+  message: String!
+}
+
+type CreateCartTxPayload {
+  errors: [CreateCartTxError!]!
+  tx: TonTx
+}
+
+type CreateCollectionDraftResult {
+  collection: DraftNftCollection!
+  deploy: SmcDeployMessageResponse! @deprecated(reason: "use tx")
+  tx: TonTx!
+}
+
+type CreateNftDraftResult {
+  nft: DraftNftItem!
+  tx: TonTx!
+}
+
+enum Currency {
+  DFC
+  DOGS
+  FTON
+  GTON
+  MAJOR
+  NOT
+  NOTTEST
+  PUNK
+  PX
+  SNT
+  TON
+  USDT
+  VAT
+  WOOF
+}
+
+type CurrencyInfo {
+  decimals: Int!
+  icon: String!
+  id: Currency!
+  name: String!
+  toTonRate: Float!
+}
+
+enum CurrencyType {
+  rub
+  usd
+}
+
+input CustomNoSchemeEvent {
+  clientTimestampMs: Float!
+  name: String!
+  pageHash: String
+  pageId: String
+  pageTitle: String!
+  pageType: String!
+  payload: String
+  url: String!
+}
+
+scalar Date
+
+type DefinedIcon {
+  type: DefinedIconType!
+}
+
+enum DefinedIconType {
+  AuctionBidMyNft
+  AuctionCancel
+  AuctionEndsSoon
+  AuctionFinish
+  AuctionOverbid
+  AuctionWin
+  CollectionPutUpForAuction
+  CollectionPutUpForSale
+  CollectionSold
+  DogSexLinkCreated
+  DogSexMergeSuccess
+  EasterEggsDraw
+  EasterEggsLose
+  EasterEggsNextRound
+  EasterEggsNextSale
+  EasterEggsWin
+  LaunchpadStart
+  NftCommentModerationApprove
+  NftCommentModerationReject
+  NftPutUpForAuction
+  NftPutUpForSale
+  NftSold
+  OfferAccept
+  OfferDecline
+  OfferExpired
+  OfferMyNft
+  SellOwnNft
+}
+
+type DisabledByCollectionOwning {
+  isDisabled: Boolean
+}
+
+type DisabledByWhitelist {
+  isDisabled: Boolean
+}
+
+type DogSexAcceptResult {
+  merge: DogSexMerge!
+  tx: TonTx
+}
+
+type DogSexMerge {
+  id: ID!
+  leftNft: NftItem!
+  leftNftChild: NftItem
+  leftUser: User!
+  link: String!
+  rightNft: NftItem
+  rightNftChild: NftItem
+  rightUser: User
+  status: DogSexMergeStatus!
+}
+
+enum DogSexMergeStatus {
+  done
+  indexed
+  processing
+  wait
+}
+
+type DogSexStartResult {
+  mergeId: ID!
+  tx: TonTx!
+}
+
+type DraftNftCollection {
+  address: String
+  avatar: String!
+  collectionContent: String
+  commonContent: String
+  cover: String
+  description: String!
+  id: ID!
+  name: String!
+  royaltyParams: RoyaltyParams
+  socialLinks: [SocialLink!]!
+}
+
+type DraftNftCollectionPaginated {
+  cursor: String
+  items: [DraftNftCollection!]!
+}
+
+type DraftNftCollectionWithBlocked {
+  address: String!
+  createdAt: String!
+  id: ID!
+  isBlocked: Boolean!
+  name: String!
+  userId: Int!
+}
+
+type DraftNftCollectionsByUserId {
+  cursor: String
+  items: [DraftNftCollectionWithBlocked!]!
+}
+
+type DraftNftItem {
+  baseContentUri: String
+  collectionId: ID
+  contentUri: String
+  description: String!
+  fullContentUri: String
+  id: ID!
+  image: String!
+  index: Int
+  name: String!
+  royalty: Int!
+  royaltyStr: String
+}
+
+type DraftNftItemPaginated {
+  cursor: String
+  items: [DraftNftItem!]!
+}
+
+type DraftNftItemWithBlocked {
+  address: String!
+  createdAt: String!
+  id: ID!
+  isBlocked: Boolean!
+  name: String!
+  userId: Int!
+}
+
+type DraftNftItemsByUserId {
+  cursor: String
+  items: [DraftNftItemWithBlocked!]!
+}
+
+type DrawRound {
+  prevMove: GameMove!
+  roundEndsAt: Int!
+  yourMove: GameMove
+}
+
+type EmptyLayout {
+  _: Boolean
+}
+
+input EventsPayload {
+  acceptOffer: [BuyNftEvent!]
+  buy: [BuyNftEvent!]
+  clientId: String!
+  nftActionButtonClick: [NftActionButtonClickEvent!]
+  nftClickPromo: [NftClickPromoEvent!]
+  noScheme: [CustomNoSchemeEvent!]
+  pageView: [PageViewEvent!]
+  promotionBannerClick: [PromotionBannerClick!]
+  referer: String
+  sessionId: String!
+  tabId: String!
+  telemintBidClick: [FragmentClickEvent!]
+  telemintBuyClick: [FragmentClickEvent!]
+  txReady: [TxReadyEvent!]
+  utm: AnalyticsUtmTags!
+}
+
+type FeaturedBanner {
+  badge: String
+  description: String
+  gradientColor: String
+  id: ID!
+  image: String!
+  priority: Int
+  title: String!
+  url: String!
+  urlName: String
+  video: String
+}
+
+enum FilterApprove {
+  Approved
+  NotApproved
+}
+
+type FilterAttribute {
+  traitType: String!
+  values: [FilterAttributeValue!]!
+}
+
+type FilterAttributeValue {
+  count: Int!
+  minPrice: String
+  value: String
+}
+
+type FilterCurrencyType {
+  count: Int!
+  currency: CurrencyInfo!
+  currencyId: Currency!
+}
+
+enum FilterEntity {
+  Collection
+  Nft
+}
+
+input FilterInput {
+  approve: FilterApprove
+  entity: FilterEntity
+  listType: FilterListType
+  nftLocation: FilterNftLocation
+  priceRange: [Float]
+  sort: FilterSort
+  status: FilterStatus
+  verify: FilterVerified
+}
+
+type FilterIsOnSale {
+  all: Int!
+  forSale: Int!
+  notForSale: Int!
+}
+
+enum FilterListType {
+  Launched
+  Whitelist
+}
+
+enum FilterNftLocation {
+  All
+  InCollections
+  SingleNfts
+}
+
+type FilterSaleType {
+  all: Int!
+  auction: Int!
+  fixPrice: Int!
+  none: Int!
+}
+
+enum FilterSort {
+  AddedAtAsc
+  AddedAtDesc
+  PriceAsc
+  PriceDesc
+}
+
+enum FilterStatus {
+  All
+  NotForSale
+  OnSale
+}
+
+enum FilterType {
+  FloorPercent
+  PriceRange
+}
+
+enum FilterVerified {
+  NotVerified
+  Verified
+}
+
+input FragmentClickEvent {
+  clientTimestampMs: Float!
+  nftAddress: String!
+  pageHash: String
+  pageId: String
+  pageTitle: String!
+  pageType: String!
+  url: String!
+}
+
+type GameFinished {
+  finishedAt: Int!
+  yourNftAddress: String!
+}
+
+enum GameMove {
+  Paper
+  Rock
+  Scissors
+}
+
+union GameReponse = GameFinished | GameRound | GameRoundNotPrepared | GameSale | NoGame
+
+type GameRound {
+  isCounting: Boolean!
+  opponentNft: NftItem
+  opponentUser: User
+  roundCalculationStartsAt: Int!
+  roundData: RoundData!
+  roundNum: Int!
+  yourNftAddress: String!
+}
+
+type GameRoundNotPrepared {
+  roundCalculationStartsAt: Int!
+  roundEndsAt: Int!
+  roundNum: Int!
+  yourNftAddress: String!
+}
+
+type GameSale {
+  isCounting: Boolean!
+  nextRoundNum: Int!
+  nftState: NftStateBeforeSale
+  roundCalculationStartsAt: Int!
+  roundStartsAt: Int!
+  yourNftAddress: String!
+}
+
+enum GameState {
+  Finished
+  Round
+  Sale
+}
+
+type GameStateAwaitPlaying {
+  finishAt: Int!
+}
+
+type GameStateOver {
+  linkForSome: String!
+}
+
+type GameStatePlaying {
+  finishAt: Int!
+}
+
+type GameStateTrading {
+  finishAt: Int!
+}
+
+type GameStatsItem {
+  key: String!
+  value: String!
+}
+
+enum GameSwitchState {
+  Finish
+  Round
+  RoundCalc
+  Sale
+  SaleCalc
+}
+
+type GemsWallet {
+  address: String!
+}
+
+type GemsWalletAuth {
+  accountId: String!
+  freeAvatarNftAddress: String
+  freeAvatarStatus: GemsWalletAvatarStatus!
+  notificationEnabled: Boolean!
+  notifyVkGroupId: Int!
+  type: GemsWalletAuthType!
+  wallet: GemsWallet!
+  walletList: [GemsWallet!]!
+}
+
+enum GemsWalletAuthType {
+  tg
+  vk
+}
+
+type GemsWalletAvatarResponse {
+  nftAddress: String!
+}
+
+enum GemsWalletAvatarStatus {
+  done
+  empty
+  loading
+}
+
+type GemsWalletConnectResult {
+  connectPayload: String!
+  iconUrl: String!
+  name: String!
+  returnUrl: String!
+  url: String!
+  wallet: String!
+}
+
+type GemsWalletDapp {
+  createdAt: Float!
+  iconUrl: String!
+  id: ID!
+  name: String!
+  url: String!
+}
+
+type GemsWalletDappResponse {
+  cursor: String
+  items: [GemsWalletDapp!]!
+}
+
+union GemsWalletEvent = GemsWalletEventAvatarReady | GemsWalletEventTonConnect
+
+type GemsWalletEventAvatarReady {
+  nftAddress: String!
+}
+
+type GemsWalletEventTonConnect {
+  request: GemsWalletRequest!
+}
+
+input GemsWalletImage {
+  imageId: String
+  imageUrl: String
+}
+
+union GemsWalletRequest = GemsWalletRequestNever | GemsWalletRequestTransaction
+
+type GemsWalletRequestNever {
+  id: ID!
+  never: Boolean!
+}
+
+type GemsWalletRequestTransaction {
+  balanceAfter: String!
+  balanceBefore: String!
+  canSend: Boolean!
+  dapp: GemsWalletDapp!
+  failReason: GemsWalletRequestTransactionFailReason
+  id: ID!
+  messages: [GemsWalletRequestTransactionMessage!]!
+  totalAmount: String!
+  wallet: String!
+}
+
+enum GemsWalletRequestTransactionFailReason {
+  lowBalance
+  txForAnotherWallet
+}
+
+type GemsWalletRequestTransactionMessage {
+  amount: String!
+  fee: String!
+  toAddress: String!
+}
+
+union GetGemsDnsInfo = GetGemsDnsInfoCollection | GetGemsDnsInfoNft | GetGemsDnsInfoNotExist | GetGemsDnsInfoUser
+
+type GetGemsDnsInfoCollection {
+  address: String!
+}
+
+type GetGemsDnsInfoNft {
+  address: String!
+  collectionAddress: String
+}
+
+type GetGemsDnsInfoNotExist {
+  exist: Boolean!
+}
+
+type GetGemsDnsInfoUser {
+  address: String!
+}
+
+type GetGemsDnsNft {
+  item: NftItem!
+  linkedEntity: LinkedGetGemsDnsEntity
+}
+
+union GetGemsDnsStatus = GetGemsDnsStatusFree | GetGemsDnsStatusOccupied
+
+type GetGemsDnsStatusFree {
+  imageUrl: String!
+  minBid: String!
+  name: String!
+}
+
+type GetGemsDnsStatusOccupied {
+  nft: NftItem!
+}
+
+type GetGetGemsDnsListResponse {
+  cursor: String
+  items: [GetGemsDnsNft!]
+}
+
+type GetLinkedGetGemsDnsResponse {
+  cursor: String
+  items: [LinkedGetGemsDnsItem!]
+}
+
+type GroupLayout {
+  createdAt: Int!
+  icon: LayoutIconType!
+  id: ID!
+  isRead: Boolean!
+  media: NftContent!
+  notifications: [Layout!]!
+  text: String!
+}
+
+type HistoryDefinedIcon {
+  type: HistoryDefinedIconType!
+}
+
+enum HistoryDefinedIconType {
+  Burn
+  BuyNft
+  CancelAuction
+  CancelSale
+  MakeAuctionBid
+  MakeOffer
+  MintCollection
+  MintNft
+  NftPutUpForAuction
+  NftPutUpForSale
+  SellNft
+  TransferGet
+  TransferSend
+}
+
+union HistoryLayoutIconType = HistoryDefinedIcon | UrlIcon
+
+enum HistoryType {
+  Burn
+  CancelAuction
+  CancelSale
+  Mint
+  PutUpForAuction
+  PutUpForSale
+  Sold
+  Transfer
+}
+
+type HistoryTypeBurn {
+  historyType: HistoryType!
+  newOwner: String
+  newOwnerUser: User
+  oldOwner: String
+  oldOwnerUser: User
+  type: String!
+}
+
+type HistoryTypeCancelAuction {
+  historyType: HistoryType!
+  owner: String
+  ownerUser: User
+  type: String!
+}
+
+type HistoryTypeCancelSale {
+  currency: Currency!
+  historyType: HistoryType!
+  owner: String
+  ownerUser: User
+  price: String
+  type: String!
+}
+
+type HistoryTypeMint {
+  historyType: HistoryType!
+  type: String!
+}
+
+type HistoryTypePutUpForAuction {
+  historyType: HistoryType!
+  owner: String
+  ownerUser: User
+  type: String!
+}
+
+type HistoryTypePutUpForSale {
+  currency: Currency!
+  historyType: HistoryType!
+  isPriceChange: Boolean
+  owner: String
+  ownerUser: User
+  price: String
+  type: String!
+}
+
+type HistoryTypeSold {
+  currency: Currency!
+  historyType: HistoryType!
+  newOwner: String
+  newOwnerUser: User
+  oldOwner: String
+  oldOwnerUser: User
+  price: String
+  rejectFromGlobalTop: Boolean!
+  type: String!
+}
+
+type HistoryTypeTransfer {
+  historyType: HistoryType!
+  newOwner: String
+  newOwnerUser: User
+  oldOwner: String
+  oldOwnerUser: User
+  type: String!
+}
+
+type Image {
+  animation(height: Int!, width: Int!): String @deprecated(reason: "will be never return")
+  baseUrl: String!
+  hasAnimation: Boolean! @deprecated(reason: "will be always failed")
+  layout: LayoutType!
+  preview(height: Int!, width: Int!): String
+  sized(format: String, height: Int!, width: Int!): String!
+  video(height: Int!, width: Int!): String! @deprecated(reason: "No longer supported")
+}
+
+enum ImageType {
+  Avatar @deprecated(reason: "Use UserAvatar or NftCollectionAvatar")
+  Cover @deprecated(reason: "Use UserCover or NftCollectionCover")
+  Nft @deprecated(reason: "Use NftImage or NftCollectionCover or NftCollectionAvatar")
+  NftCollectionAvatar
+  NftCollectionCover
+  NftImage
+  UserAvatar
+  UserCover
+}
+
+type JWT {
+  payload: JWTPayload!
+  sign: String!
+}
+
+type JWTPayload {
+  auth: AuthSourceType!
+  id: ID!
+  maxMessages: Int!
+  v: JWTVersion!
+  wallet: String!
+}
+
+enum JWTVersion {
+  V1
+  V2
+}
+
+type LaunchpadBill {
+  addressList: [String!]!
+  amountNft: Int!
+  expireAt: Int!
+  id: String!
+  nfts: [NftItem!]
+  status: LaunchpadBillStatus!
+  tx: TonTx! @deprecated(reason: "use create cart")
+  value: LaunchpadItemPriceValue!
+  valueTon: String! @deprecated(reason: "use value")
+}
+
+enum LaunchpadBillStatus {
+  ERROR
+  EXPIRED
+  NEW
+  PROCESSED
+}
+
+type LaunchpadBills {
+  cursor: String
+  items: [LaunchpadBill!]!
+}
+
+type LaunchpadItem {
+  badges(lang: UserLang): [LaunchpadItemBadge!]
+  collectionAddress: String
+  description(lang: UserLang): String
+  finishAt: Int
+  id: ID!
+  images: [Image!] @deprecated(reason: "use media")
+  itemsCountTotal: Int
+  markdown(lang: UserLang): String
+  maxNftCountPerTransaction: Int!
+  media: [Media!]
+  price: LaunchpadItemPrice
+  socialLinks: [SocialLink!]
+  soldCount: Int!
+  startAt: Int
+  status: LaunchpadItemStatus!
+  title(lang: UserLang): String!
+}
+
+type LaunchpadItemBadge {
+  typeData: LaunchpadItemBadgeTypeData!
+}
+
+enum LaunchpadItemBadgeType {
+  CUSTOM
+  LIMIT
+  MINT_TYPE
+  PRICE
+}
+
+union LaunchpadItemBadgeTypeData = LaunchpadItemBadgeTypeDataCustom | LaunchpadItemBadgeTypeDataLimit | LaunchpadItemBadgeTypeDataMintType | LaunchpadItemBadgeTypeDataPrice
+
+type LaunchpadItemBadgeTypeDataCustom {
+  text: String!
+  type: LaunchpadItemBadgeType!
+  url: String
+}
+
+type LaunchpadItemBadgeTypeDataLimit {
+  limit: LaunchpadLimit!
+  type: LaunchpadItemBadgeType!
+}
+
+type LaunchpadItemBadgeTypeDataMintType {
+  mintType: LaunchpadMintType!
+  type: LaunchpadItemBadgeType!
+}
+
+type LaunchpadItemBadgeTypeDataPrice {
+  price: String!
+  type: LaunchpadItemBadgeType!
+}
+
+union LaunchpadItemPrice = DisabledByCollectionOwning | DisabledByWhitelist | LaunchpadItemPriceValue | NeedsAuth
+
+type LaunchpadItemPriceValue {
+  currency: Currency!
+  value: String!
+}
+
+enum LaunchpadItemStatus {
+  FINISHED
+  IN_PROGRESS
+  NOT_STARTED
+}
+
+enum LaunchpadLimit {
+  UNLIMITED
+}
+
+enum LaunchpadMintType {
+  PUBLIC
+  WHITELIST
+}
+
+union Layout = EmptyLayout | SimpleLayout
+
+union LayoutIconType = DefinedIcon | UrlIcon
+
+enum LayoutType {
+  Default
+  WideAsPossible
+}
+
+union LinkedGetGemsDnsEntity = NftCollection | NftItem | User
+
+type LinkedGetGemsDnsItem {
+  domain: String!
+  id: String!
+}
+
+type Login {
+  jwt: JWT!
+  token: String!
+  user: User!
+}
+
+input LoginCredentialsInput {
+  loginMessage: String!
+  publicKey: String!
+  signedMessage: String!
+  walletAddress: String!
+  walletVersion: String!
+}
+
+type LosePrevRound {
+  loseAtRound: Int!
+  roundEndsAt: Int!
+}
+
+type LoseRound {
+  isRandomWin: Boolean!
+  opponentMove: GameMove
+  roundEndsAt: Int!
+  yourMove: GameMove
+}
+
+type LostDogsWayApplyNotEmptyWalletResponse {
+  commonTask: LostDogsWayCommonTask
+  status: LostDogsWayApplyNotEmptyWalletStatus!
+}
+
+enum LostDogsWayApplyNotEmptyWalletStatus {
+  highload
+  insufficientFunds
+  success
+  walletNotConnected
+}
+
+enum LostDogsWayBoostType {
+  revote
+  x2woof
+}
+
+enum LostDogsWayClaimProgress {
+  chain
+  exchange
+  idle
+}
+
+type LostDogsWayClaimStatusResponse {
+  status: LostDogsWayUserClaimStatus!
+  step: LostDogsWayClaimStep!
+  userExists: Boolean!
+}
+
+enum LostDogsWayClaimStep {
+  beforeClaim
+  claim
+  exchangeForm
+  kycDone
+}
+
+type LostDogsWayCommonTask {
+  customCheckStrategy: LostDogsWayCustomCheckStrategy
+  description: String!
+  dogReward: Int!
+  id: ID!
+  image: String!
+  name: String!
+  url: String!
+  woofReward: String!
+}
+
+type LostDogsWayCommonTasksResponse {
+  items: [LostDogsWayCommonTask!]!
+}
+
+type LostDogsWayCompleteAdsGramTasksResponse {
+  success: Boolean!
+  task: LostDogsWayCommonTask
+  watchMore: Boolean!
+}
+
+type LostDogsWayCompleteCommonTasksResponse {
+  success: Boolean!
+  task: LostDogsWayCommonTask
+}
+
+type LostDogsWayCompleteTasksResponse {
+  success: Boolean!
+  task: LostDogsWayPersonalTask
+  woofReward: String
+}
+
+type LostDogsWayCurrentRoundVote {
+  id: ID!
+  isVoteChangeBoostAvailable: Boolean! @deprecated(reason: "use voteChangeBoostStatus")
+  selectedRoundCardValue: String!
+  spentGameDogsCount: String!
+}
+
+enum LostDogsWayCustomCheckStrategy {
+  adsGram
+  notEmptyWallet
+}
+
+type LostDogsWayDailyGift {
+  description: String!
+  id: ID!
+  image: String!
+  isBooster: Boolean
+  isNft: Boolean
+  title: String!
+  url: String
+}
+
+type LostDogsWayDailyGiftsResponse {
+  items: [LostDogsWayDailyGift!]!
+  tier: LostDogsWayDailyTier!
+}
+
+type LostDogsWayDailyTier {
+  description: String!
+  image: String!
+  title: String!
+  url: String!
+}
+
+enum LostDogsWayEventPage {
+  onboarding1
+  onboarding2
+  onboarding3
+  onboarding4
+  onboarding5
+  onboarding6
+  woof
+  yourDog
+}
+
+union LostDogsWayEvents = LostDogsWayGameDogsInfoResponse | LostDogsWayGameStatusChange
+
+input LostDogsWayFrontEvent {
+  commonPageView: LostDogsWayEventPage
+  launch: Boolean
+  mainScreenMyLeague: Boolean
+  mainScreenVote: Boolean
+  onboardingContinue: Boolean
+  profileClaimNot: String
+  profileInviteFriendsButton: Boolean
+  profileInviteFriendsCopy: Boolean
+  profileInviteFriendsShare: Boolean
+  profileJoinChannel: Boolean
+  profileJoinChat: Boolean
+  profilePreviousChoice: Boolean
+  timeMs: Float!
+  voteBuyChangeVote: Boolean
+  voteBuyMoreDogs: Boolean
+  voteChangeVote: Boolean
+  voteConfirmChoice: Boolean
+  voteJoinChannel: Boolean
+  voteJoinChat: Boolean
+  voteReadLore: Boolean
+  woofGetFreeDogs: Boolean
+  yourDogBoostChangeVoteButton: Boolean
+  yourDogBoostChangeVoteBuyButton: Boolean
+  yourDogBoostX2WOOFButton: Boolean
+  yourDogBoostX2WOOFBuyButton: Boolean
+  yourDogBuyDogsBuyButton: Int
+  yourDogGetFreeDogs: Boolean
+}
+
+input LostDogsWayFrontEventUtm {
+  campaign: String
+  content: String
+  medium: String
+  source: String
+  term: String
+}
+
+type LostDogsWayGameBoost {
+  description: String!
+  id: ID!
+  image: String!
+  isBought: Boolean! @deprecated(reason: "use voteChangeBoostStatus")
+  name: String!
+  price: String!
+  type: LostDogsWayBoostType!
+  voteChangeBoostStatus: LostDogsWayVoteChangeBoostStatus!
+}
+
+type LostDogsWayGameBoostsResponse {
+  items: [LostDogsWayGameBoost!]!
+}
+
+union LostDogsWayGameDogsInfo = LostDogsWayGameDogsInfoNotcoin | LostDogsWayGameDogsInfoStar
+
+type LostDogsWayGameDogsInfoNotcoin {
+  dogPrice: String!
+  maxDogCountPerTx: Int!
+}
+
+type LostDogsWayGameDogsInfoResponse {
+  data: LostDogsWayGameDogsInfo!
+}
+
+type LostDogsWayGameDogsInfoStar {
+  isBought: Boolean!
+  options: [LostDogsWayGameDogsStarOption!]!
+}
+
+type LostDogsWayGameDogsStarOption {
+  count: Int!
+  dogPrice: Int!
+}
+
+union LostDogsWayGameStatus = LostDogsWayGameStatusCalculation | LostDogsWayGameStatusFinished | LostDogsWayGameStatusInactive | LostDogsWayGameStatusRound
+
+type LostDogsWayGameStatusCalculation {
+  calculationEndsAt: Int!
+  gameEndsAt: Int!
+}
+
+type LostDogsWayGameStatusChange {
+  newStatus: LostDogsWayState!
+}
+
+type LostDogsWayGameStatusFinished {
+  _: Boolean
+}
+
+type LostDogsWayGameStatusInactive {
+  _: Boolean
+}
+
+type LostDogsWayGameStatusResponse {
+  gameState: LostDogsWayGameStatus!
+}
+
+type LostDogsWayGameStatusRound {
+  description: String!
+  gameEndsAt: Int!
+  id: ID!
+  isGrandRound: Boolean
+  notcoinBank: String!
+  roundCards: [LostDogsWayRoundCard!]!
+  roundEndsAt: Int!
+  taskType: LostDogsWayRoundTaskType!
+}
+
+type LostDogsWayLeagueInfoResponse {
+  maxWoofCount: String
+  members: [LostDogsWayLeagueMember!]!
+  minWoofCount: String
+  name: LostDogsWayLeagueName!
+}
+
+type LostDogsWayLeagueMember {
+  correctVotesCount: Int!
+  place: Int!
+  user: LostDogsWayUser!
+  woofBalance: String!
+}
+
+enum LostDogsWayLeagueName {
+  bone
+  bronze
+  diamond
+  gold
+  platinum
+  silver
+}
+
+enum LostDogsWayMovieBoostType {
+  credits_place
+  random_pic
+  revote
+  x2woof
+}
+
+type LostDogsWayMovieCurrentRoundVote {
+  id: ID!
+  selectedRoundCardValue: String!
+  spentNotcoins: String
+}
+
+type LostDogsWayMovieDailyGiftsResponse {
+  items: [LostDogsWayDailyGift!]!
+}
+
+input LostDogsWayMovieEventClaimNot {
+  notAmount: String!
+  screen: String!
+}
+
+input LostDogsWayMovieEventCommon {
+  screen: String!
+}
+
+input LostDogsWayMovieFrontEvent {
+  boostChangeVote: LostDogsWayMovieEventCommon
+  boostPlaceInCredits: LostDogsWayMovieEventCommon
+  boostRandomFrame: LostDogsWayMovieEventCommon
+  boostX2Woof: LostDogsWayMovieEventCommon
+  claimNOT: LostDogsWayMovieEventClaimNot
+  confirmChoice: LostDogsWayMovieEventCommon
+  inviteFriendsCopy: LostDogsWayMovieEventCommon
+  inviteFriendsShare: LostDogsWayMovieEventCommon
+  launch: Boolean
+  onboardingContinue: Boolean
+  pageView: LostDogsWayMovieEventCommon
+  payForCard: LostDogsWayMovieEventCommon
+  timeMs: Float!
+  watchPreviousEpisodes: LostDogsWayMovieEventCommon
+  watchTVonTG: LostDogsWayMovieEventCommon
+}
+
+type LostDogsWayMovieGameBoost {
+  description: String!
+  id: ID!
+  image: String!
+  isCreditsPlace: Boolean!
+  name: String!
+  price: String!
+  type: LostDogsWayMovieBoostType!
+  voteChangeBoostStatus: LostDogsWayVoteChangeBoostStatus!
+}
+
+type LostDogsWayMovieGameBoostsResponse {
+  items: [LostDogsWayMovieGameBoost!]!
+}
+
+type LostDogsWayMovieGameNotcoinInfoResponse {
+  existNotcoinAmount: String
+  maxAmount: String!
+  woofWinFree: String!
+  woofWinPaid: String!
+}
+
+union LostDogsWayMovieGameStatus = LostDogsWayGameStatusFinished | LostDogsWayGameStatusInactive | LostDogsWayMovieGameStatusCalculation | LostDogsWayMovieGameStatusRound
+
+type LostDogsWayMovieGameStatusCalculation {
+  calculationEndsAt: Int!
+  gameEndsAt: Int!
+  isBlockchainSlow: Boolean!
+  movie: LostDogsWayMovieSeries!
+  question: String!
+  tvAppUrl: String!
+}
+
+type LostDogsWayMovieGameStatusResponse {
+  gameState: LostDogsWayMovieGameStatus!
+}
+
+type LostDogsWayMovieGameStatusRound {
+  auctionUrl: String!
+  gameEndsAt: Int!
+  id: ID!
+  isBlockchainSlow: Boolean!
+  notcoinBank: String!
+  question: String!
+  roundCards: [LostDogsWayRoundCard!]!
+  roundEndsAt: Int!
+  tvAppUrl: String!
+}
+
+type LostDogsWayMovieRoundVote {
+  date: Int!
+  roundCards: [LostDogsWayRoundMovieCardWithResults!]!
+}
+
+input LostDogsWayMovieSaveEventPayload {
+  events: [LostDogsWayMovieFrontEvent!]!
+  utm: LostDogsWayFrontEventUtm
+}
+
+type LostDogsWayMovieSeries {
+  name: String!
+  preview: String!
+  seriesNum: Int!
+  url: String!
+}
+
+type LostDogsWayMovieUserChoicesHistoryResponse {
+  cursor: String
+  items: [LostDogsWayMovieUserRoundVote!]!
+}
+
+type LostDogsWayMovieUserInfoResponse {
+  currentRoundVote: LostDogsWayMovieCurrentRoundVote
+  exchangeDone: Boolean!
+  prevRoundVote: LostDogsWayMovieUserRoundVote
+  referralLink: String!
+  storyDone: Boolean!
+  woofBalance: String!
+}
+
+type LostDogsWayMovieUserRoundVote {
+  cards: [LostDogsWayRoundMovieCardWithResults!]!
+  date: Int!
+  notPrize: String
+  possiblePaidReward: LostDogsWayPossiblePaidReward
+  selectedRoundCardValue: String
+  userStatus: LostDogsWayUserRoundVoteStatus!
+  woofPrize: String
+}
+
+type LostDogsWayMovieVotesHistoryResponse {
+  items: [LostDogsWayMovieRoundVote!]!
+}
+
+type LostDogsWayPersonalTask {
+  description: String!
+  id: ID!
+  isCompleted: Boolean!
+  name: String!
+  type: LostDogsWayUserTaskType!
+  url: String
+}
+
+type LostDogsWayPossiblePaidReward {
+  notcoinAmount: String!
+  notcoinReward: String!
+}
+
+type LostDogsWayRoundCard {
+  id: String!
+  image: String!
+  name: String!
+  number: Int!
+  value: String!
+}
+
+type LostDogsWayRoundCardWithResults {
+  card: LostDogsWayRoundCard!
+  description: String!
+  dogsCount: Int!
+  id: String!
+  isWinner: Boolean!
+  votesPercent: Int!
+}
+
+type LostDogsWayRoundMovieCardWithResults {
+  card: LostDogsWayRoundCard!
+  description: String!
+  id: String!
+  isWinner: Boolean!
+  notcoinAmount: String!
+  votesPercent: Int!
+}
+
+enum LostDogsWayRoundTaskType {
+  average
+  biggest
+  smallest
+}
+
+type LostDogsWayRoundVote {
+  date: Int!
+  roundCards: [LostDogsWayRoundCardWithResults!]!
+  taskType: LostDogsWayRoundTaskType!
+}
+
+input LostDogsWaySaveEventPayload {
+  events: [LostDogsWayFrontEvent!]!
+  utm: LostDogsWayFrontEventUtm
+}
+
+input LostDogsWaySaveExchangeFormPayload {
+  depositAddress: String
+  memo: String
+  walletAddress: String
+}
+
+type LostDogsWaySaveExchangeFormResponse {
+  status: LostDogsWayUserClaimStatus!
+}
+
+enum LostDogsWayState {
+  calculation
+  finished
+  round
+}
+
+type LostDogsWayStatus {
+  userId: ID!
+  walletAddress: String
+}
+
+type LostDogsWayUser {
+  avatar: String
+  id: ID!
+  nickname: String!
+}
+
+type LostDogsWayUserChoicesHistoryResponse {
+  cursor: String
+  items: [LostDogsWayUserRoundVote!]!
+}
+
+type LostDogsWayUserClaimStatus {
+  banReason: String
+  claimProgress: LostDogsWayClaimProgress!
+  claimedWoofAmount: String!
+  depositAddress: String
+  exceedsLimit: Boolean!
+  isBanned: Boolean!
+  isFromUSA: Boolean!
+  kyc: Boolean!
+  memo: String
+  minClaimAmount: String!
+  walletAddress: String
+  woofBalance: String!
+}
+
+type LostDogsWayUserInfoResponse {
+  currentRoundVote: LostDogsWayCurrentRoundVote
+  exchangeDone: Boolean!
+  gameDogsBalance: String!
+  prevRoundVote: LostDogsWayUserRoundVote
+  referralLink: String!
+  squad: LostDogsWayUserSquad
+  storyDone: Boolean!
+  woofBalance: String!
+}
+
+type LostDogsWayUserLeagueInfoResponse {
+  name: LostDogsWayLeagueName!
+  user: LostDogsWayLeagueMember
+}
+
+type LostDogsWayUserProfileResponse {
+  user: LostDogsWayUser!
+  walletStatus: LostDogsWayWalletStatus!
+}
+
+type LostDogsWayUserReferralInfoResponse {
+  invitedPeopleCount: Int!
+  referralLink: String!
+}
+
+type LostDogsWayUserRoundVote {
+  cards: [LostDogsWayRoundCardWithResults!]!
+  date: Int!
+  notPrize: String
+  possiblePaidReward: LostDogsWayPossiblePaidReward
+  selectedRoundCardValue: String
+  taskType: LostDogsWayRoundTaskType!
+  userStatus: LostDogsWayUserRoundVoteStatus!
+  woofPrize: String
+}
+
+enum LostDogsWayUserRoundVoteStatus {
+  loser
+  skipped
+  winner
+}
+
+type LostDogsWayUserSquad {
+  id: String!
+  logoUrl: String!
+  name: String!
+}
+
+enum LostDogsWayUserTaskType {
+  connectWallet
+  findMyDogs
+  findTop
+  firstBid
+  firstBuyDogs
+  joinSquad
+  onboarding
+  sharing
+  woofScreen
+}
+
+enum LostDogsWayVoteChangeBoostStatus {
+  obtained
+  required
+  used
+}
+
+type LostDogsWayVotesHistoryResponse {
+  items: [LostDogsWayRoundVote!]!
+}
+
+type LostDogsWayWalletStatus {
+  connectedWalletAddress: String
+  id: ID!
+  isNotBalanceClaimable: Boolean!
+  notBalance: String!
+}
+
+type LostDogsWayWoofBoosterRate {
+  daysInARow: Int!
+  rateValue: String!
+}
+
+type LostDogsWayWoofBoosterRateInfoResponse {
+  rates: [LostDogsWayWoofBoosterRate!]!
+  userRate: String!
+  userRateDay: Int!
+}
+
+type LostDogsWayWoofPersonalTasksResponse {
+  items: [LostDogsWayPersonalTask!]!
+}
+
+type MPCollectionTop {
+  cursor: String
+  items: [MPCollectionTopItem!]!
+}
+
+type MPCollectionTopItem {
+  collection: NftCollection!
+  currencyFloorPrice(currency: CurrencyType!): Float!
+  currencyValue(currency: CurrencyType!): Float!
+  diffPercent: Float
+  floorPrice: Float!
+  place: Int!
+  tonValue: String!
+}
+
+enum MPTopKind {
+  all
+  day
+  month
+  week
+}
+
+type MakeMove {
+  roundEndsAt: Int!
+}
+
+enum Marketplace {
+  FRAGMENT
+  GETGEMS
+  MAJOR
+  MARKETAPP
+  OTHER
+  XRARE
+}
+
+type MarketplaceFeeParams {
+  fee: Float!
+}
+
+type Media {
+  id: String!
+  image: String!
+  video: String
+}
+
+input MetadataAttributeInput {
+  trait_type: String!
+  value: String!
+}
+
+type MoveResponse {
+  errorMessage: String
+  gameInfo: GameReponse!
+  success: Boolean!
+}
+
+type MutantToadzStatus {
+  availableAmount: Int!
+  canBuyMaxAmount: Int!
+  paymentComment: String!
+  paymentWallet: String!
+  presaleIsActive: Boolean!
+  price: String!
+  purchasedAmount: Int!
+  totalAmount: Int!
+  userCanBuy: Boolean!
+}
+
+type Mutation {
+  absurdDropStart(userAddress: String!): TonTx!
+  addNftReaction(address: String!, reaction: ReactionType!): ReactionsByNftAddress!
+  adminAddNotification(data: NotificationTypeData!, userAddress: String!): Boolean!
+  adminSetUserBannedFlag(address: String!, banned: Boolean!, comment: String!): Boolean!
+  attributesCheck(nftAddress: String!): AttributesCheckResponse!
+  authLinkTelegram(jsonAuthData: String!): Boolean!
+  authTonConnectSetStorage(storageJSON: String!, storageVersion: Float!): Boolean!
+  authUnlinkTelegram: Boolean!
+  authUpdateLang(lang: UserLang!): Boolean!
+  calculateCart(cart: [CartCalculationItemInput!]!): [CartCalculationItemPayload!]!
+  checkUserExists: Boolean!
+  collectionRefreshMetadata(address: String!): NftCollection
+  confirmDraftCollection(draftId: ID!): NftCollection!
+  confirmDraftItem(draftId: ID!): NftItem!
+  createCartTx(cart: [CartCalculationItemInput!]!): CreateCartTxPayload!
+  createColorCookie(nftAddress: String!): String!
+  createLoginMessage: String!
+  createMyGemsWallet: GemsWalletAuth!
+  createUploadUrl(image: ImageType!): String!
+  debugAddCollectionToIndexer(address: String!): Boolean!
+  debugForceReindexCollection(address: String!): Boolean!
+  debugMintRandomCollection: String!
+  debugMintRandomNftInCollection(collectionAddress: String!, index: Int!): Boolean!
+  debugMintRandomSingleNft: String!
+  deleteCover: User!
+  dogSexAcceptMerge(mergeId: ID!, rightNftAddress: String!, withChild: Boolean!): DogSexAcceptResult!
+  dogSexStartMerge(leftNftAddress: String!, rightNftAddress: String): DogSexStartResult!
+  draftCollection(data: NftCollectionInput!): CreateCollectionDraftResult!
+  draftNftItem(data: NftItemInput!): CreateNftDraftResult!
+  draftNftSingle(data: NftSingleInput!): CreateNftDraftResult!
+  editSubdomainPrice(collectionAddress: String!, data: SubdomainPriceData!): SubdomainPrice
+  gemsWalletDestroy: Boolean!
+  gemsWalletDisconnectDapp(dappId: ID!): Boolean!
+  gemsWalletMintAvatar(image: GemsWalletImage!): GemsWalletAvatarResponse!
+  gemsWalletResolveConnect(accept: Boolean!, connectPayload: String!, wallet: String!): Boolean!
+  gemsWalletResolveRequest(accept: Boolean!, requestId: ID!): Boolean!
+  gemsWalletStartConnect(universalUrl: String!): GemsWalletConnectResult!
+  gemsWalletSubscribeAvatarNotify: Boolean!
+  generateFreeCollectible: Int!
+  generatePreviewCollectible(backdropS3Key: String, dropSlug: String!, modelS3Key: String, symbolS3Key: String): String!
+  initSubdomain(data: SubdomainData!, nftAddress: String!): TonTx! @deprecated(reason: "use createSubdomainCollection")
+  launchpadCreateBill(count: Int, launchpadItemId: String!): LaunchpadBill!
+  login(credentials: LoginCredentialsInput!): Login!
+  loginTonConnect(payload: TonConnectAuthPayload!): Login!
+  logout(reason: String): Boolean!
+  lostDogsWayApplyAdsGram(taskId: ID!): LostDogsWayCompleteAdsGramTasksResponse!
+  lostDogsWayApplyNotEmptyWallet(taskId: ID!): LostDogsWayApplyNotEmptyWalletResponse!
+  lostDogsWayBuyBoost(type: LostDogsWayBoostType!): StarsTx!
+  lostDogsWayBuyDogsNotcoin(dogsCount: Int!): TonTx!
+  lostDogsWayBuyDogsStar(dogsCount: Int!): StarsTx!
+  lostDogsWayCheckTgPayment(check: String!): Boolean!
+  lostDogsWayClaimNotcoins: TonTx!
+  lostDogsWayClaimWoof: TonTx!
+  lostDogsWayCompleteCommonTask(id: ID!): LostDogsWayCompleteCommonTasksResponse!
+  lostDogsWayCompleteTask(type: LostDogsWayUserTaskType!): LostDogsWayCompleteTasksResponse!
+  lostDogsWayGenerateWallet: LostDogsWayUserProfileResponse!
+  lostDogsWayLinkTonWallet(tonConnectProof: TonConnectAuthPayload!): LostDogsWayUserProfileResponse!
+  lostDogsWayMovieBuyBoost(type: LostDogsWayMovieBoostType!): StarsTx!
+  lostDogsWayMovieBuyNotcoin(amount: String!): TonTx!
+  lostDogsWayMovieBuyNotcoinVariant(amount: String!, variant: String!): TonTx!
+  lostDogsWayMovieCompleteCommonTask(id: ID!): LostDogsWayCompleteCommonTasksResponse!
+  lostDogsWayMovieCompleteTask(type: LostDogsWayUserTaskType!): LostDogsWayCompleteTasksResponse!
+  lostDogsWayMovieSaveEvent(data: LostDogsWayMovieSaveEventPayload!): Boolean!
+  lostDogsWayMovieViewPrevRound: Boolean!
+  lostDogsWayMovieVote(value: String!): LostDogsWayMovieCurrentRoundVote!
+  lostDogsWayMovieVoteDate(dayId: String!, value: String!): LostDogsWayMovieCurrentRoundVote!
+  lostDogsWayRemoveWallet: LostDogsWayUserProfileResponse!
+  lostDogsWaySaveEvent(data: LostDogsWaySaveEventPayload!): Boolean!
+  lostDogsWaySaveExchangeForm(data: LostDogsWaySaveExchangeFormPayload!): LostDogsWaySaveExchangeFormResponse!
+  lostDogsWayViewPrevRound: Boolean!
+  lostDogsWayVote(value: String!): LostDogsWayCurrentRoundVote!
+  makeMove(lang: UserLang, move: GameMove!, nftAddress: String!): MoveResponse!
+  mintGetGemsDns(bidNano: String!, domain: String!): TonTx!
+  mintSubdomainDns(bidNano: String!, collectionAddress: String!, domain: String!): TonTx! @deprecated(reason: "use createSubdomainNft")
+  nftAuctionActivate(auctionAddress: String!): String! @deprecated(reason: "use nftAuctionNoCancelCreate")
+  nftAuctionBidCreate(amount: String!, saleAddress: String!, version: String): TonTx!
+  nftAuctionCancelMessage(auctionAddress: String!): NftActionMessage!
+  nftAuctionCreate(params: NftAuctionParams!): NftActionResult! @deprecated(reason: "use nftAuctionNoCancelCreate")
+  nftAuctionFinishMessage(auctionAddress: String!): NftActionMessage!
+  nftAuctionNoCancelCreate(params: NftAuctionNoCancelParams!): NftActionResult!
+  nftAuctionStopMessage(auctionAddress: String!): NftActionMessage!
+  nftCancelVote(nftAddress: String!): NftVotingResponse!
+  nftClaim(nftAddress: String!): TonTx!
+  nftCreateTransferPayload(newOwnerAddress: String!, nftAddress: String!): TonTx!
+  nftFixPriceSaleBuy(nftAddress: String!, version: String): TonTx!
+  nftFixPriceSaleCancel(nftAddress: String!): TonTx!
+  nftFixPriceSaleChangePrice(currency: Currency, fullPrice: String!, nftAddress: String!): TonTx!
+  nftFixPriceSaleCreate(currency: Currency, fullPrice: String!, nftAddress: String!, omitRoyalty: Boolean): TonTx!
+  nftLinkAddress(newAddress: String, nftAddress: String!): TonTx!
+  nftOfferAccept(offerAddress: String!): TonTx!
+  nftOfferCancel(offerAddress: String!): TonTx!
+  nftOfferCreate(params: NftOfferParams!, version: String): TonTx!
+  nftOfferRejectByNftOwner(offerAddress: String!, reason: String): Boolean!
+  nftRefreshMetadata(address: String!): NftItem @deprecated(reason: "use nftItemSync")
+  nftReveal(nftAddress: String!): Boolean!
+  nftSetHiddenFlag(isHiddenByUser: Boolean!, nftAddress: String!): Boolean!
+  nftTelemintBidCreate(amount: String!, nftAddress: String!, version: String): TonTx!
+  nftUpdateCollection(payload: UpdateCollectionInput!): UpdateCollectionResult!
+  nftVote(key: String!, nftAddress: String!): NftVotingResponse!
+  photoAIChangeWalletAddress(payload: TonConnectAuthPayload!): Boolean!
+  photoAICreateUser(userInput: PhotoAIUserInput!): Boolean!
+  photoAIFillBalance: PhotoAIFillBalanceResponse!
+  photoAIGenerate(payload: PhotoAIGenerateInput!): PhotoAIGenerateResponse!
+  photoAISaveEvent(data: PhotoAISaveEventPayload!): Boolean!
+  photoAIUpdateUser(userInput: PhotoAIUpdateUserInput!): Boolean!
+  ping: String!
+  pocketSaveEvent(data: PocketSaveEventPayload!): Boolean!
+  reactionsNftAdd(address: String!, reaction: ReactionType!): Boolean! @deprecated(reason: "use addNftReaction")
+  reactionsNftRemove(address: String!, reaction: ReactionType!): Boolean! @deprecated(reason: "use removeNftReaction")
+  readNotifications(lastId: ID!): ReadNotifications!
+  removeNftReaction(address: String!, reaction: ReactionType!): ReactionsByNftAddress!
+  revealCollectible(id: Int!): PocketPaymentResponse!
+  saveCollectionNotifications(collectionAddress: String!, settings: CollectionNotificationSettingsInput!): CollectionNotificationSettings!
+  saveEvents(events: EventsPayload!): Boolean
+  saveLaunchpadStartNotificationSubscription(isSubscribing: Boolean!, launchpadItemId: String!): SaveLaunchpadStartNotificationSubscriptionStatus!
+  saveNftNotifications(nftAddress: String!, settings: CollectionNotificationSettingsInput!): CollectionNotificationSettings!
+  saveNotificationsSettings(settings: [SaveNotificationsSetting!]!): Boolean!
+  simpleTemporaryStorageSet(key: String!, value: String!): SimpleTemporaryStorageValue! @deprecated(reason: "will no work")
+  subscribeToDrop(dropId: Int!): Int
+  superAgeRestrictCollection(address: String!, comment: String, isAgeRestrict: Boolean!): Boolean!
+  superApproveCollection(address: String!, comment: String, isApproving: Boolean!): Boolean
+  superApproveNft(address: String!, comment: String, isApproving: Boolean!): Boolean!
+  superBlockCollection(address: String!, comment: String, isBlocking: Boolean!): Boolean!
+  superBlockNft(address: String!, comment: String, isBlocking: Boolean!): Boolean!
+  superSetPriorityCollection(address: String!, comment: String, priority: Int!): Boolean!
+  superSetPriorityNft(address: String!, comment: String, priority: Int!): Boolean!
+  superVerifyCollection(address: String!, comment: String, isVerifying: Boolean!): Boolean!
+  syncCollection(address: String!): SyncCollectionStatus!
+  syncItem(itemAddress: String!): NftItem @deprecated(reason: "use nftItemSync/nftCollectionSync")
+  syncNft(address: String!): SyncNftStatus!
+  syncPearlsBotUser(initData: String!, walletType: String!): Boolean!
+  tBattleJettonTransferTx(amount: Float!): TonTx!
+  tBattleLinkTonWallet(tonConnectProof: TonConnectAuthPayload!): TBattleUser!
+  tBattleRemoveWallet: Boolean!
+  tBattleUserOnboarding(team: Int!): Boolean!
+  togglePearlsSubscription(channelId: Int!): Boolean!
+  tonTxCheckStatus(payload: CheckTxPayload!): TonTxStatus!
+  tonTxCheckTonkeeperStatus(uuid: String!): TonTxTonkeeperStatus!
+  tvBuyEpisode(episodeId: Int!): TvPaymentResponse!
+  tvBuySeries: TvPaymentResponse!
+  tvRecordEpisodeView(episodeId: Int!): TvEpisode!
+  tvSaveEvent(data: TvSaveEventPayload!): Boolean!
+  tvUserOnboarding: Boolean!
+  unsubscribeNotification(subscriptionId: String!): Boolean!
+  unsubscribeToDrop(dropId: Int!): Boolean!
+  updateMe(data: UserInput!): User!
+  walletEggCancelSale(nftAddress: String!): WalletEgg!
+  walletEggCheckTask(code: WETaskCode!): WETaskResult!
+  walletEggDebugAddNftBot(id: String!): String!
+  walletEggDebugDeleteUser(idOrWallet: String!): String!
+  walletEggDebugMoveBot(id: String!): String!
+  walletEggDebugNewBot: String!
+  walletEggGenerateWallet: WalletEggStatus!
+  walletEggLinkTonWallet(tonConnectProof: TonConnectAuthPayload!): WalletEggStatus!
+  walletEggLogout: WalletEggStatus!
+  walletEggMakeMove(gameId: ID!, move: GameMove!, nftAddress: String!): WalletEggGame!
+  walletEggMakeSale(nftAddress: String!, price: Float!): WalletEgg!
+  walletEggSaveEvent(data: WalletEggSaleEvent!): Boolean!
+  walletEggUpdateTelegramVisibility(show: Boolean!): Boolean!
+}
+
+input NTAuctionBidMyNft {
+  auctionAddress: String!
+  nftAddress: String!
+  price: String!
+  userAddress: String!
+}
+
+input NTAuctionCancel {
+  auctionAddress: String!
+  nftAddress: String!
+}
+
+input NTAuctionEndsSoon {
+  auctionAddress: String!
+  endTime: Int
+  lastBidAmount: String!
+  nftAddress: String!
+  userAddress: String!
+}
+
+input NTAuctionFinish {
+  auctionAddress: String!
+  endTime: Int
+  nftAddress: String!
+  price: String!
+  userAddress: String!
+}
+
+input NTAuctionOverbid {
+  auctionAddress: String!
+  newBidAmount: String!
+  nftAddress: String!
+  userAddress: String!
+}
+
+input NTAuctionWin {
+  auctionAddress: String!
+  nftAddress: String!
+  price: String!
+}
+
+input NTCollection {
+  collectionAddress: String!
+  collectionName: String!
+  floorPrice: String
+  nftAddress: String!
+  price: String!
+}
+
+input NTDogSexLinkCreated {
+  collectionAddress: String!
+  mergeId: String!
+  nftAddress: String!
+}
+
+input NTDogSexMergeSuccess {
+  collectionAddress: String!
+  nftAddress: String!
+}
+
+input NTEasterEggs {
+  nftAddress: String!
+}
+
+input NTLaunchpadStart {
+  collectionAddress: String!
+  launchpadItemSlug: String!
+}
+
+input NTNft {
+  collectionAddress: String
+  nftAddress: String!
+  price: String!
+}
+
+input NTOfferAccept {
+  nftAddress: String!
+  price: String!
+}
+
+input NTOfferDecline {
+  nftAddress: String!
+  price: String!
+}
+
+input NTOfferExpired {
+  nftAddress: String!
+  price: String!
+}
+
+input NTOfferMyNft {
+  nftAddress: String!
+  offerAddress: String!
+  price: String!
+  userAddress: String!
+}
+
+input NTSellOwnNft {
+  newOwner: String!
+  nftAddress: String!
+  price: String!
+  sellAddress: String!
+}
+
+type NeedsAuth {
+  needsAuth: Boolean
+}
+
+input NftActionButtonClickEvent {
+  buttonTitle: String
+  buttonType: String!
+  buttonUrl: String
+  clientTimestampMs: Float!
+  nftAddress: String!
+  pageHash: String
+  pageId: String
+  pageTitle: String!
+  pageType: String!
+  url: String!
+}
+
+type NftActionMessage {
+  amount: String! @deprecated(reason: "use tx")
+  textMessage: String! @deprecated(reason: "use tx")
+  toAddress: String! @deprecated(reason: "use tx")
+  tx: TonTx!
+  version: AuctionVersion! @deprecated(reason: "use tx")
+}
+
+type NftActionResult {
+  tx: TonTx!
+}
+
+type NftAttribute {
+  displayType: NftAttributeDisplayType
+  traitType: String!
+  value: String!
+}
+
+enum NftAttributeDisplayType {
+  BoostNumber
+  BoostPercentage
+  Date
+  Number
+}
+
+type NftAuctionBidHistory {
+  cursor: String
+  items: [NftAuctionBidItem!]!
+}
+
+type NftAuctionBidItem {
+  amount: String!
+  amountWithFee: String
+  createdAt: Int!
+  currency: Currency!
+  id: ID!
+  user: User!
+}
+
+input NftAuctionNoCancelParams {
+  currency: Currency
+  finishAt: Int!
+  maxBid: String
+  minBid: String!
+  minPercentStep: Int!
+  nftAddress: String!
+  omitRoyalty: Boolean
+}
+
+input NftAuctionParams {
+  finishAt: Int!
+  maxBid: String
+  minBid: String!
+  minStep: String
+  nftAddress: String!
+}
+
+type NftBanFromFragment {
+  reason: String!
+}
+
+type NftCategory {
+  approximateHoldersCount: Int!
+  approximateItemsCount: Int!
+  collectionAddress: String!
+  descriptionEn: String
+  descriptionRu: String
+  floorPrice: Float
+  highlight: Boolean!
+  id: ID!
+  image: String!
+  name: String!
+  tonValue: String
+}
+
+type NftCategoryConnection {
+  cursor: String
+  items: [NftCategory]!
+}
+
+type NftCategoryTop {
+  cursor: String
+  items: [NftCategoryTopItem!]!
+}
+
+type NftCategoryTopItem {
+  category: NftCategory!
+  currencyFloorPrice(currency: CurrencyType!): Float!
+  currencyValue(currency: CurrencyType!): Float!
+  diffPercent: Float
+  floorPrice: Float!
+  place: Int!
+  tonValue: String!
+}
+
+input NftClickPromoEvent {
+  clientTimestampMs: Float!
+  nftAddress: String!
+  pageHash: String
+  pageId: String
+  pageTitle: String!
+  pageType: String!
+  source: String!
+  url: String!
+}
+
+type NftCollection {
+  address: String!
+  announcementPrice: String!
+  approximateHoldersCount: Int!
+  approximateItemsCount: Int!
+  coverImage: NftContentImage
+  description: String
+  domain: String
+  floorPrice: Float @deprecated(reason: "never worked")
+  hasCategories: Boolean
+  hasRarityAttributes: Boolean
+  id: ID!
+  image: NftContentImage
+  isAgeRestrict: Boolean
+  isAllowJettonSales: Boolean
+  isApproved: Boolean
+  isBadSalesHidden: Boolean
+  isBlocked: Boolean
+  isGetGemsDnsCollection: Boolean @deprecated(reason: "use type")
+  isNftCommentEnabled: Boolean!
+  isRarityEnabled: Boolean
+  isRarityValid: Boolean
+  isVerified: Boolean
+  name: String
+  owner: User!
+  ownerAddress: String!
+  priority: Int! @deprecated(reason: "never selected")
+  rawMetadata: String!
+  royaltyParams: RoyaltyParams
+  socialLinks: [String!]
+  type: NftCollectionType!
+}
+
+type NftCollectionCategoriesItems {
+  items: [NftCategory!]!
+}
+
+enum NftCollectionCategoriesTopKind {
+  all
+  day
+  month
+  week
+}
+
+type NftCollectionConnection {
+  cursor: String
+  items: [NftCollection!]!
+}
+
+type NftCollectionEdge {
+  cursor: String!
+  node: NftCollection!
+}
+
+type NftCollectionFilter {
+  attributes: [FilterAttribute!]!
+  currency: [FilterCurrencyType!]!
+  isOnSale: FilterIsOnSale!
+  saleType: FilterSaleType!
+}
+
+input NftCollectionInput {
+  avatarId: String!
+  coverId: String
+  description: String!
+  editableNft: Boolean
+  name: String!
+  royalty: Float
+  royaltyStr: String
+  socialLinks: [SocialLinkInput!]
+}
+
+type NftCollectionOwnerStats {
+  amount7d: Int!
+  collectionAddress: String!
+  count: Int!
+  id: ID!
+  ownerAddress: String!
+  ownerUser: User
+  updatedAt: Int!
+  value7d: String!
+}
+
+type NftCollectionOwnerStatsConnection {
+  cursor: String
+  items: [NftCollectionOwnerStats!]!
+}
+
+type NftCollectionSalesConnection {
+  isChartHidden: Boolean!
+  items: [SaleItem!]!
+  notcoinPriceHistory: [NotcoinPriceHistoryItem]
+}
+
+type NftCollectionSearchConnection {
+  edges: [NftCollectionEdge!]!
+  info: PageInfo!
+}
+
+type NftCollectionStats {
+  floorPrice: Float
+  holders: Int!
+  itemsCount: Int!
+  totalVolume: Float! @deprecated(reason: "use totalVolumeSold")
+  totalVolumeSold: String!
+}
+
+type NftCollectionStatsCount {
+  from2to5: Int!
+  from6to24: Int!
+  from25to50: Int!
+  from50: Int!
+  holders: Int!
+  to1: Int!
+  updatedAt: Int!
+}
+
+enum NftCollectionType {
+  Default
+  DnsSubdomain
+  GgDns
+  TgGifts
+  TgNumbers
+  TgUsernames
+  TonDns
+}
+
+enum NftColorScheme {
+  blue
+  gold
+  green
+  mint
+  orange
+  pink
+  purple
+  red
+}
+
+type NftComment {
+  collectionAddress: String
+  comment: String!
+  id: ID!
+  isBanned: Boolean
+  isOnModeration: Boolean
+  nftAddress: String
+  user: User!
+  userAddress: String!
+}
+
+type NftCommentConnection {
+  cursor: String
+  items: [NftComment!]!
+  totalCount: Int!
+}
+
+union NftContent = NftContentImage | NftContentLottie | NftContentNotLoaded | NftContentVideo
+
+type NftContentImage {
+  image: Image!
+  originalUrl: String
+}
+
+type NftContentLottie {
+  image: Image
+  lottie: String!
+}
+
+type NftContentNotLoaded {
+  notLoaded: Boolean!
+}
+
+enum NftContentSourceType {
+  Centralized
+  Decentralized
+  GetGems
+  Ipfs
+  OnChain
+  TonStorage
+}
+
+type NftContentVideo {
+  baseUrl: String!
+  preview(height: Int!, width: Int!): String
+  sized(format: String, height: Int!, width: Int!): String!
+}
+
+type NftCreateSubdomainCollectionButton {
+  fullPrice: String!
+}
+
+type NftCustomBadge {
+  background: NftCustomBadgeBackground
+  text: String!
+}
+
+enum NftCustomBadgeBackground {
+  common
+  epic
+  legendary
+  rare
+  uncommon
+}
+
+type NftItem {
+  actionButtons: [ActionButton!]!
+  address: String!
+  attributes: [NftAttribute!]!
+  categoryIds: [Int!]!
+  claimButton: Boolean @deprecated(reason: "use shownButtons")
+  collection: NftCollection
+  colorScheme: NftColorScheme
+  commentPrice: String!
+  content: NftContent!
+  contentSourceType: NftContentSourceType!
+  createSubdomainCollectionButton: NftCreateSubdomainCollectionButton
+  customBadge: NftCustomBadge
+  description: String
+  domain: String
+  editorAddress: String
+  highlightIndices(categoryId: String): [NftNameHighlightIndex!]!
+  id: ID!
+  index: Float!
+  isApproved: Boolean
+  isBlocked: Boolean
+  isBurned: Boolean!
+  isHiddenByUser: Boolean!
+  isNftCommentEnabled: Boolean!
+  isRevealable: Boolean!
+  kind: NftItemKind!
+  lastSale: NftItemLastSale
+  layout: NftPageLayout
+  linkAddressButton: NftLinkButton
+  maxOffer: NftOffer
+  metadataSourceType: NftContentSourceType!
+  name: String
+  owner: User!
+  ownerAddress: String!
+  priority: Int!
+  rarityAttributes: [RarityAttribute!]
+  rarityRank: Int
+  rawMetadata: String! @deprecated(reason: "field will be removed")
+  reactionCounters: ReactionCounter
+  sale: NftSale
+  showButtons: NftItemButtons!
+  stats: NftItemStats
+  version: String!
+  warningBanner: NftWarningBanner
+}
+
+type NftItemButton {
+  displayTo: NftItemButtonDisplayTo!
+}
+
+enum NftItemButtonDisplayTo {
+  All
+  Nobody
+  NotOwner
+  Owner
+}
+
+type NftItemButtons {
+  buyNft: NftItemButton!
+  claimJetton: NftItemButton!
+  createSubdomain: NftItemButton! @deprecated(reason: "use createSubdomainCollection")
+  createSubdomainCollection: NftItemButton!
+  makeBid: NftItemButton!
+  makeOffer: NftItemButton!
+  mintCNft: NftItemButton!
+  putOnAuction: NftItemButton!
+  putOnSale: NftItemButton!
+  transferNft: NftItemButton!
+}
+
+type NftItemConnection {
+  cursor: String
+  items: [NftItem!]!
+}
+
+type NftItemDraftDeployInfo {
+  collectionAddress: String!
+  contractAddress: String!
+  forwardAmount: String!
+  messageBody: String!
+  recommendedValue: String!
+}
+
+type NftItemEdge {
+  cursor: String!
+  node: NftItem!
+}
+
+type NftItemHistory {
+  address: String!
+  collectionAddress: String
+  createdAt: Int!
+  hash: String!
+  id: ID!
+  lt: String!
+  nft: NftItem
+  time: Int!
+  typeData: NftItemHistoryType
+}
+
+type NftItemHistoryConnection {
+  cursor: String
+  items: [NftItemHistory!]!
+}
+
+type NftItemHistoryCounts {
+  burn: Int
+  cancelAuction: Int!
+  cancelSale: Int!
+  mint: Int!
+  putUpForAuction: Int!
+  putUpForSale: Int!
+  sold: Int!
+  transfer: Int!
+  updatedAt: Int!
+}
+
+union NftItemHistoryType = HistoryTypeBurn | HistoryTypeCancelAuction | HistoryTypeCancelSale | HistoryTypeMint | HistoryTypePutUpForAuction | HistoryTypePutUpForSale | HistoryTypeSold | HistoryTypeTransfer
+
+input NftItemInput {
+  attributes: [MetadataAttributeInput!]
+  collectionAddress: String!
+  description: String!
+  imageId: String!
+  name: String!
+  videoId: String
+}
+
+enum NftItemKind {
+  CollectionItem
+  DnsItem
+  SbtItem
+  SbtSingle
+  Single
+  SyntheticItem
+  SyntheticSbt
+}
+
+type NftItemLastSale {
+  currency: Currency!
+  date: Int!
+  fullPrice: String!
+}
+
+type NftItemSale {
+  address: String!
+  content: NftContent!
+  contentSourceType: NftContentSourceType!
+  name: String!
+  price: Float!
+  rarityRank: Int!
+}
+
+type NftItemSearchConnection {
+  edges: [NftItemEdge!]!
+  info: PageInfo!
+}
+
+type NftItemStats {
+  address: String!
+  prevOwnersCount: Int!
+}
+
+type NftItemUpdateAuctionCancel {
+  type: String!
+}
+
+type NftItemUpdateAuctionFinish {
+  amount: String!
+  type: String!
+  userAddress: String!
+}
+
+type NftItemUpdateAuctionNewBid {
+  amount: String!
+  bid: NftAuctionBidItem!
+  type: String!
+  userAddress: String!
+}
+
+type NftItemUpdateEvent {
+  nftAddress: String!
+  payload: NftItemUpdatePayload!
+}
+
+union NftItemUpdatePayload = NftItemUpdateAuctionCancel | NftItemUpdateAuctionFinish | NftItemUpdateAuctionNewBid
+
+type NftLinkButton {
+  isShortUrl: Boolean!
+  linkButton: Boolean!
+  linkedTo: NftObject
+  slug: String!
+  unlinkButton: Boolean!
+}
+
+enum NftMintType {
+  BuyNow
+  DroppingSoon
+  LimitedAuction
+  OpenBids
+}
+
+type NftNameHighlightIndex {
+  endIndex: Int!
+  startIndex: Int!
+}
+
+type NftNotificationsList {
+  cursor: String
+  items: [NotificationSubscribedNft!]
+}
+
+union NftObject = NftCollection | NftItem | User
+
+type NftOffer {
+  currency: Currency!
+  feeAddress: String!
+  feePrice: String!
+  finishAt: Int!
+  fullPrice: String!
+  isKnownMarketplaceFeeReceiver: Boolean!
+  offerAddress: String!
+  profitPrice: String!
+  royaltyAddress: String!
+  royaltyPrice: String!
+  user: User!
+}
+
+type NftOfferList {
+  cursor: String
+  items: [NftOffer!]!
+}
+
+input NftOfferParams {
+  finishAt: Int!
+  nftAddress: String!
+  omitRoyalty: Boolean
+  price: String!
+}
+
+union NftPageLayout = NftPageLayoutDogSex | NftPageLayoutEasterEggs | NftPageLayoutVoting
+
+type NftPageLayoutDogSex {
+  isDogSex: Boolean!
+  mergeCount: Int
+  parents: [NftItem!]!
+}
+
+type NftPageLayoutEasterEggs {
+  isEasterEggs: Boolean!
+}
+
+type NftPageLayoutVoting {
+  description(lang: UserLang): String!
+  finishAt: Int!
+  isFinished: Boolean!
+  isNeedToMint: Boolean!
+  isVoteable: Boolean!
+  isVoted: Boolean!
+  startAt: Int!
+  title(lang: UserLang): String!
+  variants: [NftVotingVariant!]!
+}
+
+type NftReactionsConnection {
+  cursor: String
+  items: [Reaction!]!
+  nft: NftItem!
+}
+
+union NftSale = NftSaleAuction | NftSaleFixPrice | NftSaleFixPriceDisintar | TelemintAuction
+
+type NftSaleAuction {
+  address: String!
+  cancelButton: Boolean!
+  currency: Currency!
+  end: Boolean!
+  finishAt: Int!
+  finishButton: Boolean!
+  isCancelable: Boolean!
+  lastBidAddress: String
+  lastBidAmount: String
+  lastBidAmountWithFee: String
+  lastBidAt: Int
+  lastBidUser: User
+  marketplace: Marketplace!
+  marketplaceFeeAddress: String!
+  marketplaceFeePercent: Float!
+  maxBid: String
+  minBid: String!
+  minNextBid: String!
+  minStep: String!
+  networkFee: String
+  nftOwnerAddress: String!
+  royaltyAddress: String!
+  royaltyPercent: Float!
+  stepIsPercent: Boolean!
+  version: AuctionVersion!
+}
+
+type NftSaleDeployMessageResponse {
+  destinationAddress: String!
+  extra: String!
+  marketplaceFee: String!
+  messageCell: String!
+  recommendedValue: String!
+  resultingSaleAddress: String!
+  royaltyAmount: String!
+}
+
+type NftSaleFee {
+  isRoyaltyOptional: Boolean!
+  marketplaceFee: Float!
+  marketplaceFeeAddress: String!
+  royaltyAddress: String
+  royaltyPercent: Float
+}
+
+type NftSaleFixPrice {
+  address: String!
+  currency: Currency!
+  fullPrice: String!
+  marketplace: Marketplace!
+  marketplaceFee: String!
+  marketplaceFeeAddress: String!
+  networkFee: String
+  nftOwnerAddress: String!
+  royaltyAddress: String!
+  royaltyAmount: String!
+}
+
+type NftSaleFixPriceDisintar {
+  address: String!
+  fullPrice: String!
+  marketplace: Marketplace!
+  marketplaceFee: String!
+  marketplaceFeeAddress: String!
+  networkFee: String
+  nftOwnerAddress: String!
+  royaltyAddress: String!
+  royaltyAmount: String!
+}
+
+type NftSingleDraftDeployInfo {
+  contractAddress: String!
+  recommendedValue: String!
+  stateInit: String!
+}
+
+input NftSingleInput {
+  attributes: [MetadataAttributeInput!]
+  description: String!
+  imageId: String!
+  name: String!
+  royalty: Int
+  royaltyStr: String
+  videoId: String
+}
+
+enum NftStateBeforeSale {
+  Lose
+  Win
+}
+
+type NftVotingResponse {
+  isVoted: Boolean!
+  variants: [NftVotingVariant!]!
+}
+
+type NftVotingVariant {
+  isChecked: Boolean!
+  key: String!
+  statsCount: Int!
+  statsPercent: String!
+  text(lang: UserLang): String!
+}
+
+union NftWarningBanner = NftBanFromFragment
+
+type NoGame {
+  isNoGame: Boolean!
+  state: GameState
+}
+
+type NotcoinPriceHistoryItem {
+  date: String!
+  price: Float!
+}
+
+union Notification = GroupLayout | SimpleLayout
+
+union NotificationAction = NotificationActionEmpty | NotificationActionUnsubscribe
+
+type NotificationActionEmpty {
+  _: Boolean
+}
+
+type NotificationActionUnsubscribe {
+  id: ID!
+}
+
+enum NotificationSettingBlockIcon {
+  auctionSettings
+  dogSexSettings
+  easterEggsSettings
+  nftCollectionSettings
+  offerSettings
+  ownNftSettings
+}
+
+type NotificationState {
+  count: Int!
+}
+
+type NotificationSubscribedCollection {
+  address: String!
+  collection: NftCollection
+  settings: CollectionNotificationSettings!
+}
+
+type NotificationSubscribedNft {
+  address: String!
+  nft: NftItem
+  settings: CollectionNotificationSettings!
+}
+
+input NotificationTypeData {
+  auctionBidMyNft: NTAuctionBidMyNft
+  auctionCancel: NTAuctionCancel
+  auctionEndsSoon: NTAuctionEndsSoon
+  auctionFinish: NTAuctionFinish
+  auctionOverbid: NTAuctionOverbid
+  auctionWin: NTAuctionWin
+  collectionPutUpForAuction: NTCollection
+  collectionPutUpForSale: NTCollection
+  collectionSold: NTCollection
+  dogSexLinkCreated: NTDogSexLinkCreated
+  dogSexMergeSuccess: NTDogSexMergeSuccess
+  easterEggsDraw: NTEasterEggs
+  easterEggsLose: NTEasterEggs
+  easterEggsNextRound: NTEasterEggs
+  easterEggsNextSale: NTEasterEggs
+  easterEggsWin: NTEasterEggs
+  launchpadStart: NTLaunchpadStart
+  nftPutUpForAuction: NTNft
+  nftPutUpForSale: NTNft
+  nftSold: NTNft
+  offerAccept: NTOfferAccept
+  offerDecline: NTOfferDecline
+  offerExpired: NTOfferExpired
+  offerMyNft: NTOfferMyNft
+  sellOwnNft: NTSellOwnNft
+}
+
+type NotificationsList {
+  cursor: String
+  lastId: ID
+  notifications: [Notification!]
+}
+
+type NotificationsSetting {
+  key: SettingsNames!
+  name: String!
+  value: Boolean!
+}
+
+type NotificationsSettingsBlock {
+  icon: NotificationSettingBlockIcon!
+  name: String!
+  settings: [NotificationsSetting!]!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+}
+
+input PageViewEvent {
+  clientTimestampMs: Float!
+  firstInSession: Boolean!
+  firstInTab: Boolean!
+  pageHash: String
+  pageId: String
+  pageTitle: String!
+  pageType: String!
+  url: String!
+}
+
+type PearlCounter {
+  badgeType: BadgeType!
+  priority: Int
+  value: String!
+}
+
+enum PearlIconType {
+  balance
+  collectionHolders
+  custom
+  everyone
+}
+
+type PearlImage {
+  badgeType: BadgeType!
+  image: String!
+}
+
+type PearlItem {
+  additionalLimitation: PearlLimitation
+  artistName: String!
+  artistUrl: String!
+  counters: [PearlCounter]!
+  date: String!
+  description: String!
+  id: ID!
+  images: [PearlImage!]!
+  isFinished: Boolean!
+  limitation: PearlLimitation
+  title: String!
+  url: String
+}
+
+type PearlLimitation {
+  icon: PearlLimitationIcon
+  text: String!
+}
+
+type PearlLimitationIcon {
+  icon: String
+  iconType: PearlIconType!
+}
+
+type PearlsChannelStatsResponse {
+  numberOfTrades: Int!
+  subscribersCount: Int!
+  totalVolume: String!
+}
+
+type PearlsChannelsItem {
+  address: String
+  avatar: String!
+  cover: String!
+  description: String!
+  id: ID!
+  slug: String!
+  socialLinks: [SocialLink!]
+  title: String!
+}
+
+type PearlsDropsItem {
+  collectionAddress: String
+  date: String!
+  description: String!
+  id: ID!
+  images: [PearlImage!]!
+  nftCount: Int!
+  nftImages: [String!]
+  pearlsChannel: PearlsChannelsItem
+  pearlsChannelId: Int!
+  slug: String!
+  subDescription: String
+  subDescriptionIcon: String
+  title: String!
+}
+
+type PearlsDropsListResponse {
+  cursor: String
+  items: [PearlsDropsItem!]!
+}
+
+type PearlsListResponse {
+  cursor: String
+  data: [PearlItem]!
+}
+
+input PhotoAIEventUtm {
+  campaign: String
+  content: String
+  medium: String
+  source: String
+  term: String
+}
+
+type PhotoAIFillBalanceResponse {
+  tx: TonTx!
+}
+
+input PhotoAIFrontEvent {
+  continueTap: Boolean
+  createPhotoTap: Boolean
+  genderChoseTap: Boolean
+  launch: Boolean
+  page: String!
+  pageView: String
+  payTap: Boolean
+  paymentPopupCloseButtonTap: Boolean
+  paymentPopupView: Boolean
+  photoUploadTap: Boolean
+  shareLinkTap: Boolean
+  sharePhotoTap: Boolean
+  styleChoseTap: PhotoAIStyleChoseTapEvent
+  timeMs: Float!
+  walletConnectTap: Boolean
+}
+
+enum PhotoAIGender {
+  man
+  woman
+}
+
+input PhotoAIGenerateInput {
+  styleId: String!
+}
+
+type PhotoAIGenerateResponse {
+  generationId: String!
+}
+
+type PhotoAIGeneration {
+  id: ID!
+  imageUrlList: [String!]
+}
+
+type PhotoAIGetGenerationByIdResponse {
+  generation: PhotoAIGeneration
+}
+
+type PhotoAIGetGenerationHistoryResponse {
+  cursor: String
+  items: [PhotoAIGeneration!]!
+}
+
+type PhotoAIGetStylesResponse {
+  cursor: String
+  items: [PhotoAIStyle!]!
+}
+
+input PhotoAISaveEventPayload {
+  events: [PhotoAIFrontEvent!]!
+  utm: PhotoAIEventUtm
+  visitorId: String!
+}
+
+type PhotoAIStyle {
+  id: String!
+  imageUrl: String!
+  name: String!
+  styleId: String!
+}
+
+input PhotoAIStyleChoseTapEvent {
+  styleId: String!
+}
+
+input PhotoAIUpdateUserInput {
+  gender: PhotoAIGender
+  photoId: String
+}
+
+type PhotoAIUser {
+  gender: PhotoAIGender
+  id: ID!
+  photoUrl: String
+}
+
+type PhotoAIUserCredentials {
+  balance: String!
+  userId: Int!
+  walletAddress: String!
+}
+
+input PhotoAIUserInput {
+  gender: PhotoAIGender!
+  photoId: String!
+}
+
+type PhotoAIUserProfileResponse {
+  credentials: PhotoAIUserCredentials!
+  user: PhotoAIUser!
+}
+
+type PocketCheckPaymentResponse {
+  status: PocketPaymentStatus!
+}
+
+type PocketCollectible {
+  backdrop: PocketCollectibleAttribute!
+  comment: String
+  countAvailable: Int
+  countRevealed: Int
+  dateCreated: String!
+  dropId: Int!
+  id: Int!
+  image: String!
+  model: PocketCollectibleAttribute!
+  pocketDrop: PocketDropForCollectible!
+  revealed: Boolean!
+  symbol: PocketCollectibleAttribute!
+  tgOwnerId: String!
+}
+
+type PocketCollectibleAttribute {
+  name: String!
+  rarity: Float!
+}
+
+type PocketCollectibleAttributePreview {
+  image: String!
+  name: String!
+  rarity: Float!
+  s3Key: String!
+}
+
+type PocketCollectibleBase {
+  dropId: Int!
+  id: Int!
+  image: String!
+  maxCollectiblesCount: Int
+  revealed: Boolean!
+  tgOwnerId: String!
+}
+
+type PocketDrop {
+  artist: String!
+  artistIcon: String!
+  collectibles: [PocketCollectibleBase!]
+  collectiblesReceived: Int!
+  collectorsCount: Int
+  cover: String!
+  date: String!
+  description: String!
+  id: Int!
+  isCurrentUserSubscribed: Boolean
+  maxCollectiblesCount: Int!
+  revealPrice: Int!
+  slug: String!
+  title: String!
+}
+
+type PocketDropForCollectible {
+  id: Int!
+  maxCollectiblesCount: Int!
+  revealPrice: Int!
+  slug: String!
+  title: String!
+}
+
+type PocketDropPreview {
+  backdropValues: [PocketCollectibleAttributePreview!]!
+  defaultCollectibleImage: String!
+  id: Int!
+  modelValues: [PocketCollectibleAttributePreview!]!
+  slug: String!
+  symbolValues: [PocketCollectibleAttributePreview!]!
+  title: String!
+}
+
+input PocketEventData {
+  price: Int!
+}
+
+input PocketFrontEvent {
+  eventData: PocketEventData
+  eventName: String
+  page: String!
+  timeMs: Float!
+}
+
+type PocketPayment {
+  link: String!
+  purchaseId: Int!
+}
+
+type PocketPaymentResponse {
+  payment: PocketPayment!
+}
+
+enum PocketPaymentStatus {
+  failed
+  paid
+  progress
+}
+
+input PocketSaveEventPayload {
+  events: [PocketFrontEvent!]!
+}
+
+type PocketUser {
+  createdAt: String!
+  fullName: String
+  isPremium: Boolean!
+  lang: UserLang!
+  telegramId: String!
+  userName: String
+}
+
+type Price {
+  rub: Float!
+  ton: Float!
+  usd: Float!
+}
+
+type PriceBadge {
+  price: String
+  type: PriceBadgeType!
+}
+
+enum PriceBadgeType {
+  AuctionBidNft
+  OfferNft
+}
+
+input PromotionBannerClick {
+  bannerName: String!
+  clientTimestampMs: Float!
+  pageHash: String
+  pageId: String
+  pageTitle: String!
+  pageType: String!
+  url: String!
+}
+
+type Query {
+  absurdDropStatus(userAddress: String!): AbsurdDropStatus!
+  adminActionsHistoryList(after: String, entityAddress: String!, first: Int!): AdminActionsHistoryListResponse!
+  alphaNftCollectionFilter(address: String!, query: String): NftCollectionFilter
+  alphaNftCollectionSearch(after: String, first: Int!, query: String, sort: String): NftCollectionSearchConnection!
+  alphaNftCollectionStats(address: String!): NftCollectionStats
+  alphaNftItemByAddress(address: String!): NftItem
+  alphaNftItemSearch(after: String, attributes: String, first: Int!, query: String, sort: String): NftItemSearchConnection!
+  alphaNftItemsByAddressList(addressList: [String!]!): [NftItem!]!
+  auctionsTop(after: String, first: Int!, type: AuctionsTopType!): NftItemConnection!
+  bannerInfo(lang: UserLang!): BannerResponse!
+  checkGame(nftAddress: String!): GameReponse!
+  checkGetGemsDns(domain: String!): GetGemsDnsInfo!
+  checkGetGemsDnsIsFree(domain: String!): GetGemsDnsStatus!
+  checkSubdomainDnsIsFree(collectionAddress: String!, domain: String!): SubdomainStatus!
+  checkUserAdmin: Boolean!
+  collectibleById(id: Int!): PocketCollectible
+  collectionNotifications(collectionAddress: String!): CollectionNotificationSettings!
+  collectionNotificationsList(after: String, first: Int!): CollectionNotificationsList!
+  collectionSalesTop(after: String, categoryId: String, collectionAddress: String!, date: String, first: Int!): NftItemHistoryConnection!
+  collectionsForDeployTo(count: Int, cursor: String): NftCollectionConnection! @deprecated(reason: "use getCreatedCollections")
+  countCollectionsNftsByUser(after: String, first: Int!, userAddress: String!): CollectionNftsCountConnection!
+  countHistoryNftCollection(categoryId: String, collectionAddress: String!, time: Int): NftItemHistoryCounts!
+  countSbtCollectionsNftsByUser(after: String, first: Int!, userAddress: String!): CollectionNftsCountConnection!
+  currentSession: AuthSession
+  dogSexGetMerge(mergeId: String!): DogSexMerge!
+  dogSexHasRadioActiveNft: Boolean!
+  draftNftCollectionsByUserId(after: String, first: Int!, userId: Int!): DraftNftCollectionsByUserId!
+  draftNftItemsByUserId(after: String, first: Int!, userId: Int!): DraftNftItemsByUserId!
+  featuredBanners(lang: UserLang!, page: String, preview: Boolean): [FeaturedBanner!]!
+  gemsWalletCheckAvatar(nftAddress: String!): Boolean!
+  gemsWalletDapps(cursor: String, first: Int!): GemsWalletDappResponse!
+  gemsWalletGetActiveRequest: GemsWalletRequest
+  getAddressesOfVerifiedCollections: [String!]!
+  getAllDrops: [PocketDropPreview!]!
+  getAvailableJettonsForSale(collectionAddress: String): [CurrencyInfo!]!
+  getCurrencyInfo(currency: Currency!): CurrencyInfo!
+  getGetGemsDnsList(after: String, first: Int!): GetGetGemsDnsListResponse!
+  getLinkedGetGemsDns(address: String!): GetLinkedGetGemsDnsResponse!
+  getMyGemsWallet: GemsWalletAuth
+  historyCollectionNftItems(after: String, categoryId: String, collectionAddress: String!, first: Int!, maxTime: Int, minTime: Int, types: [HistoryType!]): NftItemHistoryConnection!
+  historyCollectionSales(categoryId: String, collectionAddress: String!, daysCount: Int, timezoneOffset: Int): NftCollectionSalesConnection!
+  historyNftItem(address: String!, after: String, first: Int!, maxTime: Int, minTime: Int, types: [HistoryType!]): NftItemHistoryConnection!
+  historySoldNftItem(address: String!): [NftItemHistory!]!
+  launchpadBillById(id: String!): LaunchpadBill
+  launchpadItemBySlug(lang: UserLang, slug: String!): LaunchpadItem
+  launchpadReservedBillsBySlug(after: String, first: Int!, slug: String!): LaunchpadBills!
+  launchpadStartNotificationSubscriptionStatus(launchpadItemId: String!): SaveLaunchpadStartNotificationSubscriptionStatus!
+  lostDogsWayClaimStatus: LostDogsWayClaimStatusResponse!
+  lostDogsWayCommonTasks: LostDogsWayCommonTasksResponse!
+  lostDogsWayDailyGifts: LostDogsWayDailyGiftsResponse!
+  lostDogsWayGameBoosts: LostDogsWayGameBoostsResponse!
+  lostDogsWayGameDogsInfo: LostDogsWayGameDogsInfoResponse!
+  lostDogsWayGameStatus: LostDogsWayGameStatusResponse!
+  lostDogsWayLeagueInfo(first: Int!, league: LostDogsWayLeagueName!): LostDogsWayLeagueInfoResponse!
+  lostDogsWayMovieDailyGifts: LostDogsWayMovieDailyGiftsResponse!
+  lostDogsWayMovieGameBoosts: LostDogsWayMovieGameBoostsResponse!
+  lostDogsWayMovieGameNotcoinInfo: LostDogsWayMovieGameNotcoinInfoResponse!
+  lostDogsWayMovieGameStatus: LostDogsWayMovieGameStatusResponse!
+  lostDogsWayMovieUserCommonTasksDone: [ID!]!
+  lostDogsWayMovieUserInfo: LostDogsWayMovieUserInfoResponse!
+  lostDogsWayMovieUserReferralInfo: LostDogsWayUserReferralInfoResponse!
+  lostDogsWayMovieUserVotesHistory(after: String, first: Int!): LostDogsWayMovieUserChoicesHistoryResponse!
+  lostDogsWayMovieWoofPersonalTasks: LostDogsWayWoofPersonalTasksResponse!
+  lostDogsWayUserCommonTasksDone: [ID!]!
+  lostDogsWayUserInfo: LostDogsWayUserInfoResponse!
+  lostDogsWayUserLeagueInfo: LostDogsWayUserLeagueInfoResponse!
+  lostDogsWayUserProfile: LostDogsWayUserProfileResponse!
+  lostDogsWayUserReferralInfo: LostDogsWayUserReferralInfoResponse!
+  lostDogsWayUserVotesHistory(after: String, first: Int!): LostDogsWayUserChoicesHistoryResponse!
+  lostDogsWayVotesHistory: LostDogsWayVotesHistoryResponse!
+  lostDogsWayWoofBoosterRateInfo: LostDogsWayWoofBoosterRateInfoResponse!
+  lostDogsWayWoofPersonalTasks: LostDogsWayWoofPersonalTasksResponse!
+  mainPageTopCollection(after: String, first: Int!, kind: MPTopKind!): MPCollectionTop!
+  mainPageTopGift(after: String, first: Int!, kind: MPTopKind!): MPCollectionTop!
+  marketplaceFeeParams: MarketplaceFeeParams!
+  me: User
+  mutantToadzStatus(initData: String!): MutantToadzStatus!
+  nftAuctionBidHistory(auctionAddress: String!, cursor: String, first: Int!): NftAuctionBidHistory!
+  nftCategoryById(id: String): NftCategory
+  nftCollectionByAddress(address: String!): NftCollection
+  nftCollectionCategories(address: String): [NftCategory!]!
+  nftCollectionComments(address: String!, after: String, first: Int!): NftCommentConnection!
+  nftCollectionDeployMessage(config: CollectionDeployParams!): SmcDeployMessageResponse! @deprecated(reason: "No longer supported")
+  nftCollectionItems(address: String!, after: String, first: Int!): NftItemConnection!
+  nftCollectionSales(collectionAddress: String!, first: Int): [NftItemSale!]!
+  nftCollections(after: String, filter: FilterInput, first: Int!): NftCollectionConnection!
+  nftCollectionsByOwner(after: String, first: Int!, ownerAddress: String!): NftCollectionConnection!
+  nftComments(after: String, collectionAddress: String, first: Int!, nftAddress: String): NftCommentConnection!
+  nftFixPriceSaleCalculateFee(currency: Currency, forChangePrice: Boolean, nftAddress: String!): NftSaleFee!
+  nftFixPriceSaleDebugTransferRecommendedValue(nftAddress: String!): String!
+  nftFixPriceSaleIsDeployed(saleAddress: String!): Boolean!
+  nftItems(after: String, filter: FilterInput, first: Int!): NftItemConnection! @deprecated(reason: "nobody used it")
+  nftItemsByOwner(after: String, first: Int!, ownerAddress: String!): NftItemConnection!
+  nftListWithUserOffer(after: String, first: Int!, userAddress: String!): NftItemConnection!
+  nftNotifications(nftAddress: String!): CollectionNotificationSettings!
+  nftNotificationsList(after: String, first: Int!): NftNotificationsList!
+  nftOfferList(cursor: String, first: Int!, nftAddress: String!): NftOfferList!
+  nftOfferListByCurrentUser(cursor: String, first: Int!, nftAddress: String): NftOfferList!
+  nftSingles(after: String, first: Int!): NftItemConnection!
+  nftSinglesByEditor(after: String, first: Int!, ownerAddress: String!): NftItemConnection!
+  nftTopCategoriesByCollectionAddress(address: String!, after: String, first: Int!, kind: NftCollectionCategoriesTopKind!): NftCategoryTop!
+  notificationsList(cursor: String, lang: UserLang, limit: Int!): NotificationsList!
+  notificationsSettings(lang: UserLang): [NotificationsSettingsBlock!]!
+  ownerStatsNftCollection(after: String, categoryId: String, collectionAddress: String!, first: Int!): NftCollectionOwnerStatsConnection!
+  pearlsChannelBySlug(lang: UserLang!, slug: String!): PearlsChannelsItem
+  pearlsChannelStats(slug: String!): PearlsChannelStatsResponse
+  pearlsCheckUserSubscription(channelId: Int!): Boolean!
+  pearlsDropBySlug(lang: UserLang!, slug: String!): PearlsDropsItem
+  pearlsDropsList(after: String, first: Int!, lang: UserLang!): PearlsDropsListResponse!
+  pearlsDropsListByChannel(after: String, channelId: Int!, first: Int!, lang: UserLang!): PearlsDropsListResponse!
+  pearlsList(after: String, first: Int!, lang: UserLang!): PearlsListResponse!
+  photoAIGetGenerationById(generationId: String!): PhotoAIGetGenerationByIdResponse!
+  photoAIGetGenerationHistory(after: String, first: Int!): PhotoAIGetGenerationHistoryResponse!
+  photoAIGetStyles(after: String, first: Int!): PhotoAIGetStylesResponse!
+  photoAIGetUserProfile: PhotoAIUserProfileResponse!
+  ping: String!
+  pocketDropBySlug(slug: String!): PocketDrop!
+  pocketPurchaseStatus(purchaseId: Int!): PocketCheckPaymentResponse!
+  rates(timestampSec: Int): Rates!
+  reactionsByNftAddresses(addresses: [String!]!, uid: String!): ReactionsByNftAddresses!
+  reactionsLikedNfts(after: String, first: Int!, uid: String!): NftItemConnection!
+  reactionsNft(address: String!, after: String, first: Int!): NftReactionsConnection!
+  resolveAddress(address: String!): ResolveAddressResult
+  singleNftDeployMessage(config: SingleNftDeployParams!): SmcDeployMessageResponse! @deprecated(reason: "No longer supported")
+  statsNftCollection(categoryId: String, collectionAddress: String!): NftCollectionStatsCount!
+  subdomainPriceData(collectionAddress: String!): SubdomainPrice
+  tBattleGameStatus: TBattleGameStatusResponse!
+  tBattleUser: TBattleUser!
+  tBattleUserOnboardingStatus: TBattleUserOnboardingStatusResponse!
+  tBattleUsersTop(round: Int, roundsCount: Int!, usersCount: Int!): TBattleUsersTopResponse!
+  tvEpisodeVideo(episodeId: Int!): TvEpisodeVideoResponse!
+  tvEpisodes: TvEpisodesResponse!
+  tvPurchaseStatus(purchaseId: Int!): TvCheckPaymentResponse!
+  tvSeriesUserStatus: TvSeriesUserStatusResponse!
+  userBalance: UserBalance!
+  userByAddress(address: String!): User
+  userCollectibles(after: String, first: Int!): UserCollectiblesResponse!
+  userCounts(userAddress: String!): UserCounts
+  userHistoryList(cursor: String, lang: UserLang, limit: Int!, types: [HistoryDefinedIconType!], userAddress: String!): UserHistoryList!
+  userStats(userAddress: String!): UserStats
+  walletEggActiveGames(after: String, first: Int!): WalletEggGameResponse!
+  walletEggGameByEggId(eggId: ID!): WalletEggGame
+  walletEggGameById(gameId: ID!): WalletEggGame!
+  walletEggGetById(eggId: ID!): WalletEgg!
+  walletEggGetTaskList: [WETask!]!
+  walletEggList(count: Int!, cursor: String, owner: String): WalletEggListResponse!
+  walletEggOverGames(after: String, first: Int!, userAddress: String): WalletEggGameResponse!
+  walletEggSaleSuggest(nftAddress: String!): WalletEggUserSaleSuggestResponse!
+  walletEggStats: WalletEggStatistics!
+  walletEggStatus: WalletEggStatus!
+  walletEggTop(after: String, first: Int!, type: WalletEggRatingType!): WalletEggTopResponse!
+  walletEggUser(id: ID!): WalletEggUser!
+  walletEggUserStat(userAddress: String!): WalletEggUserStatResponse!
+}
+
+type RarityAttribute {
+  maxShapeCount: Int
+  rarityPercent: String!
+  traitType: String!
+  value: String
+}
+
+type Rates {
+  tonToRub: Float!
+  tonToUsd: Float!
+}
+
+type Reaction {
+  createdAt: Int!
+  id: ID!
+  type: String!
+  user: User!
+}
+
+type ReactionCounter {
+  likes: Int!
+}
+
+enum ReactionType {
+  Like
+}
+
+type ReactionsByNftAddress {
+  address: String!
+  reactions: [Reaction]!
+}
+
+type ReactionsByNftAddresses {
+  items: [ReactionsByNftAddress]!
+}
+
+type ReadNotifications {
+  count: Int!
+}
+
+type ResolveAddressResult {
+  address: String
+  isCustomContract: Boolean
+}
+
+union RoundData = DrawRound | LosePrevRound | LoseRound | MakeMove | WaitingOpponent | WinRound
+
+type RoyaltyParams {
+  royaltyAddress: String!
+  royaltyBase: Float!
+  royaltyFactor: Float!
+}
+
+input RoyaltyParamsInput {
+  royaltyAddress: String!
+  royaltyBase: Int!
+  royaltyFactor: Int!
+}
+
+type SaleItem {
+  burnCount: Int
+  cancelAuctionCount: Int
+  cancelSaleCount: Int
+  count: Int!
+  date: Int!
+  mintCount: Int
+  putUpForAuctionCount: Int
+  putUpForSaleCount: Int
+  sum: String!
+  sumAvg: String!
+  transferCount: Int
+}
+
+type SaveLaunchpadStartNotificationSubscriptionStatus {
+  isSubscribed: Boolean!
+}
+
+input SaveNotificationsSetting {
+  key: SettingsNames!
+  value: Boolean!
+}
+
+enum SettingsNames {
+  auctionBidMyNft
+  auctionCancel
+  auctionEndsSoon
+  auctionFinish
+  auctionOverbid
+  auctionWin
+  collectionPutUpForAuction
+  collectionPutUpForSale
+  collectionSold
+  dnsSoonOutdated
+  dogSexLinkCreated
+  dogSexMergeSuccess
+  eeNextStage
+  eeRoundActivity
+  nftPutUpForAuction
+  nftPutUpForSale
+  nftSold
+  offerAccept
+  offerDecline
+  offerExpired
+  offerMyNft
+  sellOwnNft
+}
+
+type SimpleLayout {
+  actions: [NotificationAction!]
+  buttonText: String
+  createdAt: Int!
+  icon: LayoutIconType!
+  id: ID!
+  isRead: Boolean!
+  link: String
+  linkToCopy: String
+  media: NftContent!
+  text: String!
+}
+
+type SimpleTemporaryStorageValue {
+  expiresAt: Int!
+  key: String!
+  publicUrl: String!
+  value: String!
+}
+
+type SimpleUserHistoryLayout {
+  createdAt: Int!
+  currency: Currency!
+  header: String
+  icon: HistoryLayoutIconType!
+  id: ID!
+  link: String!
+  media: NftContent!
+  price: String
+  priceBadge: PriceBadge
+  subHeader: String
+  title: String!
+}
+
+input SingleNftDeployParams {
+  content: String!
+  ownerAddress: String!
+}
+
+type SmcDeployMessageResponse {
+  contractAddress: String!
+  messageBody: String
+  recommendedValue: String!
+  stateInit: String
+}
+
+type SocialLink {
+  type: SocialLinkType!
+  url: String!
+}
+
+input SocialLinkInput {
+  type: SocialLinkType!
+  url: String!
+}
+
+enum SocialLinkType {
+  Android
+  Discord
+  Instagram
+  Ios
+  TelegramBot
+  TelegramChannel
+  TelegramChat
+  TelegramEn
+  TelegramRu
+  Tiktok
+  Twitter
+  VK
+  Website
+  Youtube
+}
+
+type StarsTx {
+  check: String!
+  url: String!
+}
+
+input SubdomainData {
+  numberPrices: SubdomainDiffPrice
+  price: String
+  royaltyParams: SubdomainRoyalty!
+}
+
+input SubdomainDiffPrice {
+  four: String!
+  one: String!
+  six: String!
+  two: String!
+}
+
+type SubdomainDiffPriceData {
+  four: String!
+  one: String!
+  six: String!
+  two: String!
+}
+
+type SubdomainPrice {
+  collectionAddress: String!
+  numberPrices: SubdomainDiffPriceData
+  price: String
+}
+
+input SubdomainPriceData {
+  numberPrices: SubdomainDiffPrice
+  price: String
+}
+
+input SubdomainRoyalty {
+  royaltyAddress: String!
+  royaltyStr: String!
+}
+
+union SubdomainStatus = SubdomainStatusFree | SubdomainStatusOccupied
+
+type SubdomainStatusFree {
+  fullDomain: String!
+  imageUrl: String!
+  minBid: String!
+  name: String!
+}
+
+type SubdomainStatusOccupied {
+  fullDomain: String!
+  nft: NftItem!
+}
+
+type Subscription {
+  easterEggsGameSwitchState: GameSwitchState!
+  easterEggsState: GameReponse!
+  gemsWalletEvents: GemsWalletEvent!
+  lifecheck: String!
+  lostDogsWayEvents: LostDogsWayEvents!
+  nftItemWatch(nftAddress: String!): NftItemUpdateEvent!
+  notificationsState(lang: UserLang): Notification!
+  walletEggEvents: WalletEggEvent!
+}
+
+type SyncCollectionStatus {
+  collection: NftCollection!
+  reason: String
+  status: SyncStatus!
+}
+
+type SyncNftStatus {
+  nft: NftItem!
+  reason: String
+  status: SyncStatus!
+}
+
+enum SyncStatus {
+  Actual
+  ContentFailed
+  Failed
+  Success
+}
+
+type TBattleGameStatusResponse {
+  activeJetton: Int!
+  endAt: Int!
+  jettonBalance: Float!
+  jettonLimit: Float!
+  limit: Float!
+  round: Int!
+  total: Float!
+  usdtBalance: Float!
+}
+
+type TBattleTopUser {
+  avatar: String
+  collected: Int!
+  id: String!
+  round: Int!
+  username: String!
+}
+
+type TBattleUser {
+  avatar: String
+  id: ID!
+  team: Int!
+  username: String!
+  wallet: String
+}
+
+type TBattleUserOnboardingStatusResponse {
+  onboarded: Boolean!
+}
+
+type TBattleUsersTopEntry {
+  round: Int!
+  totalJettons: Int!
+  totalUsdt: Float!
+  users: [TBattleTopUser!]!
+}
+
+type TBattleUsersTopResponse {
+  cursor: Int!
+  top: [TBattleUsersTopEntry!]!
+}
+
+input TapGetEarlyAccessEvent {
+  episode: TvEventEpisode
+  price: TvEventPrice!
+}
+
+type TelegramSettings {
+  canSendMessage: Boolean!
+  hasTelegram: Boolean!
+  userName: String
+}
+
+type TelemintAuction {
+  delayAuctionDuration: Float
+  finishAt: Float!
+  isFixPrice: Boolean!
+  isGetGemsDns: Boolean
+  lastBidAddress: String
+  lastBidAmount: String!
+  lastBidAt: Int!
+  lastBidUser: User
+  link: String
+  marketplace: Marketplace!
+  marketplaceFeePercent: Float!
+  maxBidAmount: String
+  nextBidAmount: String!
+  royaltyPercent: Float!
+}
+
+input TonConnectAuthPayload {
+  address: String!
+  authApplication: String!
+  chain: String!
+  domainLengthBytes: Int!
+  domainValue: String!
+  payload: String!
+  publicKey: String
+  signature: String!
+  timestamp: Float!
+  walletStateInit: String!
+}
+
+type TonConnectAuthSource {
+  isTonConnectAuthSource: Boolean!
+  storageJSON: String!
+  storageVersion: Float!
+}
+
+type TonKeeperAuthSource {
+  isTonKeeperAuthSource: Boolean!
+}
+
+type TonTx {
+  deadlineTimestamp: Int!
+  from: String
+  list: [TonTxItem!]!
+  to: String!
+  tonkeeperLink: String @deprecated(reason: "use top-connect way to make transaction")
+  uuid: String!
+}
+
+type TonTxContextItem {
+  key: String!
+  value: String!
+}
+
+input TonTxContextItemInput {
+  key: String!
+  value: String!
+}
+
+type TonTxItem {
+  amount: String!
+  cartLink: [TonTxItemLinkCart!]!
+  check: String!
+  context: [TonTxContextItem!]!
+  payload: String @deprecated(reason: "use payloadBoc")
+  payloadBoc: String
+  payloadType: TonTxPayloadType! @deprecated(reason: "use payloadBoc")
+  stateInit: String
+  to: String!
+}
+
+type TonTxItemLinkCart {
+  cartItemId: String!
+  resultEntityId: String!
+}
+
+enum TonTxPayloadType {
+  Cell
+  Empty
+  Text
+}
+
+enum TonTxState {
+  Failed
+  NotReady
+  Ready
+}
+
+type TonTxStatus {
+  extra: String
+  state: TonTxState!
+}
+
+enum TonTxTonkeeperStatus {
+  Broadcasted
+  Created
+  NotExist
+  Rejected
+  Took
+}
+
+type TvCheckPaymentResponse {
+  status: TvPaymentStatus!
+}
+
+union TvContent = TvContentBuy | TvContentInvite | TvContentNotAvailable | TvContentWatchExternal | TvContentWatchInApp
+
+type TvContentBuy {
+  freeAt: Int
+  image: String!
+  price: TvPrice!
+}
+
+type TvContentInvite {
+  image: String!
+  requiredCount: Int!
+  url: String!
+}
+
+type TvContentNotAvailable {
+  earlyAccessAt: Int
+  freeAt: Int
+  image: String!
+}
+
+type TvContentWatchExternal {
+  image: String!
+  url: String!
+}
+
+type TvContentWatchInApp {
+  image: String!
+}
+
+enum TvCurrency {
+  STARS
+}
+
+type TvEpisode {
+  content: TvContent!
+  id: Int!
+  isWatched: Boolean!
+  name: String!
+  number: Int!
+}
+
+type TvEpisodeVideoResponse {
+  video: String!
+}
+
+type TvEpisodesResponse {
+  items: [TvEpisode!]!
+}
+
+input TvEventEpisode {
+  id: Int!
+  number: Int!
+}
+
+input TvEventEpisodeWithPrice {
+  episode: TvEventEpisode!
+  price: TvEventPrice!
+}
+
+enum TvEventPage {
+  onboarding1
+  onboarding2
+  onboarding3
+  project
+}
+
+input TvEventPrice {
+  currency: TvCurrency!
+  value: String!
+}
+
+input TvFrontEvent {
+  inviteFriend: TvEventEpisode
+  launch: Boolean
+  loadVideo: TvLoadVideoEvent
+  pageView: TvEventPage
+  tapGetEarlyAccess: TapGetEarlyAccessEvent
+  tapInviteFriendToWatchFree: TvEventEpisode
+  tapUnlockEpisode: TvEventEpisodeWithPrice
+  tapWatchNowFor: TvEventEpisodeWithPrice
+  timeMs: Float!
+  watchEpisode: TvEventEpisode
+  watchVideo: TvWatchVideoEvent
+}
+
+input TvFrontEventUtm {
+  campaign: String
+  content: String
+  medium: String
+  source: String
+  term: String
+}
+
+input TvLoadVideoEvent {
+  canplayAt: Float
+  episodeId: Int!
+  loadeddataAt: Float
+  loadedmetadataAt: Float
+  loadstartAt: Float
+  mountAt: Float
+  sourceLoadedAt: Float
+  success: Boolean!
+}
+
+type TvPayment {
+  link: String!
+  purchaseId: Int!
+}
+
+type TvPaymentResponse {
+  payment: TvPayment!
+}
+
+enum TvPaymentStatus {
+  failed
+  paid
+  progress
+}
+
+type TvPrice {
+  currency: TvCurrency!
+  value: String!
+}
+
+input TvSaveEventPayload {
+  events: [TvFrontEvent!]!
+  utm: TvFrontEventUtm
+}
+
+type TvSeriesUserStatus {
+  currentEpisode: TvEpisode
+  earlyAccessBought: Boolean!
+  price: TvPrice!
+}
+
+type TvSeriesUserStatusResponse {
+  status: TvSeriesUserStatus!
+}
+
+input TvWatchVideoEvent {
+  duration: Float
+  episodeId: Int!
+  mountAt: Float
+  p30: Float
+  p60: Float
+  p85: Float
+  playAt: Float
+}
+
+input TxReadyEvent {
+  clientTimestampMs: Float!
+  tx: CheckTxPayload!
+}
+
+input UpdateCollectionInput {
+  address: String!
+  blockchainContent: BlockchainContent
+  isAllowJettonSales: Boolean
+  isBadSalesHidden: Boolean
+  isRarityEnabled: Boolean
+}
+
+type UpdateCollectionResult {
+  collection: NftCollection!
+  tx: TonTx
+}
+
+type UrlIcon {
+  url: String!
+}
+
+type User {
+  avatar: String!
+  cover: String
+  description: String
+  domain: String
+  id: ID!
+  isBanned: Boolean
+  isBurn: Boolean!
+  isCollectionCreator: Boolean!
+  isHiddenExist: Boolean!
+  lang: UserLang!
+  name: String!
+  notificationsState: NotificationState!
+  permissions: [UserPermission!]!
+  socialLinks: [SocialLink!]!
+  telegram: TelegramSettings!
+  wallet: String!
+}
+
+type UserBalance {
+  value: String!
+}
+
+type UserCollectiblesResponse {
+  cursor: Int
+  items: [PocketCollectibleBase!]!
+}
+
+type UserCounts {
+  collectedCount: Int!
+  collectionsCount: Int!
+  createdCount: Int!
+  favoritesCount: Int!
+  hiddenCount: Int!
+  offersCount: Int!
+  sbtCount: Int!
+  updatedAt: Int!
+}
+
+type UserHistoryGroupLayout {
+  createdAt: Int!
+  icon: HistoryLayoutIconType!
+  id: ID!
+  items: [UserHistoryLayout!]!
+  title: String!
+}
+
+union UserHistoryItem = SimpleUserHistoryLayout | UserHistoryGroupLayout
+
+union UserHistoryLayout = EmptyLayout | SimpleUserHistoryLayout
+
+type UserHistoryList {
+  cursor: String
+  items: [UserHistoryItem!]
+}
+
+input UserInput {
+  avatarId: String
+  coverId: String
+  description: String
+  name: String
+  socialLinks: [SocialLinkInput!]
+}
+
+enum UserLang {
+  en
+  ru
+}
+
+enum UserPermission {
+  SuperAdmin
+  User
+}
+
+type UserPreview {
+  avatar: String!
+  domain: String
+  name: String
+  wallet: String!
+}
+
+type UserStats {
+  balance: String!
+  tradingCount: Int!
+  tradingVolume: String!
+  updatedAt: Int!
+}
+
+input WEOpponentProfileClicked {
+  opponentId: String!
+  source: String!
+}
+
+union WETask = WETaskBuyOnGetgems | WETaskConnectWallet | WETaskDalyFreeEgg | WETaskInviteFriend
+
+type WETaskBuyOnGetgems {
+  description: String!
+  title: String!
+  url: String!
+}
+
+enum WETaskCode {
+  WETaskConnectWallet
+  WETaskDalyFreeEgg
+  WETaskInviteFriend
+}
+
+type WETaskConnectWallet {
+  description: String!
+  title: String!
+}
+
+type WETaskDalyFreeEgg {
+  description: String!
+  title: String!
+}
+
+type WETaskInviteFriend {
+  copyLink: String!
+  description: String!
+  status: String
+  title: String!
+}
+
+type WETaskResult {
+  done: Boolean!
+  newEggs: Int
+  rejectReasonText: String
+}
+
+type WaitingOpponent {
+  roundEndsAt: Int!
+  yourMove: GameMove
+}
+
+type WalletEgg {
+  canPutOnSale: Boolean!
+  claimed: Boolean!
+  id: ID!
+  image: String!
+  isBroken: Boolean!
+  level: Int!
+  link: String!
+  name: String!
+  price: Float
+}
+
+union WalletEggEvent = WalletEggEventDeleteGame | WalletEggEventNewGame | WalletEggEventUpdateBanner | WalletEggEventUpdateCounters | WalletEggEventUpdateGame | WalletEggEventUpdateGameState
+
+type WalletEggEventDeleteGame {
+  gameId: ID!
+}
+
+type WalletEggEventNewGame {
+  game: WalletEggGame!
+  gameId: ID!
+}
+
+type WalletEggEventUpdateBanner {
+  newBanner: WalletEggGameBanner
+}
+
+type WalletEggEventUpdateCounters {
+  activeGamesCount: Int
+  overGamesCount: Int
+}
+
+type WalletEggEventUpdateGame {
+  game: WalletEggGame!
+  gameId: ID!
+}
+
+type WalletEggEventUpdateGameState {
+  gameState: WalletEggGameState!
+}
+
+input WalletEggFrontEvent {
+  connectTonWalletClicked: Boolean
+  getMoreEggsClicked: Int
+  joinChatClicked: Boolean
+  launch: Boolean
+  letsStartClicked: Boolean
+  myEggsClicked: Int
+  myProfileClicked: Boolean
+  opponentProfileClicked: WEOpponentProfileClicked
+  ratingClicked: Boolean
+  ratingNavigationClicked: String
+  sellBannerClicked: Int
+  showMyTelegramToggler: Boolean
+  timeMs: Float!
+  tradeClicked: Int
+  tutorialFirstRoundDone: Boolean
+  tutorialSecondRoundDone: Boolean
+  walletConnected: Boolean
+}
+
+type WalletEggGame {
+  attempt: Int!
+  bottomText: WalletEggGameBottomText
+  checkGlobalStatus: Boolean!
+  id: ID!
+  isLastAttempt: Boolean!
+  isRandomWinner: Boolean!
+  left: WalletEggGameItem!
+  prevGames: [WalletEggGamePrev!]
+  right: WalletEggGameItem
+  round: Int!
+  status: WalletEggGameStatus!
+  timer: Int
+}
+
+type WalletEggGameBanner {
+  bottom: WalletEggGameBannerFooter
+  content: String!
+  header: WalletEggGameBannerHeader!
+}
+
+type WalletEggGameBannerFooter {
+  text: String!
+  url: String!
+}
+
+type WalletEggGameBannerHeader {
+  logo: String
+  text: String!
+}
+
+enum WalletEggGameBottomText {
+  LastDrawAttempt
+  LeftLooseAfterTimeout
+  LeftOnSale
+  LeftWinAfterTimeout
+  RandomWinnerAfterTimeout
+  TooManyDraws
+}
+
+type WalletEggGameItem {
+  claimed: Boolean!
+  eggAddress: String!
+  eggName: String!
+  image: String!
+  isBroken: Boolean!
+  isWinner: Boolean!
+  move: GameMove
+  user: WalletEggUser!
+}
+
+type WalletEggGamePrev {
+  leftMove: GameMove!
+  rightMove: GameMove!
+}
+
+type WalletEggGameResponse {
+  cursor: String
+  games: [WalletEggGame!]!
+}
+
+union WalletEggGameState = GameStateAwaitPlaying | GameStateOver | GameStatePlaying | GameStateTrading
+
+enum WalletEggGameStatus {
+  Draw
+  LeftOnSale
+  LeftWin
+  RightWin
+  WaitLeftMove
+  WaitOpponent
+  WaitRightMove
+}
+
+union WalletEggGenerationButton = WalletEggGenerationBuyButton | WalletEggGenerationSellButton
+
+type WalletEggGenerationBuyButton {
+  enabled: Boolean!
+  url: String!
+}
+
+type WalletEggGenerationSellButton {
+  enabled: Boolean!
+}
+
+type WalletEggListResponse {
+  cursor: String
+  items: [WalletEgg!]!
+}
+
+type WalletEggRatingData {
+  position: Int!
+  value: Float!
+}
+
+enum WalletEggRatingType {
+  games
+  winrate
+  wins
+}
+
+input WalletEggSaleEvent {
+  events: [WalletEggFrontEvent!]!
+  utm: WalletEggSaleEventUtm
+}
+
+input WalletEggSaleEventUtm {
+  campaign: String
+  content: String
+  medium: String
+  source: String
+  term: String
+}
+
+type WalletEggStatistics {
+  eggsBroken: Int!
+  eggsInGame: Int!
+  generations: [WalletEggStatisticsGeneration]!
+  popularMove: WalletEggStatisticsMove
+  sales: Int!
+  salesInTon: String!
+  users: Int!
+}
+
+type WalletEggStatisticsGeneration {
+  buttons: [WalletEggGenerationButton!]!
+  count: Int!
+  level: Int!
+  minPrice: String
+}
+
+type WalletEggStatisticsMove {
+  count: Int!
+  move: GameMove!
+}
+
+type WalletEggStatus {
+  UQAddress: String!
+  activeGamesCount: Int
+  banner: WalletEggGameBanner
+  collectionGetgemsLink: String!
+  eggsUrl: String!
+  gameState: WalletEggGameState!
+  hasRightWallet: Boolean!
+  hasWallet: Boolean! @deprecated(reason: "use walletAddress")
+  id: ID!
+  image: String!
+  overGamesCount: Int
+  prizeFund: String!
+  showTelegramLink: Boolean!
+  userLink: String!
+  walletAddress: String
+}
+
+type WalletEggTop {
+  id: Int!
+  rating: WalletEggRatingData!
+  user: WalletEggUser!
+}
+
+type WalletEggTopResponse {
+  cursor: String
+  data: [WalletEggTop!]!
+}
+
+type WalletEggUser {
+  gamesCount: Int!
+  id: ID!
+  image: String!
+  link: String
+  name: String!
+  winsCount: Int!
+}
+
+type WalletEggUserSaleSuggestResponse {
+  minPrice: Float!
+  recommendedPrice: Float!
+  serviceFeeMin: Float!
+  serviceFeePercent: Float!
+}
+
+type WalletEggUserStatRatings {
+  games: WalletEggRatingData
+  winrate: WalletEggRatingData
+  wins: WalletEggRatingData
+}
+
+type WalletEggUserStatResponse {
+  games: WalletEggRatingData!
+  user: WalletEggUser!
+  winrate: WalletEggRatingData!
+  wins: WalletEggRatingData!
+}
+
+type WalletExtensionAuthSource {
+  isWalletExtensionAuthSource: Boolean!
+}
+
+type WinRound {
+  isRandomWin: Boolean!
+  opponentMove: GameMove
+  roundEndsAt: Int!
+  yourMove: GameMove
+}

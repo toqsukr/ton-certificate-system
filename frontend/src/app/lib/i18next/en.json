@@ -16,8 +16,16 @@
   "wallet_label": "Wallet:",
   "public_key_label": "Public Key:",
   "certificates_label": "Certificates:",
+  "chain_label": "Chain:",
+  "id_label": "Index: ",
+  "owner_label": "Owner: ",
+  "collection_label": "Organization: ",
+
+  "certificates_not_found": "Certificates Not Found",
 
   "profile_unit_title": "Account",
+
+  "certificate_info_unit_title": "Certificate Info",
 
   "user_info_unit_title": "User Information"
 }

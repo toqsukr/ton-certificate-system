@@ -62,15 +62,15 @@ export const router = createBrowserRouter([
             path: Routes.USER_INFO,
             lazy: UserInfoPageLazy,
           },
+          {
+            path: Routes.CERTIFICATE_INFO,
+            lazy: CertificateInfoPageLazy,
+          },
+          {
+            path: Routes.ORGANIZATION_INFO,
+            lazy: OrganizationInfoPageLazy,
+          },
         ],
-      },
-      {
-        path: Routes.CERTIFICATE_INFO,
-        lazy: CertificateInfoPageLazy,
-      },
-      {
-        path: Routes.ORGANIZATION_INFO,
-        lazy: OrganizationInfoPageLazy,
       },
     ],
   },
