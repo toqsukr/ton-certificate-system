@@ -12,7 +12,6 @@ const UploadCertificate = () => {
       const reader = new FileReader()
       reader.onloadend = async () => {
         const response = await metaDataService.getTempFile(reader.result as string, file.name)
-        console.log(response)
         const buffer = Buffer.from(response.data)
         metaDataService.saveData(sender, buffer.toString('base64'))
       }

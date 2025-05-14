@@ -1,11 +1,20 @@
 import { FC, PropsWithChildren, ReactNode } from 'react'
 import { IoArrowBackOutline } from 'react-icons/io5'
 
-const ContentField: FC<PropsWithChildren<{ title?: ReactNode; onBack?: () => void }>> = ({
-  children,
-  title,
-  onBack,
-}) => {
+type HeaderWithIconProps = { icon: ReactNode; text: string }
+
+const HeaderWithIcon: FC<HeaderWithIconProps> = ({ icon, text }) => {
+  return (
+    <div className='w-full flex justify-between items-center '>
+      {text}
+      {icon}
+    </div>
+  )
+}
+
+type ContentFieldProps = { title?: ReactNode; onBack?: () => void }
+
+const ContentField = ({ children, title, onBack }: PropsWithChildren<ContentFieldProps>) => {
   return (
     <section className='h-max text-white bg-[rgba(255,255,255,.05)] p-6 rounded-[1rem]'>
       {title && (
@@ -20,5 +29,7 @@ const ContentField: FC<PropsWithChildren<{ title?: ReactNode; onBack?: () => voi
     </section>
   )
 }
+
+ContentField.HeaderWithIcon = HeaderWithIcon
 
 export default ContentField

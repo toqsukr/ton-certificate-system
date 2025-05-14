@@ -1,16 +1,14 @@
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 
-const CopyableText: FC<{ text: string }> = ({ text }) => {
-  const handleClick = () => {
-    alert('Success copied!')
-    navigator.clipboard.writeText(text)
-  }
-
+const LinkText: FC<{ text: string; target: string }> = ({ text, target }) => {
   return (
-    <span className='cursor-pointer underline' onClick={handleClick}>
-      {text}
-    </span>
+    <p>
+      <Link to={target} className='cursor-pointer underline'>
+        {text}
+      </Link>
+    </p>
   )
 }
 
-export default CopyableText
+export default LinkText

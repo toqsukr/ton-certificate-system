@@ -21,10 +21,6 @@ const getAuthRoute = (
   return Routes.PROFILE
 }
 
-// function createOffchainContent(str: string) {
-//   return beginCell().storeUint(1, 8).storeStringTail(str).endCell()
-// }
-
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate()
   const location = useLocation()

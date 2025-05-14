@@ -1,9 +1,9 @@
 export const Routes = {
   HOME: '/',
-  USER_INFO: '/search/user-info',
-  CERTIFICATE_INFO: '/certificate-info',
-  ORGANIZATION_INFO: '/organization-info',
+  AUTH: '/auth',
   SEARCH: '/search',
   PROFILE: '/profile',
-  AUTH: '/auth',
+  USER_INFO: 'user-info',
+  CERTIFICATE_INFO: 'certificate-info',
+  ORGANIZATION_INFO: 'organization-info',
 } as const

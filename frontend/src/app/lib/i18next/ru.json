@@ -12,6 +12,10 @@
   "search_input_placeholder": "Введите адрес пользователя",
   "search_about_text": "Для просмотра информации о пользователе введите его адрес в поле выше.",
 
+  "organization_info_unit_title": "Организация",
+  "name_label": "Название",
+  "description_label": "Описание",
+
   "address_label": "Адрес:",
   "wallet_label": "Кошелек:",
   "public_key_label": "Публичный ключ:",

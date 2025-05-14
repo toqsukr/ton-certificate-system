@@ -3,7 +3,6 @@ import ProfilePage from '@pages/profile'
 import SearchPage from '@pages/search'
 import { Routes } from '@shared/model/routes'
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
-import AuthDeps from './ui/auth-deps'
 import ConfigLayout from './ui/config-layout'
 import ContentLayout from './ui/content-layout'
 import MainLayout from './ui/main-layout/main-layout'
@@ -26,13 +25,11 @@ const OrganizationInfoPageLazy = async () => {
 export const router = createBrowserRouter([
   {
     element: (
-      <AuthDeps>
-        <ConfigLayout>
-          <ContentLayout>
-            <Outlet />
-          </ContentLayout>
-        </ConfigLayout>
-      </AuthDeps>
+      <ConfigLayout>
+        <ContentLayout>
+          <Outlet />
+        </ContentLayout>
+      </ConfigLayout>
     ),
     children: [
       {
@@ -47,28 +44,48 @@ export const router = createBrowserRouter([
             element: <Navigate to={Routes.SEARCH} replace />,
           },
           {
-            path: Routes.PROFILE,
-            element: <ProfilePage />,
-          },
-          {
             path: Routes.AUTH,
             element: <AuthPage />,
           },
           {
+            path: Routes.PROFILE,
+            element: <Outlet />,
+            children: [
+              {
+                element: <ProfilePage />,
+                index: true,
+              },
+              {
+                path: Routes.CERTIFICATE_INFO,
+                lazy: CertificateInfoPageLazy,
+              },
+              {
+                path: Routes.ORGANIZATION_INFO,
+                lazy: OrganizationInfoPageLazy,
+              },
+            ],
+          },
+          {
             path: Routes.SEARCH,
-            element: <SearchPage />,
-          },
-          {
-            path: Routes.USER_INFO,
-            lazy: UserInfoPageLazy,
-          },
-          {
-            path: Routes.CERTIFICATE_INFO,
-            lazy: CertificateInfoPageLazy,
-          },
-          {
-            path: Routes.ORGANIZATION_INFO,
-            lazy: OrganizationInfoPageLazy,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <SearchPage />,
+              },
+              {
+                path: Routes.USER_INFO,
+                lazy: UserInfoPageLazy,
+              },
+              {
+                path: Routes.CERTIFICATE_INFO,
+                lazy: CertificateInfoPageLazy,
+              },
+              {
+                path: Routes.ORGANIZATION_INFO,
+                lazy: OrganizationInfoPageLazy,
+              },
+            ],
           },
         ],
       },
