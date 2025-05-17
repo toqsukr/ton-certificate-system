@@ -13,8 +13,10 @@
   "search_about_text": "Для просмотра информации о пользователе введите его адрес в поле выше.",
 
   "organization_info_unit_title": "Организация",
-  "name_label": "Название",
-  "description_label": "Описание",
+  "name_label": "Название:",
+  "description_label": "Описание:",
+
+  "my_organization_unit_title": "Моя Организация",
 
   "address_label": "Адрес:",
   "wallet_label": "Кошелек:",
@@ -28,6 +30,19 @@
   "certificates_not_found": "Нет доступных сертификатов",
 
   "certificate_info_unit_title": "Сертификат",
+  "mint_certificate": "Выпустить сертификат",
+  "revoke_certificate": "Отозвать сертификат",
+  "create_certificate": "Создать сертификат",
+  "create_organization": "Создать организацию",
+
+  "mint_cert_unit_title": "Создание Сертификата",
+  "create_cert_unit_text": "Чтобы создать сертификат загрузите JSON-файл с необходимыми данными в поле выше и нажмите на иконку",
+
+  "create_org_unit_title": "Создание Организации",
+  "create_org_unit_text": "Чтобы создать организацию загрузите JSON-файл с необходимыми данными в поле выше и нажмите на иконку",
+
+  "all_certs_unit_title": "Все сертификаты",
+  "issued_certificates": "Выпущенные сертификаты",
 
   "profile_unit_title": "Мой Аккаунт",
 

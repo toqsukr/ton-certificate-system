@@ -6,4 +6,9 @@ export const Routes = {
   USER_INFO: 'user-info',
   CERTIFICATE_INFO: 'certificate-info',
   ORGANIZATION_INFO: 'organization-info',
+  MY_ORGANIZATION: 'my-organization',
+  ALL_CERTIFICATES: 'all-certificates',
+  MINT_CERTIFICATE: 'mint-certificate',
+  CREATE_ORGANIZATION: 'create-organization',
+  ORGANIZATION_CERTIFICATES: 'organization-certificates',
 } as const

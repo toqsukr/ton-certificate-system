@@ -95,11 +95,16 @@ def upload_file():
 
             logger.info(f"Успешный результат: {output}")
             response_data = {"bag_id": output}
-            
-            return send_file(
-                os.path.join(TEMP_DIR, f"{file.filename}-msg"),
-                as_attachment=True
-            )
+
+            response = make_response(json.dumps(response_data))
+
+            response.headers['Content-Type'] = 'application/json'
+
+            return response
+            # send_file(
+            #     os.path.join(TEMP_DIR, f"{file.filename}-msg"),
+            #     as_attachment=True
+            # )
 
     except Exception as e:
         logger.error(f"Ошибка обработки запроса: {str(e)}", exc_info=True)

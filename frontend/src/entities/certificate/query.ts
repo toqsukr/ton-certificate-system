@@ -1,50 +1,7 @@
 import { execute } from '@shared/api/graphql/execute'
 import { NftItemConnection } from '@shared/api/graphql/graphql'
-import { useQueryClient } from '@tanstack/react-query'
-import { Address, Cell, TonClient } from '@ton/ton'
-import { TCertificate } from './model/certificate'
-import { openCertificateContract } from './model/open-certificate'
 
 const userNFTsQueryKey = 'user-nfts'
-const certificateDataQueryKey = 'certificate-data'
-
-type GetNftData = {
-  $$type: 'NftData'
-  deployed: boolean
-  index: bigint
-  collection: Address
-  owner: Address
-  content: Cell
-}
-
-const selectCertificate: (data: GetNftData) => TCertificate = data => ({
-  id: Number(data.index),
-  deployed: data.deployed,
-  owner: data.owner.toString(),
-  content: data.content.toString(),
-  collection: data.collection.toString(),
-})
-
-export const certificateDataQueryOptions = (
-  client: TonClient,
-  collection: string,
-  index: number
-) => ({
-  queryKey: [certificateDataQueryKey, index],
-  queryFn: async () =>
-    await openCertificateContract(client, Address.parse(collection), BigInt(index)).then(contract =>
-      contract.getGetNftData()
-    ),
-  select: selectCertificate,
-})
-
-export const useInvaliateCertificateData = () => {
-  const queryClient = useQueryClient()
-  return (address: string) =>
-    queryClient.invalidateQueries({
-      queryKey: [certificateDataQueryKey, address],
-    })
-}
 
 const getNFTItemsByCollection = `
   query NftCollectionItems($address: String!, $first: Int!) {
@@ -80,4 +37,62 @@ export const getNFTByCollectionQuery = (collection: string) => ({
   select: (data: NftItemConnection) => {
     return data.items
   },
+})
+
+const getNFTItemsByOwner = `
+query NftItemsByOwner($ownerAddress: String!, $first: Int!) {
+  nftItemsByOwner(ownerAddress: $ownerAddress, first: $first) {
+    items {
+        name
+        description
+        address
+        id
+        index
+        owner {
+          name
+          wallet
+        }
+        collection {
+          description
+          address
+          name
+          rawMetadata
+          description
+          owner {
+            wallet
+          }
+        }
+      }
+  }
+}
+`
+
+const selectCertificatesData = ({
+  data,
+  certAddresses,
+}: {
+  data: NftItemConnection
+  certAddresses: { [key: string]: string | undefined }
+}) => data.items.filter(({ address }) => !!certAddresses[address])
+
+export const getNFTByOwnerQuery = (
+  owner: string,
+  getCertAddresses: (
+    certs: { collection: string; index: number }[]
+  ) => Promise<{ [key: string]: string | undefined }>
+) => ({
+  queryKey: [userNFTsQueryKey, owner],
+  queryFn: async () => {
+    const res = await execute<NftItemConnection>(getNFTItemsByOwner, {
+      ownerAddress: owner,
+      first: 50,
+    })
+    const certs = res.items.map(({ index, collection }) => ({
+      collection: collection?.address ?? '',
+      index,
+    }))
+    const certAddresses = await getCertAddresses(certs)
+    return { data: res, certAddresses }
+  },
+  select: selectCertificatesData,
 })

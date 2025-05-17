@@ -13,8 +13,8 @@
   "search_about_text": "To view user information, enter their address in the field above.",
 
   "organization_info_unit_title": "Organization Info",
-  "name_label": "Name",
-  "description_label": "Description",
+  "name_label": "Name:",
+  "description_label": "Description:",
 
   "address_label": "Address:",
   "wallet_label": "Wallet:",
@@ -25,7 +25,23 @@
   "owner_label": "Owner: ",
   "organization_label": "Organization: ",
 
+  "my_organization_unit_title": "My Organization",
+
+  "mint_certificate": "Mint certificate",
+  "revoke_certificate": "Revoke certificate",
+  "create_certificate": "Create certificate",
+  "create_organization": "Create Organization",
   "certificates_not_found": "Certificates Not Found",
+
+  "mint_cert_unit_title": "Certificate Creation",
+  "create_cert_unit_text": "To create a certificate, upload a JSON file with the necessary data in the field above and click on the certificate icon.",
+
+  "create_org_unit_title": "Organization Creation",
+  "create_org_unit_text": "To create a organization, upload a JSON file with the necessary data in the field above and click on the organization icon.",
+
+  "all_certs_unit_title": "All Certificates",
+  "revoke_certs_unit_title": "Certificates Revokation",
+  "issued_certificates": "Issued certificates",
 
   "profile_unit_title": "Account",
 

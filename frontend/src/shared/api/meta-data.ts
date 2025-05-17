@@ -1,8 +1,15 @@
 import { Address, Cell, Sender } from '@ton/core'
 import axios from 'axios'
+import { z } from 'zod'
+
+const SaveMetaFileSchema = z.object({
+  bag_id: z.string(),
+})
+
+type SaveMetaFile = z.infer<typeof SaveMetaFileSchema>
 
 export const metaDataService = {
-  async getTempFile(fileBase64: Base64URLString, originalFilename: string) {
+  async saveMetaFile(fileBase64: Base64URLString, originalFilename: string) {
     const fileBlob = await fetch(fileBase64, {
       method: 'GET',
       mode: 'cors',
@@ -14,12 +21,14 @@ export const metaDataService = {
     const formData = new FormData()
     formData.append('file', file)
 
-    return axios.post(`${import.meta.env.VITE_BACKEND_URL}/upload`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      responseType: 'arraybuffer',
-    })
+    return axios
+      .post<SaveMetaFile>(`${import.meta.env.VITE_BACKEND_URL}upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        responseType: 'json',
+      })
+      .then(({ data }) => SaveMetaFileSchema.parse(data))
   },
 
   async saveData(sender: Sender, file: Base64URLString) {

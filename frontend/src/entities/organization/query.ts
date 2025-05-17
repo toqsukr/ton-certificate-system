@@ -1,6 +1,6 @@
 import { execute } from '@shared/api/graphql/execute'
 import { NftCollectionConnection } from '@shared/api/graphql/graphql'
-import { createOffchainContent } from '@shared/lib/ton'
+import { getCollectionContent } from '@shared/lib/ton'
 import { useQueryClient } from '@tanstack/react-query'
 import { Cell } from '@ton/core'
 
@@ -23,19 +23,16 @@ const getNFTCollectionsByOwner = `
   }
 `
 
-const selectOrganizationData = (
-  data: NftCollectionConnection,
+const selectOrganizationData = ({
+  data,
+  certAddresses,
+}: {
+  data: NftCollectionConnection
   certAddresses: { [key: string]: string | undefined }
-) =>
+}) =>
   data.items.find(({ address }) => {
     return !!certAddresses[address]
   })
-
-const findSource = (rawMetadata: string) => {
-  return JSON.parse(`{${rawMetadata.split(',').filter(data => data.includes('_source'))[0]}}`) as {
-    _source: string
-  }
-}
 
 export const getNFTCollectionByOwnerQuery = (
   address: string,
@@ -50,22 +47,12 @@ export const getNFTCollectionByOwnerQuery = (
       first: 50,
     })
     const collectionContents = res.items.map(({ rawMetadata }) => {
-      const { _source } = findSource(rawMetadata)
-      return createOffchainContent(_source.slice(0, -2))
+      return getCollectionContent(rawMetadata)
     })
     const certAddresses = await getCollectionAddresses(collectionContents)
     return { data: res, certAddresses }
   },
-  select: ({
-    data,
-    certAddresses,
-  }: {
-    data: NftCollectionConnection
-    certAddresses: { [key: string]: string | undefined }
-  }) => {
-    const selected = selectOrganizationData(data, certAddresses)
-    return selected
-  },
+  select: selectOrganizationData,
 })
 
 export const useInvaliateOrganizationData = () => {

@@ -8,6 +8,9 @@ const style: SxProps = {
   borderRadius: '0.625rem',
   color: 'var(--text-primary-color)',
   background: 'linear-gradient(90deg, #0198ea 10%, #14ccfa 80%)',
+  ':disabled': {
+    background: 'linear-gradient(90deg, #777777 10%, #999999 80%)',
+  },
 }
 
 const Button: FC<PropsWithChildren<ButtonProps>> = ({ children, ...props }) => {

@@ -22,6 +22,31 @@ const OrganizationInfoPageLazy = async () => {
   return { Component: OrganizationInfoPage }
 }
 
+const MyOrganizationPageLazy = async () => {
+  const { MyOrganizationPage } = await import('@pages/my-organization')
+  return { Component: MyOrganizationPage }
+}
+
+const MintCertificatePageLazy = async () => {
+  const { MintCertificatePage } = await import('@pages/mint-certificate')
+  return { Component: MintCertificatePage }
+}
+
+const CreateOrganizationPageLazy = async () => {
+  const { CreateOrganizationPage } = await import('@pages/create-organization')
+  return { Component: CreateOrganizationPage }
+}
+
+const AllCertificatesPageLazy = async () => {
+  const { AllCertificatesPage } = await import('@pages/all-certificates')
+  return { Component: AllCertificatesPage }
+}
+
+const OrgCertificatesPageLazy = async () => {
+  const { OrgCertificates } = await import('@pages/org-certificates')
+  return { Component: OrgCertificates }
+}
+
 export const router = createBrowserRouter([
   {
     element: (
@@ -56,12 +81,78 @@ export const router = createBrowserRouter([
                 index: true,
               },
               {
-                path: Routes.CERTIFICATE_INFO,
-                lazy: CertificateInfoPageLazy,
+                path: Routes.ALL_CERTIFICATES,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    lazy: AllCertificatesPageLazy,
+                  },
+                  {
+                    path: Routes.CERTIFICATE_INFO,
+                    lazy: CertificateInfoPageLazy,
+                  },
+                ],
+              },
+              {
+                path: Routes.USER_INFO,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    lazy: UserInfoPageLazy,
+                  },
+                  {
+                    path: Routes.ALL_CERTIFICATES,
+                    element: <Outlet />,
+                    children: [
+                      {
+                        index: true,
+                        lazy: AllCertificatesPageLazy,
+                      },
+                      {
+                        path: Routes.CERTIFICATE_INFO,
+                        lazy: CertificateInfoPageLazy,
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 path: Routes.ORGANIZATION_INFO,
                 lazy: OrganizationInfoPageLazy,
+              },
+              {
+                path: Routes.CREATE_ORGANIZATION,
+                lazy: CreateOrganizationPageLazy,
+              },
+              {
+                path: Routes.MY_ORGANIZATION,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    lazy: MyOrganizationPageLazy,
+                  },
+                  {
+                    path: Routes.MINT_CERTIFICATE,
+                    lazy: MintCertificatePageLazy,
+                  },
+                  {
+                    path: Routes.ORGANIZATION_CERTIFICATES,
+                    element: <Outlet />,
+                    children: [
+                      {
+                        index: true,
+                        lazy: OrgCertificatesPageLazy,
+                      },
+                      {
+                        path: Routes.CERTIFICATE_INFO,
+                        lazy: CertificateInfoPageLazy,
+                      },
+                    ],
+                  },
+                ],
               },
             ],
           },
@@ -75,11 +166,27 @@ export const router = createBrowserRouter([
               },
               {
                 path: Routes.USER_INFO,
-                lazy: UserInfoPageLazy,
-              },
-              {
-                path: Routes.CERTIFICATE_INFO,
-                lazy: CertificateInfoPageLazy,
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    lazy: UserInfoPageLazy,
+                  },
+                  {
+                    path: Routes.ALL_CERTIFICATES,
+                    element: <Outlet />,
+                    children: [
+                      {
+                        index: true,
+                        lazy: AllCertificatesPageLazy,
+                      },
+                      {
+                        path: Routes.CERTIFICATE_INFO,
+                        lazy: CertificateInfoPageLazy,
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 path: Routes.ORGANIZATION_INFO,
