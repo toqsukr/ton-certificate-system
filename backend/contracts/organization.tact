@@ -22,6 +22,10 @@ message(0xd31373) RemoveManagerRequest {
     manager: Address;
 }
 
+message(0x98d0ac63) RevokeCertificateRequest {
+    index: Int;
+}
+
 contract Organization with Ownable {
     content: Cell;
     owner: Address;
@@ -55,7 +59,7 @@ contract Organization with Ownable {
     receive(msg: AddManagerRequest) {
         throwUnless(TOO_FEW_COINS, context().value >= MIN_COINS);
         throwUnless(NON_AUTHORIZED, sender() == self.owner);
-        throwUnless(CONFLICT, self.wallet_whitelist.exists(msg.manager));
+        throwUnless(CONFLICT, !self.wallet_whitelist.exists(msg.manager));
 
         let nft_init: StateInit = initOf ManagerNFT(myAddress(), self.manager_next_index);
         let nft_address: Address = contractAddress(nft_init);
@@ -116,6 +120,20 @@ contract Organization with Ownable {
         });
       
         self.next_index += 1;
+    }
+
+    receive(msg: RevokeCertificateRequest) {
+        throwUnless(TOO_FEW_COINS, context().value >= MIN_COINS);
+        throwUnless(NON_AUTHORIZED, sender() == self.owner);
+
+        let nft_address: Address = self.get_nft_address_by_index(msg.index);
+
+        message(MessageParameters {
+            to: nft_address,
+            value: MIN_COINS,
+            mode: SendPayGasSeparately,
+            body: NftDestroy{}.toCell()
+        });
     }
 
     receive() {}
