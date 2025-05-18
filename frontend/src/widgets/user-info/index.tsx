@@ -18,8 +18,8 @@ import { useNavigate } from 'react-router-dom'
 type Mode = 'my-profile' | 'user-profile'
 
 const defineHeaderIcon: Record<Mode, ReactNode> = {
-  'my-profile': <PiSuitcaseSimple className='text-[var(--primary-color)]' />,
-  'user-profile': <FaRegUser className='text-[var(--primary-color)]' />,
+  'my-profile': <PiSuitcaseSimple className='h-[1.6rem] w-[1.6rem] text-[var(--primary-color)]' />,
+  'user-profile': <FaRegUser className='h-[1.5rem] w-[1.5rem] text-[var(--primary-color)]' />,
 }
 
 const UserInfo: FC<{ address: string }> = ({ address }) => {

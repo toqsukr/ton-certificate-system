@@ -32,7 +32,7 @@ export const MyOrganizationPage = () => {
       title={
         <ContentField.HeaderWithIcon
           text={t('my_organization_unit_title')}
-          icon={<PiSuitcaseSimple className='text-[var(--primary-color)]' />}
+          icon={<PiSuitcaseSimple className='h-[1.6rem] w-[1.6rem] text-[var(--primary-color)]' />}
         />
       }>
       <div className='flex flex-col gap-6'>

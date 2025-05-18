@@ -32,7 +32,7 @@ const SearchPage = () => {
       title={
         <ContentField.HeaderWithIcon
           text={t('search_unit_title')}
-          icon={<LuSearch className='text-[var(--primary-color)]' />}
+          icon={<LuSearch className='h-[1.5rem] w-[1.5rem] text-[var(--primary-color)]' />}
         />
       }>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>

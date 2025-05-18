@@ -26,7 +26,7 @@ export const OrganizationInfoPage = () => {
       title={
         <ContentField.HeaderWithIcon
           text={t('organization_info_unit_title')}
-          icon={<GoOrganization className='text-[var(--primary-color)]' />}
+          icon={<GoOrganization className='h-[1.5rem] w-[1.5rem] text-[var(--primary-color)]' />}
         />
       }
       onBack={() => navigate('..', { preventScrollReset: true })}>

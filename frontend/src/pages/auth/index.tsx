@@ -12,15 +12,9 @@ const AuthPage = () => {
 
   if (wallet) return <Navigate to={Routes.PROFILE} />
 
-  const authText = t('auth_unit_text').split(';')
-
   return (
     <ContentField title={t('auth_unit_title')}>
-      <p className='flex flex-col gap-2 mb-6'>
-        <span>{authText[0]}</span>
-        <span>{authText[1]}</span>
-        <strong>{authText[2]}</strong>
-      </p>
+      <p className='flex flex-col mb-4'>{t('auth_unit_text')}</p>
       <Button onClick={open}>{t('connect_wallet_button')}</Button>
     </ContentField>
   )

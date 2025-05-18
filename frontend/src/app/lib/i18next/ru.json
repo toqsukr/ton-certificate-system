@@ -1,11 +1,11 @@
 {
   "app_about_title": "О Проекте",
-  "app_about_text": "TCS - это система управления сертификатами на основе блокчейна TON. Вы можете получить информацию о достижениях пользователя.",
+  "app_about_text": "TCS is a certificate management system based on the TON blockchain. Keep your achievements at hand, and the consensus of the network will take care of their safety and authenticity!",
   "search_tab_title": "Поиск",
   "profile_tab_title": "Профиль",
 
   "auth_unit_title": "Авторизация",
-  "auth_unit_text": "Подключите TON Wallet, чтобы получить доступ к своей учетной записи TCS.; Нет аккаунта? Он будет создан автоматически после подключения кошелька!;К каждой учетной записи TCS может быть подключен только один кошелек!",
+  "auth_unit_text": "Подключите TON Wallet, чтобы получить доступ к существующей учетной записи или начать использовать TCS впервые!",
   "connect_wallet_button": "Привязать TON Wallet",
 
   "search_unit_title": "Информация",
