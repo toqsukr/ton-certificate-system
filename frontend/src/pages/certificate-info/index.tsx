@@ -1,5 +1,6 @@
 import { useCertificatesByOwner } from '@entities/certificate/model/use-certificates-by-owner'
 import { AddressLabel, useIsMyAddress } from '@features/address-label'
+import NameLabel from '@features/name-label'
 import { OrganizationLabel } from '@features/organization-label'
 import { OwnerLabel } from '@features/owner-label'
 import { useTonConnect } from '@shared/lib/use-ton-connect'
@@ -9,7 +10,6 @@ import ContentField from '@shared/uikit/content-field'
 import FieldLoader from '@shared/uikit/field-loader'
 import { CertIcon } from '@shared/uikit/icons'
 import LabelBelow from '@shared/uikit/label-below'
-import LabelOpposite from '@shared/uikit/label-opposite'
 import { useTranslation } from 'react-i18next'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useRevokeCert } from './use-revoke-cert'
@@ -56,9 +56,7 @@ export const CertificateInfoPage = () => {
         <AddressLabel address={certificate.address} />
         <OwnerLabel userAddress={certificate.owner.wallet} />
         <OrganizationLabel ownerAddress={certificate.collection?.owner.wallet} />
-        {certificate?.name && (
-          <LabelOpposite title={t('name_label')}>{certificate.name}</LabelOpposite>
-        )}
+        <NameLabel name={certificate?.name} />
         {certificate?.description && (
           <LabelBelow title={t('description_label')}>{certificate.description}</LabelBelow>
         )}
