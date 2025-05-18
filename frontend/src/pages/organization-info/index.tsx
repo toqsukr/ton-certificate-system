@@ -5,6 +5,7 @@ import { Routes } from '@shared/model/routes'
 import ContentField from '@shared/uikit/content-field'
 import FieldLoader from '@shared/uikit/field-loader'
 import LabelBelow from '@shared/uikit/label-below'
+import LabelOpposite from '@shared/uikit/label-opposite'
 import { useTranslation } from 'react-i18next'
 import { GoOrganization } from 'react-icons/go'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
@@ -33,7 +34,7 @@ export const OrganizationInfoPage = () => {
       <div className='flex flex-col gap-6'>
         <AddressLabel address={organization.address} />
         <OwnerLabel userAddress={organization.owner.wallet} />
-        <LabelBelow title={t('name_label')}>{organization?.name ?? ''}</LabelBelow>
+        <LabelOpposite title={t('name_label')}>{organization?.name ?? ''}</LabelOpposite>
         <LabelBelow title={t('description_label')}>{organization.description}</LabelBelow>
       </div>
     </ContentField>

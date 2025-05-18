@@ -7,6 +7,7 @@ import Button from '@shared/uikit/button'
 import ContentField from '@shared/uikit/content-field'
 import FieldLoader from '@shared/uikit/field-loader'
 import LabelBelow from '@shared/uikit/label-below'
+import LabelOpposite from '@shared/uikit/label-opposite'
 import { useQuery } from '@tanstack/react-query'
 import { useTonAddress } from '@tonconnect/ui-react'
 import { useTranslation } from 'react-i18next'
@@ -38,7 +39,7 @@ export const MyOrganizationPage = () => {
       <div className='flex flex-col gap-6'>
         <AddressLabel address={organization.address} />
         <OwnerLabel userAddress={address} />
-        <LabelBelow title={t('name_label')}>{organization?.name ?? ''}</LabelBelow>
+        <LabelOpposite title={t('name_label')}>{organization?.name ?? ''}</LabelOpposite>
         <LabelBelow title={t('description_label')}>{organization.description}</LabelBelow>
         <Button onClick={() => navigate(Routes.MINT_CERTIFICATE)}>{t('create_certificate')}</Button>
         {!!certificates?.length && (
