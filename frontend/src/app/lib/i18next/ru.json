@@ -1,6 +1,6 @@
 {
   "app_about_title": "О Проекте",
-  "app_about_text": "TCS is a certificate management system based on the TON blockchain. Keep your achievements at hand, and the consensus of the network will take care of their safety and authenticity!",
+  "app_about_text": "TCS - это система управления сертификатами на основе блокчейна TON. Храните ваши достижения под рукой, а об их сохранности и подлинности позаботится консенсус сети!",
   "search_tab_title": "Поиск",
   "profile_tab_title": "Профиль",
 
@@ -10,7 +10,7 @@
 
   "search_unit_title": "Информация",
   "search_input_placeholder": "Введите адрес пользователя",
-  "search_about_text": "Для просмотра информации о пользователе введите его адрес в поле выше.",
+  "search_about_text": "Для просмотра информации о пользователе вставьте его адрес в поле выше.",
 
   "organization_info_unit_title": "Организация",
   "name_label": "Название:",

@@ -1,6 +1,6 @@
 {
   "app_about_title": "About",
-  "app_about_text": "TCS is a certificate management system based on the TON blockchain. You can get information about user’s achievements.",
+  "app_about_text": "TCS is a certificate management system based on the TON blockchain. Keep your achievements at hand, and the consensus of the network will take care of their safety and authenticity!",
   "search_tab_title": "Search",
   "profile_tab_title": "Profile",
 
@@ -10,7 +10,7 @@
 
   "search_unit_title": "Information",
   "search_input_placeholder": "Enter User Address",
-  "search_about_text": "To view user information, enter their address in the field above.",
+  "search_about_text": "To view user information, paste their address in the field above.",
 
   "organization_info_unit_title": "Organization Info",
   "name_label": "Name:",
