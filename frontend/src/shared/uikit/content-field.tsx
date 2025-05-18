@@ -5,9 +5,9 @@ type HeaderWithIconProps = { icon: ReactNode; text: string }
 
 const HeaderWithIcon: FC<HeaderWithIconProps> = ({ icon, text }) => {
   return (
-    <div className='w-full flex justify-between items-center '>
-      {text}
-      {icon}
+    <div className='w-full flex justify-between items-center'>
+      <span className='truncate'>{text}</span>
+      <span className='ml-4'>{icon}</span>
     </div>
   )
 }
@@ -18,7 +18,7 @@ const ContentField = ({ children, title, onBack }: PropsWithChildren<ContentFiel
   return (
     <section className='h-max text-white bg-[var(--content-field-color)] p-6 rounded-[1rem]'>
       {title && (
-        <header style={{ lineHeight: '2rem' }} className='text-[1.5rem] font-bold mb-[1.5rem]'>
+        <header style={{ lineHeight: '2rem' }} className='text-[1.3rem] font-bold mb-[1.5rem]'>
           <div className='flex items-center gap-5'>
             {onBack && <IoArrowBackOutline className='cursor-pointer' onClick={onBack} />}
             <span className='flex-1 truncate'>{title}</span>

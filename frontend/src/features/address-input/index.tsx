@@ -19,6 +19,7 @@ export const AddressInput: FC<AddressInputProps> = ({
   const handlePaste = async () => {
     try {
       const text = await navigator.clipboard.readText()
+      document.execCommand('paste')
       const address = Address.parse(text)
       if (inputRef?.current) {
         inputRef.current.value = text

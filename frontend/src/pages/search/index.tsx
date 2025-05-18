@@ -8,8 +8,8 @@ import { LuSearch } from 'react-icons/lu'
 import { useSearchUser } from './use-search-user'
 
 const SearchPage = () => {
-  const { t } = useTranslation()
   const [searchAddress, setSearchAddress] = useState<Address | null>(null)
+  const { t } = useTranslation()
 
   const searchUser = useSearchUser()
 
