@@ -35,9 +35,19 @@ export const OrganizationLabel: FC<{ ownerAddress: string | undefined }> = ({
       </Button>
     )
 
+  if (!organization) return
+
   return (
     <LabelOpposite title={t('organization_label')}>
-      <p className='cursor-pointer' onClick={navigateToOrg}>
+      <p
+        style={{
+          background: 'linear-gradient(90deg, #2D83EC, #1AC9FF 45%)',
+          WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
+          color: 'transparent',
+        }}
+        className='cursor-pointer'
+        onClick={navigateToOrg}>
         {organization?.address}
       </p>
     </LabelOpposite>

@@ -17,6 +17,8 @@ export const CertificateList: FC<{
     })
   }
 
+  console.log(certificates)
+
   return (
     <ul className={css.certificate_list}>
       {certificates?.map(({ id, address, name, owner }) => (

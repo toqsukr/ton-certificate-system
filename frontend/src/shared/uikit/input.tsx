@@ -14,7 +14,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ Button, ...props }, re
         className={cn(
           'w-full h-[2.8rem] p-[0.8rem] font-bold rounded-[0.625rem] text-[var(--text-primary-color)] bg-[var(--background-color)] placeholder:text-[var(--text-third-color)] file:hidden',
           {
-            ['mr-[2.8rem]']: !!Button,
+            ['pr-[3.6rem]']: !!Button,
           }
         )}
       />

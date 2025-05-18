@@ -1,18 +1,18 @@
 import { useOrganization } from '@entities/organization'
-import { UploadContent } from '@features/upload-content/index.tsx'
-import { getCollectionContent } from '@shared/lib/ton'
+import { UploadContent, useIsContentSaving } from '@features/upload-content/index.tsx'
 import { useTonConnect } from '@shared/lib/use-ton-connect'
 import Button from '@shared/uikit/button'
+import ClearableInput from '@shared/uikit/clearable-input'
 import ContentField from '@shared/uikit/content-field'
 import FieldLoader from '@shared/uikit/field-loader'
-import { CertIcon } from '@shared/uikit/icons'
 import { Address } from '@ton/core'
 import { useTonAddress } from '@tonconnect/ui-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { TbPhotoDown } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { useMintCertificate } from './api/mint-certificate'
-import OwnerAddressInput from './ui/owner-address-input'
+import { CertContentFormSchema, useCertContent } from './lib/store'
 
 export const MintCertificatePage = () => {
   const navigate = useNavigate()
@@ -23,20 +23,25 @@ export const MintCertificatePage = () => {
   const { data: organization, isLoading } = useOrganization(address)
   const [ownerAddress, setOwnerAddress] = useState<Address | null>(null)
   const [certContent, setCertContent] = useState<string | null>(null)
+  const { updateAttributes, updateDescription, updateImage, updateName, ...contentData } =
+    useCertContent()
+  const isContentUploading = useIsContentSaving()
 
   const handleMintCert = async () => {
     if (!organization || !ownerAddress || !certContent) return
-    const collectionContent = getCollectionContent(organization.rawMetadata)
 
     await mintCertificate({
       sender,
       content: certContent,
       owner: ownerAddress,
-      collectionContent,
-      collectionOwner: organization.owner.wallet,
+      collectionAddress: organization.address,
     })
     setOwnerAddress(null)
     setCertContent(null)
+  }
+
+  const onContentUpload = (content: string | null) => {
+    updateImage(content)
   }
 
   if (isLoading || isPending) return <FieldLoader />
@@ -44,21 +49,27 @@ export const MintCertificatePage = () => {
   return (
     <ContentField title={t('mint_cert_unit_title')} onBack={() => navigate('..')}>
       <div className='flex flex-col gap-4'>
-        <OwnerAddressInput
-          ownerAddress={ownerAddress}
-          onOwnerUpdate={address => setOwnerAddress(address)}
+        <ClearableInput
+          onChange={e => updateName(e.currentTarget.value)}
+          placeholder={t('content_name')}
         />
-
+        <ClearableInput
+          onChange={e => updateDescription(e.currentTarget.value)}
+          placeholder={t('content_description')}
+        />
         <UploadContent
-          Icon={<CertIcon />}
-          content={certContent}
-          onContentUpload={content => setCertContent(content)}
+          label={t('upload_cert_image')}
+          accept='image/png, image/jpeg'
+          contentURL={contentData.image}
+          onContentUpload={onContentUpload}
+          Icon={<TbPhotoDown className='w-6 h-6' />}
         />
-
-        <Button onClick={handleMintCert} disabled={!!!ownerAddress || !!!certContent}>
-          Выпустить
-        </Button>
         <p>{t('create_cert_unit_text')}</p>
+        <Button
+          onClick={handleMintCert}
+          disabled={isContentUploading || !CertContentFormSchema.safeParse(contentData).success}>
+          {t('mint_certificate')}
+        </Button>
       </div>
     </ContentField>
   )

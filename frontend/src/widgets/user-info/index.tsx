@@ -1,5 +1,7 @@
 import { useCertificatesByOwner } from '@entities/certificate/model/use-certificates-by-owner'
+import { useOrganization } from '@entities/organization'
 import { AddressLabel } from '@features/address-label'
+import { useCreateOrgTag } from '@features/create-organization-tag'
 import { OrganizationLabel } from '@features/organization-label'
 import { Routes } from '@shared/model/routes'
 import Button from '@shared/uikit/button'
@@ -24,7 +26,8 @@ const defineHeaderIcon: Record<Mode, ReactNode> = {
 const UserInfo: FC<{ address: string }> = ({ address }) => {
   const { t } = useTranslation()
   const walletAddress = useTonAddress()
-
+  const { data: organization, isLoading: isOrgLoading } = useOrganization(walletAddress)
+  const { checkTag } = useCreateOrgTag()
   const isMyProfile: Mode =
     Address.normalize(walletAddress) === Address.normalize(address) ? 'my-profile' : 'user-profile'
 
@@ -46,9 +49,19 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
 
   const defineOrganization: Record<Mode, ReactNode> = {
     'my-profile': (
-      <Button onClick={() => navigate(Routes.MY_ORGANIZATION, { state: { address } })}>
-        {'Управление организацией'}
-      </Button>
+      <>
+        {organization ? (
+          <Button onClick={() => navigate(Routes.MY_ORGANIZATION, { state: { address } })}>
+            {t('manage_organization')}
+          </Button>
+        ) : (
+          <Button
+            disabled={!checkTag()}
+            onClick={() => navigate(Routes.CREATE_ORGANIZATION, { state: { address } })}>
+            {t('create_organization')}
+          </Button>
+        )}
+      </>
     ),
     'user-profile': <OrganizationLabel ownerAddress={address} />,
   }
@@ -56,17 +69,18 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
   const defineCertificates = [
     <p className='text-center'>{t('certificates_not_found')}</p>,
     <Button onClick={() => navigate(Routes.ALL_CERTIFICATES, { state: { address } })}>
-      {'Посмотреть сертификаты'}
+      {t('show_certificates')}
     </Button>,
   ]
 
   const { data: certificates, isLoading: isCertsLoading } = useCertificatesByOwner(address)
   const navigate = useNavigate()
 
-  if (isCertsLoading) return <FieldLoader />
+  if (isCertsLoading || isOrgLoading) return <FieldLoader />
 
   return (
     <ContentField
+      onBack={() => navigate('..')}
       title={
         <ContentField.HeaderWithIcon
           text={defineHeaderTitle[isMyProfile]}

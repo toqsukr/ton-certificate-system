@@ -7,9 +7,15 @@ const style: SxProps = {
   fontWeight: 'bold',
   borderRadius: '0.625rem',
   color: 'var(--text-primary-color)',
-  background: 'linear-gradient(90deg, #0198ea 10%, #14ccfa 80%)',
+
+  background: 'linear-gradient(90deg, #0198ea 0%, #14ccfa 50%, #777777 50%, #999999 100%)',
+  backgroundSize: '200% 100%',
+  backgroundPosition: '0% 0%',
+  transition: 'background-position 0.5s ease, opacity 0.3s ease',
+
   ':disabled': {
-    background: 'linear-gradient(90deg, #777777 10%, #999999 80%)',
+    backgroundPosition: '100% 0%',
+    opacity: 0.7,
   },
 }
 

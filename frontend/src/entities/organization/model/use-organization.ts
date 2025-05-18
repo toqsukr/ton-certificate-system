@@ -2,12 +2,12 @@ import tonClient from '@shared/api/ton-client'
 import { useQuery } from '@tanstack/react-query'
 import { Address, Cell } from '@ton/core'
 import { getNFTCollectionByOwnerQuery } from '../query'
-import { openOrgContract } from './open-org-contract'
+import { openOrgFromInitContract } from './open-org-contract'
 
 export const checkCollectionAddresses = async (owner: Address, collectionContents: Cell[]) => {
   const promiseArr = await Promise.allSettled(
     collectionContents.map(async content => {
-      const contract = await openOrgContract(tonClient, owner, content)
+      const contract = await openOrgFromInitContract(tonClient, owner, content)
       contract.getGetCollectionData()
       return contract.address.toString()
     })

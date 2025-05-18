@@ -1,5 +1,5 @@
 import { metaDataService } from '@shared/api/meta-data'
-import { useMutation } from '@tanstack/react-query'
+import { useIsMutating, useMutation } from '@tanstack/react-query'
 
 const saveOffchainContentMutationKey = 'save-offchain-content'
 
@@ -13,4 +13,9 @@ export const useSaveOffchainContent = () => {
         .then(({ bag_id }) => ({ bagID: bag_id }))
     },
   })
+}
+
+export const useIsContentSaving = () => {
+  const mutatingCount = useIsMutating({ mutationKey: [saveOffchainContentMutationKey] })
+  return !!mutatingCount
 }

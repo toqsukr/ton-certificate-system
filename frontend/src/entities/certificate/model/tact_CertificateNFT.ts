@@ -936,6 +936,55 @@ export function dictValueParserRemoveManagerRequest(): DictionaryValue<RemoveMan
   }
 }
 
+export type RevokeCertificateRequest = {
+  $$type: 'RevokeCertificateRequest'
+  index: bigint
+}
+
+export function storeRevokeCertificateRequest(src: RevokeCertificateRequest) {
+  return (builder: Builder) => {
+    const b_0 = builder
+    b_0.storeUint(2563812451, 32)
+    b_0.storeInt(src.index, 257)
+  }
+}
+
+export function loadRevokeCertificateRequest(slice: Slice) {
+  const sc_0 = slice
+  if (sc_0.loadUint(32) !== 2563812451) {
+    throw Error('Invalid prefix')
+  }
+  const _index = sc_0.loadIntBig(257)
+  return { $$type: 'RevokeCertificateRequest' as const, index: _index }
+}
+
+export function loadTupleRevokeCertificateRequest(source: TupleReader) {
+  const _index = source.readBigNumber()
+  return { $$type: 'RevokeCertificateRequest' as const, index: _index }
+}
+
+export function loadGetterTupleRevokeCertificateRequest(source: TupleReader) {
+  const _index = source.readBigNumber()
+  return { $$type: 'RevokeCertificateRequest' as const, index: _index }
+}
+
+export function storeTupleRevokeCertificateRequest(source: RevokeCertificateRequest) {
+  const builder = new TupleBuilder()
+  builder.writeNumber(source.index)
+  return builder.build()
+}
+
+export function dictValueParserRevokeCertificateRequest(): DictionaryValue<RevokeCertificateRequest> {
+  return {
+    serialize: (src, builder) => {
+      builder.storeRef(beginCell().store(storeRevokeCertificateRequest(src)).endCell())
+    },
+    parse: src => {
+      return loadRevokeCertificateRequest(src.loadRef().beginParse())
+    },
+  }
+}
+
 export type Organization$Data = {
   $$type: 'Organization$Data'
   content: Cell
@@ -2416,6 +2465,13 @@ const CertificateNFT_types: ABIType[] = [
     fields: [{ name: 'manager', type: { kind: 'simple', type: 'address', optional: false } }],
   },
   {
+    name: 'RevokeCertificateRequest',
+    header: 2563812451,
+    fields: [
+      { name: 'index', type: { kind: 'simple', type: 'int', optional: false, format: 257 } },
+    ],
+  },
+  {
     name: 'Organization$Data',
     header: null,
     fields: [
@@ -2586,6 +2642,7 @@ const CertificateNFT_opcodes = {
   Excesses: 3576854235,
   AddManagerRequest: 11113229,
   RemoveManagerRequest: 13833075,
+  RevokeCertificateRequest: 2563812451,
   Deploy: 2490013878,
   DeployOk: 2952335191,
   FactoryDeploy: 1829761339,

@@ -1,15 +1,30 @@
 import cn from 'classnames'
-import { forwardRef, MouseEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, forwardRef, MouseEvent, useState } from 'react'
 import { RxCross2 } from 'react-icons/rx'
 import { IconButton } from './icon-button'
 import Input, { InputProps } from './input'
 
-const ClearableInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+const ClearableInput = forwardRef<HTMLInputElement, InputProps>(({ onChange, ...props }, ref) => {
   const [value, setValue] = useState('')
   const handleClear = (event: MouseEvent<HTMLButtonElement>) => {
     if (event?.currentTarget) {
       setValue('')
+      event.currentTarget.value = ''
     }
+
+    if (onChange) {
+      const syntheticEvent = {
+        target: { value: '' },
+        currentTarget: { value: '' },
+      } as ChangeEvent<HTMLInputElement>
+
+      onChange(syntheticEvent)
+    }
+  }
+
+  const handleChange = (e: FormEvent<HTMLInputElement>) => {
+    onChange?.(e)
+    setValue(e?.currentTarget.value)
   }
 
   return (
@@ -17,7 +32,7 @@ const ClearableInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => 
       {...props}
       ref={ref}
       value={value}
-      onChange={e => setValue(e?.currentTarget.value)}
+      onChange={handleChange}
       Button={
         <IconButton
           style={{

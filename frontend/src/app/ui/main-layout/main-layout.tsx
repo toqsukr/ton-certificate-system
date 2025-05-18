@@ -8,8 +8,6 @@ import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 import css from './main-layout.module.scss'
 
-// const collectionContentBagID = '4E7281DD2293527532FC384D912D9BA620EBE025B4DD4B3AFFABD715E220187C'
-
 const getAuthRoute = (
   wallet: Wallet | (Wallet & WalletInfoWithOpenMethod) | null,
   pathname: string
@@ -30,43 +28,6 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const handleRouteChange: ToggleButtonGroupProps['onChange'] = (_, route) => {
     navigate(route[0])
   }
-
-  // const handleCreateOrg = () => {
-  //   if (!wallet) return
-
-  //   openOrgFactoryContract(tonClient)?.send(
-  //     sender,
-  //     { value: toNano('0.1') },
-  //     {
-  //       $$type: 'OrgInitRequest',
-  //       wallet: Address.parse(wallet.account.address),
-  //       content: createOffchainContent(
-  //         import.meta.env.VITE_TON_STORAGE_URL + collectionContentBagID
-  //       ),
-  //     }
-  //   )
-  // }
-
-  // const handleMintCert = () => {
-  //   if (!wallet) return
-
-  //   const owner = Address.parse(wallet.account.address)
-  //   const content = createOffchainContent(
-  //     import.meta.env.VITE_TON_STORAGE_URL + collectionContentBagID
-  //   )
-
-  //   openOrgContract(tonClient, owner, content)?.then(contract =>
-  //     contract.send(
-  //       sender,
-  //       { value: toNano('0.1') },
-  //       {
-  //         $$type: 'RequestNftDeploy',
-  //         owner,
-  //         content: Cell.EMPTY,
-  //       }
-  //     )
-  //   )
-  // }
 
   return (
     <>

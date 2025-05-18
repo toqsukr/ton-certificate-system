@@ -1,8 +1,8 @@
-import { openOrgContract } from '@entities/organization'
+import { openOrgFromAddressContract } from '@entities/organization'
 import tonClient from '@shared/api/ton-client'
 import { createOffchainContent } from '@shared/lib/ton'
 import { useMutation } from '@tanstack/react-query'
-import { Address, Cell, Sender, toNano } from '@ton/core'
+import { Address, Sender, toNano } from '@ton/core'
 
 const mintCertMutationKey = 'mint-certificate'
 
@@ -12,16 +12,11 @@ export const useMintCertificate = () => {
     mutationFn: async (data: {
       sender: Sender
       owner: Address
-      collectionOwner: string
+      collectionAddress: string
       content: string
-      collectionContent: Cell
     }) => {
-      const { content, collectionOwner, collectionContent, owner, sender } = data
-      const contract = await openOrgContract(
-        tonClient,
-        Address.parse(collectionOwner),
-        collectionContent
-      )
+      const { content, collectionAddress, owner, sender } = data
+      const contract = await openOrgFromAddressContract(tonClient, Address.parse(collectionAddress))
       return await contract.send(
         sender,
         { value: toNano('0.1') },

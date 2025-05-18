@@ -25,7 +25,17 @@ export const OwnerLabel: FC<{ userAddress: string }> = ({ userAddress }) => {
 
   return (
     <LabelOpposite title={t('owner_label')}>
-      <p onClick={navigateToUser}>{userAddress}</p>
+      <p
+        className='cursor-pointer'
+        style={{
+          background: 'linear-gradient(90deg, #2D83EC, #1AC9FF 45%)',
+          WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
+          color: 'transparent',
+        }}
+        onClick={navigateToUser}>
+        {userAddress}
+      </p>
     </LabelOpposite>
   )
 }

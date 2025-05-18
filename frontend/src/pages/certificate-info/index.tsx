@@ -2,7 +2,7 @@ import { useCertificatesByOwner } from '@entities/certificate/model/use-certific
 import { AddressLabel, useIsMyAddress } from '@features/address-label'
 import { OrganizationLabel } from '@features/organization-label'
 import { OwnerLabel } from '@features/owner-label'
-import { getCollectionContent } from '@shared/lib/ton'
+import { useTonConnect } from '@shared/lib/use-ton-connect'
 import { Routes } from '@shared/model/routes'
 import Button from '@shared/uikit/button'
 import ContentField from '@shared/uikit/content-field'
@@ -21,13 +21,17 @@ export const CertificateInfoPage = () => {
   const certificate = certificates?.find(({ id }) => id === state.certID)
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const { sender } = useTonConnect()
   const isMyProfile = useIsMyAddress()
   const { mutate: revokeCertificate } = useRevokeCert()
 
   const handleRevoke = () => {
     if (!certificate || !certificate.collection) return
-    const content = getCollectionContent(certificate.collection.rawMetadata)
-    revokeCertificate({ owner: certificate.owner.wallet, content })
+    revokeCertificate({
+      sender,
+      index: certificate.index,
+      collectionAddress: certificate.collection.address,
+    })
   }
 
   if (!state) return <Navigate to={Routes.PROFILE} />
@@ -56,7 +60,7 @@ export const CertificateInfoPage = () => {
           <LabelBelow title={t('description_label')}>{certificate.description}</LabelBelow>
         )}
         {isMyProfile(certificate.collection?.owner.wallet) && (
-          <Button onClick={handleRevoke}>Отозвать сертификат</Button>
+          <Button onClick={handleRevoke}>{t('revoke_certificate')}</Button>
         )}
       </div>
     </ContentField>

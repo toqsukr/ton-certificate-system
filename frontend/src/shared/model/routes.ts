@@ -11,4 +11,5 @@ export const Routes = {
   MINT_CERTIFICATE: 'mint-certificate',
   CREATE_ORGANIZATION: 'create-organization',
   ORGANIZATION_CERTIFICATES: 'organization-certificates',
+  ADD_ORGANIZATION_MANAGER: 'add-organization-manager',
 } as const

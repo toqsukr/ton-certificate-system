@@ -1,5 +1,6 @@
 import { execute } from '@shared/api/graphql/execute'
 import { NftItemConnection } from '@shared/api/graphql/graphql'
+import { Address } from '@ton/core'
 
 const userNFTsQueryKey = 'user-nfts'
 
@@ -35,7 +36,9 @@ export const getNFTByCollectionQuery = (collection: string) => ({
     })
   },
   select: (data: NftItemConnection) => {
-    return data.items
+    return data.items.filter(
+      ({ address, owner }) => Address.normalize(address) !== Address.normalize(owner.wallet)
+    )
   },
 })
 
