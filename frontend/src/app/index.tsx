@@ -9,6 +9,7 @@ import './index.css'
 import './lib/i18next/i18next.ts'
 import { router } from './router.tsx'
 import './tonconnect.css'
+// import {} from '@telegram-apps/sdk-react'
 
 try {
   init()

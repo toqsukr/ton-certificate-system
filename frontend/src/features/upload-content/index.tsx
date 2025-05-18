@@ -26,7 +26,6 @@ const UploadContent: FC<UploadContentProps> = ({
 
     const reader = new FileReader()
     reader.onloadend = async () => {
-      console.log('onloadend')
       const response = await saveContent({
         file: reader.result as string,
         filename: `${file.name}-${new Date().toISOString().slice(0, 10)}`,

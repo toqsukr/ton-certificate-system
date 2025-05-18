@@ -16,16 +16,21 @@ export const AddressInput: FC<AddressInputProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const handlePaste = async () => {
+  const onPaste = (textAddress: string) => {
     try {
-      const text = await navigator.clipboard.readText()
-      document.execCommand('paste')
-      const address = Address.parse(text)
+      const address = Address.parse(textAddress)
       if (inputRef?.current) {
-        inputRef.current.value = text
+        inputRef.current.value = textAddress
         onAddressUpdate(address)
       }
-    } catch {}
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const handlePaste = async () => {
+    const text = await navigator.clipboard.readText()
+    onPaste(text)
   }
 
   const handleClear = () => {
@@ -39,8 +44,8 @@ export const AddressInput: FC<AddressInputProps> = ({
     <FlipIconInput
       {...inputProps}
       ref={inputRef}
-      readOnly
       value={address?.toString() ?? ''}
+      onPaste={e => onPaste(e.clipboardData.getData('text/plain'))}
       Icons={[
         {
           action: handlePaste,

@@ -56,7 +56,6 @@ export const CreateOrganizationPage = () => {
           filename: `org-data-${new Date().toISOString().slice(0, 10)}.json`,
         })
         const content = `${import.meta.env.VITE_TON_STORAGE_URL}${response.bagID}`
-        console.log('content: ', content)
         await createOrganization({
           owner: address,
           sender,
@@ -69,15 +68,13 @@ export const CreateOrganizationPage = () => {
       }
       reader.readAsDataURL(file)
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
 
   const onContentUpload = (content: string | null) => {
     updateImage(content)
   }
-
-  console.log(contentData, !OrgContentFormSchema.safeParse(contentData).success)
 
   if (isLoading || isPending) return <FieldLoader />
 

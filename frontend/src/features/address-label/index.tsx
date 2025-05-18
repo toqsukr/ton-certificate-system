@@ -1,4 +1,5 @@
 import { TONVIEWER_PREFIX } from '@shared/lib/ton'
+import { useTonConnect } from '@shared/lib/use-ton-connect'
 import LabelOpposite from '@shared/uikit/label-opposite'
 import { Address } from '@ton/core'
 import { useTonAddress } from '@tonconnect/ui-react'
@@ -25,8 +26,9 @@ export const AddressLabel: FC<{ address: string }> = ({ address }) => {
 
 export const useIsMyAddress = () => {
   const address = useTonAddress()
+  const { connected } = useTonConnect()
 
   return (addressToCheck: string | undefined) => {
-    return Address.normalize(addressToCheck ?? '') === Address.normalize(address)
+    return connected && Address.normalize(addressToCheck ?? '') === Address.normalize(address)
   }
 }

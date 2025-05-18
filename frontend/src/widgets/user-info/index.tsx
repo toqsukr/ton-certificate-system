@@ -1,6 +1,6 @@
 import { useCertificatesByOwner } from '@entities/certificate/model/use-certificates-by-owner'
 import { useOrganization } from '@entities/organization'
-import { AddressLabel } from '@features/address-label'
+import { AddressLabel, useIsMyAddress } from '@features/address-label'
 import { useCreateOrgTag } from '@features/create-organization-tag'
 import { OrganizationLabel } from '@features/organization-label'
 import { Routes } from '@shared/model/routes'
@@ -8,7 +8,6 @@ import Button from '@shared/uikit/button'
 import ContentField from '@shared/uikit/content-field'
 import FieldLoader from '@shared/uikit/field-loader'
 import LabelOpposite from '@shared/uikit/label-opposite'
-import { Address } from '@ton/core'
 import { TonConnectButton, useTonAddress } from '@tonconnect/ui-react'
 import { FC, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -28,8 +27,9 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
   const walletAddress = useTonAddress()
   const { data: organization, isLoading: isOrgLoading } = useOrganization(walletAddress)
   const { checkTag } = useCreateOrgTag()
-  const isMyProfile: Mode =
-    Address.normalize(walletAddress) === Address.normalize(address) ? 'my-profile' : 'user-profile'
+  const isMyProfile = useIsMyAddress()
+
+  const profileMode = isMyProfile(address) ? 'my-profile' : 'user-profile'
 
   const defineHeaderTitle: Record<Mode, string> = {
     'my-profile': t('profile_unit_title'),
@@ -83,14 +83,14 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
       onBack={() => navigate('..')}
       title={
         <ContentField.HeaderWithIcon
-          text={defineHeaderTitle[isMyProfile]}
-          icon={defineHeaderIcon[isMyProfile]}
+          text={defineHeaderTitle[profileMode]}
+          icon={defineHeaderIcon[profileMode]}
         />
       }>
       <div className='flex flex-col gap-6'>
         <AddressLabel address={address} />
-        {defineWallet[isMyProfile]}
-        {defineOrganization[isMyProfile]}
+        {defineWallet[profileMode]}
+        {defineOrganization[profileMode]}
         {defineCertificates[+!!certificates?.length]}
       </div>
     </ContentField>
