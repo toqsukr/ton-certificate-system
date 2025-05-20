@@ -26,11 +26,12 @@ message(0x98d0ac63) RevokeCertificateRequest {
     index: Int;
 }
 
+message(0x1f04537b) OrgDestroy {}
+
 contract Organization with Ownable {
     content: Cell;
     owner: Address;
     next_index: Int as uint256;
-    manager_next_index: Int as uint256;
     wallet_whitelist: map<Address, Address>;
 
     init(
@@ -39,7 +40,6 @@ contract Organization with Ownable {
     ) {
         self.owner = owner;
         self.next_index = 0;
-        self.manager_next_index = 0;
         self.content = content;
         self.wallet_whitelist = emptyMap();
     }
@@ -61,7 +61,7 @@ contract Organization with Ownable {
         throwUnless(NON_AUTHORIZED, sender() == self.owner);
         throwUnless(CONFLICT, !self.wallet_whitelist.exists(msg.manager));
 
-        let nft_init: StateInit = initOf ManagerNFT(myAddress(), self.manager_next_index);
+        let nft_init: StateInit = initOf ManagerNFT(myAddress(), self.next_index);
         let nft_address: Address = contractAddress(nft_init);
         send(SendParameters {
             to: nft_address,
@@ -71,13 +71,13 @@ contract Organization with Ownable {
             data: nft_init.data,
             code: nft_init.code,
             body: NftDeploy{
-                index: self.manager_next_index,
+                index: self.next_index,
                 owner: msg.manager,
                 content: msg.content,
             }.toCell()
         });
       
-        self.manager_next_index += 1;
+        self.next_index += 1;
 
         self.wallet_whitelist.set(msg.manager, nft_address);
     }
@@ -134,6 +134,11 @@ contract Organization with Ownable {
             mode: SendPayGasSeparately,
             body: NftDestroy{}.toCell()
         });
+    }
+
+    receive(msg: OrgDestroy) {
+        throwUnless(NON_AUTHORIZED, sender() == self.owner);
+        self.owner = myAddress();
     }
 
     receive() {}
