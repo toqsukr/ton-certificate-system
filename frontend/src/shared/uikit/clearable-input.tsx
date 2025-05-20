@@ -35,14 +35,12 @@ const ClearableInput = forwardRef<HTMLInputElement, InputProps>(({ onChange, ...
       onChange={handleChange}
       Button={
         <IconButton
-          style={{
-            transition: 'scale .2s',
-            transformOrigin: 'right',
-          }}
+          disabled={props.disabled}
+          style={{ transformOrigin: 'right' }}
           className={cn('scale-x-0', {
             ['scale-x-100!']: !!value,
           })}
-          Icon={<RxCross2 className='w-8 h-8' />}
+          Icon={<RxCross2 className='w-7 h-7' />}
           onClick={handleClear}
         />
       }

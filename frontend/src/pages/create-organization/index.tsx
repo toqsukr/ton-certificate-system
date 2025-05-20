@@ -64,7 +64,7 @@ export const CreateOrganizationPage = () => {
 
         resetStore()
         updateTag()
-        navigate('..')
+        navigate(-1)
       }
       reader.readAsDataURL(file)
     } catch (e) {
@@ -81,7 +81,7 @@ export const CreateOrganizationPage = () => {
   if (organization || !checkTag()) return <Navigate to={'..'} />
 
   return (
-    <ContentField title={t('create_org_unit_title')} onBack={() => navigate('..')}>
+    <ContentField title={t('create_org_unit_title')} onBack={() => navigate(-1)}>
       <div className='flex flex-col gap-4'>
         <ClearableInput
           onChange={e => updateName(e.currentTarget.value)}

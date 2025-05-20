@@ -4,6 +4,8 @@ export const Routes = {
   SEARCH: '/search',
   PROFILE: '/profile',
   USER_INFO: 'user-info',
+  ADD_MANAGER: 'add-manager',
+  ALL_MANAGERS: 'all-managers',
   CERTIFICATE_INFO: 'certificate-info',
   ORGANIZATION_INFO: 'organization-info',
   MY_ORGANIZATION: 'my-organization',

@@ -49,9 +49,9 @@ export const AddressInput: FC<AddressInputProps> = ({
       Icons={[
         {
           action: handlePaste,
-          element: <LuClipboardPaste className='w-7 h-7 stroke-[1.5px]' />,
+          element: <LuClipboardPaste className='w-[26px] h-[26px] stroke-[2px]' />,
         },
-        { action: handleClear, element: <RxCross2 className='w-8 h-8' /> },
+        { action: handleClear, element: <RxCross2 className='w-7 h-7 ' /> },
       ]}
       activeIcon={+!!address?.toString()}
     />

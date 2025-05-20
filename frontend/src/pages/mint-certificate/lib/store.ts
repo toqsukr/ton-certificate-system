@@ -7,6 +7,7 @@ const AttributeSchema = z.object({
 })
 
 export const CertContentFormSchema = z.object({
+  organization: z.string().min(1),
   name: z.string().min(1).max(30),
   description: z.string().min(1).max(500),
   image: z.string().url().nullish(),
@@ -16,6 +17,7 @@ export const CertContentFormSchema = z.object({
 type TAttribute = z.infer<typeof AttributeSchema>
 
 type CertContentStates = {
+  organization: string | null
   name: string | null
   description: string | null
   image: string | null
@@ -23,6 +25,7 @@ type CertContentStates = {
 }
 
 type CertContentActions = {
+  updateOrganization: (organization: string | null) => void
   updateName: (name: string | null) => void
   updateDescription: (description: string | null) => void
   updateImage: (image: string | null) => void
@@ -33,6 +36,7 @@ type CertContentActions = {
 type CertContentStore = CertContentStates & CertContentActions
 
 const defaultState = {
+  organization: null,
   name: null,
   description: null,
   image: null,
@@ -42,8 +46,9 @@ const defaultState = {
 export const useCertContent = create<CertContentStore>((set, get) => ({
   ...defaultState,
   updateName: name => set({ ...get(), name }),
-  updateDescription: description => set({ ...get(), description }),
   updateImage: image => set({ ...get(), image }),
   updateAttributes: attributes => set({ ...get(), attributes }),
+  updateDescription: description => set({ ...get(), description }),
+  updateOrganization: organization => set({ ...get(), organization }),
   resetStore: () => set({ ...get(), ...defaultState }),
 }))

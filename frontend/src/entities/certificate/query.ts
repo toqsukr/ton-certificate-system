@@ -2,7 +2,8 @@ import { execute } from '@shared/api/graphql/execute'
 import { NftItemConnection } from '@shared/api/graphql/graphql'
 import { Address } from '@ton/core'
 
-const userNFTsQueryKey = 'user-nfts'
+const userCertsQueryKey = 'user-certs'
+const userOrgQueryKey = 'user-org'
 
 const getNFTItemsByCollection = `
   query NftCollectionItems($address: String!, $first: Int!) {
@@ -28,7 +29,7 @@ const getNFTItemsByCollection = `
 `
 
 export const getNFTByCollectionQuery = (collection: string) => ({
-  queryKey: [userNFTsQueryKey, collection],
+  queryKey: [userOrgQueryKey, collection],
   queryFn: async () => {
     return await execute<NftItemConnection>(getNFTItemsByCollection, {
       address: collection,
@@ -78,13 +79,13 @@ const selectCertificatesData = ({
   certAddresses: { [key: string]: string | undefined }
 }) => data.items.filter(({ address }) => !!certAddresses[address])
 
-export const getNFTByOwnerQuery = (
+export const getCertByOwnerQuery = (
   owner: string,
   getCertAddresses: (
     certs: { collection: string; index: number }[]
   ) => Promise<{ [key: string]: string | undefined }>
 ) => ({
-  queryKey: [userNFTsQueryKey, owner],
+  queryKey: [userCertsQueryKey, owner],
   queryFn: async () => {
     const res = await execute<NftItemConnection>(getNFTItemsByOwner, {
       ownerAddress: owner,

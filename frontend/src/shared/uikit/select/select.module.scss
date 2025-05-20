@@ -1,0 +1,26 @@
+.select {
+  width: 100%;
+  height: 2.8rem;
+  padding: 0.8rem;
+  font-weight: bold;
+  border-radius: 0.625rem;
+  color: var(--text-primary-color);
+  background-color: var(--background-color);
+
+  &::placeholder {
+    color: var(--text-third-color);
+  }
+  &::picker-icon {
+    content: url('/arrow.svg');
+    color: white;
+    transition: transform 0.4s;
+    margin-right: 2px;
+  }
+  &:open {
+    &::picker-icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  appearance: base-select;
+}

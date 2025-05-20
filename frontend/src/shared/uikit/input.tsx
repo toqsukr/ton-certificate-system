@@ -12,7 +12,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ Button, ...props }, re
         {...props}
         ref={ref}
         className={cn(
-          'w-full h-[2.8rem] p-[0.8rem] font-bold rounded-[0.625rem] text-[var(--text-primary-color)] bg-[var(--background-color)] placeholder:text-[var(--text-third-color)] file:hidden',
+          'w-full h-[2.8rem] p-[0.8rem] font-bold rounded-[0.625rem] text-[var(--text-primary-color)] bg-[var(--background-color)] placeholder:text-[var(--text-third-color)] file:hidden disabled:opacity-50',
           {
             ['pr-[3.6rem]']: !!Button,
           }

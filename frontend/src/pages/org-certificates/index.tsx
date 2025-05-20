@@ -22,7 +22,7 @@ export const OrgCertificates = () => {
   if (isOrgLoading || isCertsLoading) return <FieldLoader />
 
   return (
-    <ContentField title={t('issued_certificates')} onBack={() => navigate('..')}>
+    <ContentField title={t('issued_certificates')} onBack={() => navigate(-1)}>
       <CertificateList certificates={certificates} />
     </ContentField>
   )

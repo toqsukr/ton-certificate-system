@@ -33,7 +33,7 @@
   "mint_certificate": "Выпустить сертификат",
   "revoke_certificate": "Отозвать сертификат",
   "create_certificate": "Создать сертификат",
-  "manage_organization": "Управление организацией",
+  "my_organization": "Моя организация",
   "create_organization": "Создать организацию",
   "show_certificates": "Посмотреть сертификаты",
   "search_user": "Найти",
@@ -42,19 +42,26 @@
   "content_name": "Название",
   "content_description": "Описание",
   "upload_cert_image": "Иконка сертификата",
+  "cert_owner_address": "Адрес владельца",
   "upload_org_image": "Иконка организации",
 
   "mint_cert_unit_title": "Создание Сертификата",
   "create_cert_unit_text": "Для выпуска сертификата загрузите JSON-файл с необходимыми данными и вставьте адрес владельца в поля выше",
 
   "create_org_unit_title": "Создание Организации",
-  "create_org_unit_text": "Для создания организации вставьте загрузите JSON-файл с необходимыми данными в поле выше",
+  "create_org_unit_text": "Для создания организации заполните форму. Файл с метаданными будет сохранен в децентрализованном хранилище автоматически!",
 
   "all_certs_unit_title": "Все сертификаты",
   "issued_certificates": "Выпущенные сертификаты",
 
   "add_manager_unit_title": "Добавление менеджера",
+  "manager_address": "Адрес кошелька",
   "add_manager": "Добавить менеджера",
+
+  "all_managers_unit_title": "Все менеджеры",
+  "all_managers": "Все менеджеры",
+
+  "delete_organization": "Удалить организацию",
 
   "profile_unit_title": "Мой Аккаунт",
 

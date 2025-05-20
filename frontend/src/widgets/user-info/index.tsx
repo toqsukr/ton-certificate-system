@@ -1,19 +1,23 @@
 import { useCertificatesByOwner } from '@entities/certificate/model/use-certificates-by-owner'
+import { useManagerProxies } from '@entities/manager/model/use-manager-proxies'
 import { useOrganization } from '@entities/organization'
 import { AddressLabel, useIsMyAddress } from '@features/address-label'
 import { useCreateOrgTag } from '@features/create-organization-tag'
 import { OrganizationLabel } from '@features/organization-label'
+import { useTonConnect } from '@shared/lib/use-ton-connect'
 import { Routes } from '@shared/model/routes'
 import Button from '@shared/uikit/button'
 import ContentField from '@shared/uikit/content-field'
 import FieldLoader from '@shared/uikit/field-loader'
 import LabelOpposite from '@shared/uikit/label-opposite'
+import { Address } from '@ton/core'
 import { TonConnectButton, useTonAddress } from '@tonconnect/ui-react'
 import { FC, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FaRegUser } from 'react-icons/fa'
 import { PiSuitcaseSimple } from 'react-icons/pi'
 import { useNavigate } from 'react-router-dom'
+import { useDeleteManager } from './use-delete-manager'
 
 type Mode = 'my-profile' | 'user-profile'
 
@@ -28,6 +32,9 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
   const { data: organization, isLoading: isOrgLoading } = useOrganization(walletAddress)
   const { checkTag } = useCreateOrgTag()
   const isMyProfile = useIsMyAddress()
+  const { sender } = useTonConnect()
+  const { mutate: deleteManager } = useDeleteManager()
+  const { data: managerProxies, isLoading: isProxiesLoading } = useManagerProxies(walletAddress)
 
   const profileMode = isMyProfile(address) ? 'my-profile' : 'user-profile'
 
@@ -46,13 +53,37 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
     ),
     'user-profile': null,
   }
+  const defineMint = () => {
+    if (!isMyProfile(address) || !managerProxies || !organization) return null
+
+    return (
+      <Button onClick={() => navigate(Routes.MINT_CERTIFICATE)}>{t('create_certificate')}</Button>
+    )
+  }
+
+  const defineDeleteManager = () => {
+    const isManager = !!managerProxies?.find(
+      ({ owner }) => Address.normalize(owner.wallet) === Address.normalize(address)
+    )
+    if (isManager) {
+      const collection = Address.parse(organization?.address ?? '')
+      const manager = Address.parse(address)
+      return (
+        <Button onClick={() => deleteManager({ sender, collection, manager })}>
+          {t('delete_manager')}
+        </Button>
+      )
+    }
+
+    return null
+  }
 
   const defineOrganization: Record<Mode, ReactNode> = {
     'my-profile': (
       <>
         {organization ? (
           <Button onClick={() => navigate(Routes.MY_ORGANIZATION, { state: { address } })}>
-            {t('manage_organization')}
+            {t('my_organization')}
           </Button>
         ) : (
           <Button
@@ -67,7 +98,7 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
   }
 
   const defineCertificates = [
-    <p className='text-center'>{t('certificates_not_found')}</p>,
+    null,
     <Button onClick={() => navigate(Routes.ALL_CERTIFICATES, { state: { address } })}>
       {t('show_certificates')}
     </Button>,
@@ -76,11 +107,11 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
   const { data: certificates, isLoading: isCertsLoading } = useCertificatesByOwner(address)
   const navigate = useNavigate()
 
-  if (isCertsLoading || isOrgLoading) return <FieldLoader />
+  if (isCertsLoading || isOrgLoading || isProxiesLoading) return <FieldLoader />
 
   return (
     <ContentField
-      onBack={() => navigate('..')}
+      onBack={() => navigate(-1)}
       title={
         <ContentField.HeaderWithIcon
           text={defineHeaderTitle[profileMode]}
@@ -92,6 +123,8 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
         {defineWallet[profileMode]}
         {defineOrganization[profileMode]}
         {defineCertificates[+!!certificates?.length]}
+        {defineMint()}
+        {defineDeleteManager()}
       </div>
     </ContentField>
   )

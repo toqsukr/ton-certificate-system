@@ -1,0 +1,23 @@
+.manager_list {
+  position: relative;
+  display: grid;
+  overflow-x: auto;
+  overflow-y: hidden;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.5rem;
+  font-size: 0.9rem;
+  padding: 6px;
+  > li {
+    box-shadow: 0 0 4px 4px rgba(255, 255, 255, 0.1);
+  }
+}
+
+.manager_icon {
+  color: var(--primary-color);
+  filter: drop-shadow(0 0 2px var(--primary-color));
+  display: flex;
+  align-self: center;
+  width: 4rem;
+  height: 4rem;
+}

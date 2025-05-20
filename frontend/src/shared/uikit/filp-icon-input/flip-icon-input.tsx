@@ -20,6 +20,7 @@ const FlipIconInput = forwardRef<HTMLInputElement, FlipIconInputProp>((props, re
       Button={
         <IconButton
           isLoading={isLoading}
+          disabled={inputProps.disabled}
           onClick={Icons[activeIcon].action}
           Icon={
             <div className='relative'>

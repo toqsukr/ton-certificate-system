@@ -985,54 +985,12 @@ export function dictValueParserRevokeCertificateRequest(): DictionaryValue<Revok
   }
 }
 
-export type OrgDestroy = {
-  $$type: 'OrgDestroy'
-}
-
-export function storeOrgDestroy(_src: OrgDestroy) {
-  return (builder: Builder) => {
-    const b_0 = builder
-    b_0.storeUint(520377211, 32)
-  }
-}
-
-export function loadOrgDestroy(slice: Slice) {
-  const sc_0 = slice
-  if (sc_0.loadUint(32) !== 520377211) {
-    throw Error('Invalid prefix')
-  }
-  return { $$type: 'OrgDestroy' as const }
-}
-
-export function loadTupleOrgDestroy(_source: TupleReader) {
-  return { $$type: 'OrgDestroy' as const }
-}
-
-export function loadGetterTupleOrgDestroy(_source: TupleReader) {
-  return { $$type: 'OrgDestroy' as const }
-}
-
-export function storeTupleOrgDestroy(_source: OrgDestroy) {
-  const builder = new TupleBuilder()
-  return builder.build()
-}
-
-export function dictValueParserOrgDestroy(): DictionaryValue<OrgDestroy> {
-  return {
-    serialize: (src, builder) => {
-      builder.storeRef(beginCell().store(storeOrgDestroy(src)).endCell())
-    },
-    parse: src => {
-      return loadOrgDestroy(src.loadRef().beginParse())
-    },
-  }
-}
-
 export type Organization$Data = {
   $$type: 'Organization$Data'
   content: Cell
   owner: Address
   next_index: bigint
+  manager_next_index: bigint
   wallet_whitelist: Dictionary<Address, Address>
 }
 
@@ -1042,6 +1000,7 @@ export function storeOrganization$Data(src: Organization$Data) {
     b_0.storeRef(src.content)
     b_0.storeAddress(src.owner)
     b_0.storeUint(src.next_index, 256)
+    b_0.storeUint(src.manager_next_index, 256)
     b_0.storeDict(src.wallet_whitelist, Dictionary.Keys.Address(), Dictionary.Values.Address())
   }
 }
@@ -1051,6 +1010,7 @@ export function loadOrganization$Data(slice: Slice) {
   const _content = sc_0.loadRef()
   const _owner = sc_0.loadAddress()
   const _next_index = sc_0.loadUintBig(256)
+  const _manager_next_index = sc_0.loadUintBig(256)
   const _wallet_whitelist = Dictionary.load(
     Dictionary.Keys.Address(),
     Dictionary.Values.Address(),
@@ -1061,6 +1021,7 @@ export function loadOrganization$Data(slice: Slice) {
     content: _content,
     owner: _owner,
     next_index: _next_index,
+    manager_next_index: _manager_next_index,
     wallet_whitelist: _wallet_whitelist,
   }
 }
@@ -1069,6 +1030,7 @@ export function loadTupleOrganization$Data(source: TupleReader) {
   const _content = source.readCell()
   const _owner = source.readAddress()
   const _next_index = source.readBigNumber()
+  const _manager_next_index = source.readBigNumber()
   const _wallet_whitelist = Dictionary.loadDirect(
     Dictionary.Keys.Address(),
     Dictionary.Values.Address(),
@@ -1079,6 +1041,7 @@ export function loadTupleOrganization$Data(source: TupleReader) {
     content: _content,
     owner: _owner,
     next_index: _next_index,
+    manager_next_index: _manager_next_index,
     wallet_whitelist: _wallet_whitelist,
   }
 }
@@ -1087,6 +1050,7 @@ export function loadGetterTupleOrganization$Data(source: TupleReader) {
   const _content = source.readCell()
   const _owner = source.readAddress()
   const _next_index = source.readBigNumber()
+  const _manager_next_index = source.readBigNumber()
   const _wallet_whitelist = Dictionary.loadDirect(
     Dictionary.Keys.Address(),
     Dictionary.Values.Address(),
@@ -1097,6 +1061,7 @@ export function loadGetterTupleOrganization$Data(source: TupleReader) {
     content: _content,
     owner: _owner,
     next_index: _next_index,
+    manager_next_index: _manager_next_index,
     wallet_whitelist: _wallet_whitelist,
   }
 }
@@ -1106,6 +1071,7 @@ export function storeTupleOrganization$Data(source: Organization$Data) {
   builder.writeCell(source.content)
   builder.writeAddress(source.owner)
   builder.writeNumber(source.next_index)
+  builder.writeNumber(source.manager_next_index)
   builder.writeCell(
     source.wallet_whitelist.size > 0
       ? beginCell()
@@ -2271,32 +2237,32 @@ export function dictValueParserOrganizationFactory$Data(): DictionaryValue<Organ
   }
 }
 
-type Organization_init_args = {
-  $$type: 'Organization_init_args'
-  content: Cell
-  owner: Address
+type ManagerNFT_init_args = {
+  $$type: 'ManagerNFT_init_args'
+  collection: Address
+  index: bigint
 }
 
-function initOrganization_init_args(src: Organization_init_args) {
+function initManagerNFT_init_args(src: ManagerNFT_init_args) {
   return (builder: Builder) => {
     const b_0 = builder
-    b_0.storeRef(src.content)
-    b_0.storeAddress(src.owner)
+    b_0.storeAddress(src.collection)
+    b_0.storeInt(src.index, 257)
   }
 }
 
-async function Organization_init(content: Cell, owner: Address) {
+async function ManagerNFT_init(collection: Address, index: bigint) {
   const __code = Cell.fromHex(
-    'b5ee9c7241021e0100067c00022cff008e88f4a413f4bcf2c80bed53208e8130e1ed43d9010b02027102090201200305014bb8b5ded44d0d200019bd4fa40d3fff40455306c1499d4fa405902d101706de25513db3c6c4180400023102012006080147b4a3bda89a1a4000337a9f481a7ffe808aa60d82933a9f480b205a202e0dbc5b678d883007000222014bb4f47da89a1a4000337a9f481a7ffe808aa60d82933a9f480b205a202e0dbc4aa07b678d8830130147bc82df6a268690000cdea7d2069fffa022a98360a4cea7d202c816880b836f16d9e3621c0a000654713204d601d072d721d200d200fa4021103450666f04f86102f862ed44d0d200019bd4fa40d3fff40455306c1499d4fa405902d101706de205925f05e07024d74920c21f953104d31f05de218208a9930dbae302218208d31373bae302218210bebeed9abae30221821098d0ac63ba0c0e101202f45b03fa40d45932f8416f24135f03820afaf080bef2e2bcf8425230c705f2e1912581010b2259f40a6fa131b3f2e199f8282588c87001ca005a59cf16810101cf00c95c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0820afaf0807153957009140d01e4c855208210b7c0c11b5004cb1f12cbff01cf16ccc923061035102410384800104645155043c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb0004a4102581010b5052206e953059f4593098c801cf164133f441e243300f01e25b03fa400131f8416f24135f03820afaf080bef2e2bcf8425220c705f2e1912481010b2259f40a6fa192306ddf206eb3f2e194206ef2d080820afaf080716f00c8013082101f04537a01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00500481010bf4593043300f0028c87f01ca0055305034cc01cf16cbfff400c9ed5402f85b03fa40d45932f8416f24135f03820afaf080bef2e2bc81010bf842275959f40a6fa131917f96f8425230c705e2f2e191f8282588c87001ca005a59cf16810101cf00c95c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0820afaf0807170544a78141100d0c855208210b7c0c11b5004cb1f12cbff01cf16ccc94650443012104645155043c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb0002a45003c87f01ca0055305034cc01cf16cbfff400c9ed5403fe8eea5b03810101d7000131f8416f24135f03820afaf080bef2e2bcf8425220c705f2e191443012db3c820afaf080716f00c8013082101f04537a01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00c87f01ca0055305034cc01cf16cbfff400c9ed54e0352082101f04537bbae302c00004c12114b0131c1d0180f8280188c87001ca005a59cf16810101cf00c9705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0140228ff008e88f4a413f4bcf2c80bed5320e303ed43d915170267a663f3fb5134348000638434803e903e9020404075c03515501b0563a47e9020404075c01640b4405c08a2105004f8b6cf1b15601816000a547413535302f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e206925f06e004d70d1ff2e0822182105fcc3d14ba8e205bf2c3eb4034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e0211819000002fe82102fcb26a2ba8e5b31d33f0131f842708040543375c8552082108b7717355004cb1f12cb3fcbff01cf16c9413040037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb004034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e032208210b7c0c11bbae3023182101f04537abae3025f04f2c0821a1b007e303403d3fffa40d4552033f8425260c705f2e1915242ba9202b3923270e2f2e1907f045033c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54004ef8425210c705f2e191f8284034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed5400423033f842c705f2e191f8284003c87f01ca0055305034cc01cf16cbfff400c9ed54003c8e164003c87f01ca0055305034cc01cf16cbfff400c9ed54e05f04f2c082f1db69ad'
+    'b5ee9c72410208010001c6000228ff008e88f4a413f4bcf2c80bed5320e303ed43d901030267a663f3fb5134348000638434803e903e9020404075c03515501b0563a47e9020404075c01640b4405c08a2105004f8b6cf1b15600402000a547413535302f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e206925f06e004d70d1ff2e0822182105fcc3d14ba8e205bf2c3eb4034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e0210405000002fe82102fcb26a2ba8e5b31d33f0131f842708040543375c8552082108b7717355004cb1f12cb3fcbff01cf16c9413040037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb004034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e032208210b7c0c11bbae3023182101f04537abae3025f04f2c0820607007e303403d3fffa40d4552033f8425260c705f2e1915242ba9202b3923270e2f2e1907f045033c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54004ef8425210c705f2e191f8284034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed548869deb6'
   )
   const builder = beginCell()
   builder.storeUint(0, 1)
-  initOrganization_init_args({ $$type: 'Organization_init_args', content, owner })(builder)
+  initManagerNFT_init_args({ $$type: 'ManagerNFT_init_args', collection, index })(builder)
   const __data = builder.endCell()
   return { code: __code, data: __data }
 }
 
-export const Organization_errors = {
+export const ManagerNFT_errors = {
   2: { message: 'Stack underflow' },
   3: { message: 'Stack overflow' },
   4: { message: 'Integer overflow' },
@@ -2338,7 +2304,7 @@ export const Organization_errors = {
   138: { message: 'Not a basechain address' },
 } as const
 
-export const Organization_errors_backward = {
+export const ManagerNFT_errors_backward = {
   'Stack underflow': 2,
   'Stack overflow': 3,
   'Integer overflow': 4,
@@ -2377,7 +2343,7 @@ export const Organization_errors_backward = {
   'Not a basechain address': 138,
 } as const
 
-const Organization_types: ABIType[] = [
+const ManagerNFT_types: ABIType[] = [
   {
     name: 'DataSize',
     header: null,
@@ -2505,7 +2471,6 @@ const Organization_types: ABIType[] = [
       { name: 'index', type: { kind: 'simple', type: 'int', optional: false, format: 257 } },
     ],
   },
-  { name: 'OrgDestroy', header: 520377211, fields: [] },
   {
     name: 'Organization$Data',
     header: null,
@@ -2513,6 +2478,10 @@ const Organization_types: ABIType[] = [
       { name: 'content', type: { kind: 'simple', type: 'cell', optional: false } },
       { name: 'owner', type: { kind: 'simple', type: 'address', optional: false } },
       { name: 'next_index', type: { kind: 'simple', type: 'uint', optional: false, format: 256 } },
+      {
+        name: 'manager_next_index',
+        type: { kind: 'simple', type: 'uint', optional: false, format: 256 },
+      },
       { name: 'wallet_whitelist', type: { kind: 'dict', key: 'address', value: 'address' } },
     ],
   },
@@ -2669,12 +2638,11 @@ const Organization_types: ABIType[] = [
   { name: 'OrganizationFactory$Data', header: null, fields: [] },
 ]
 
-const Organization_opcodes = {
+const ManagerNFT_opcodes = {
   Excesses: 3576854235,
   AddManagerRequest: 11113229,
   RemoveManagerRequest: 13833075,
   RevokeCertificateRequest: 2563812451,
-  OrgDestroy: 520377211,
   Deploy: 2490013878,
   DeployOk: 2952335191,
   FactoryDeploy: 1829761339,
@@ -2691,52 +2659,24 @@ const Organization_opcodes = {
   OrgInitRequest: 712191329,
 }
 
-const Organization_getters: ABIGetter[] = [
+const ManagerNFT_getters: ABIGetter[] = [
   {
-    name: 'get_nft_address_by_index',
-    methodId: 92067,
-    arguments: [
-      { name: 'index', type: { kind: 'simple', type: 'int', optional: false, format: 257 } },
-    ],
-    returnType: { kind: 'simple', type: 'address', optional: false },
-  },
-  {
-    name: 'get_nft_content',
-    methodId: 68445,
-    arguments: [
-      { name: '_', type: { kind: 'simple', type: 'int', optional: false, format: 257 } },
-      { name: 'individual_content', type: { kind: 'simple', type: 'cell', optional: false } },
-    ],
-    returnType: { kind: 'simple', type: 'cell', optional: false },
-  },
-  {
-    name: 'get_collection_data',
-    methodId: 102491,
+    name: 'get_nft_data',
+    methodId: 102351,
     arguments: [],
-    returnType: { kind: 'simple', type: 'CollectionData', optional: false },
-  },
-  {
-    name: 'owner',
-    methodId: 83229,
-    arguments: [],
-    returnType: { kind: 'simple', type: 'address', optional: false },
+    returnType: { kind: 'simple', type: 'NftData', optional: false },
   },
 ]
 
-export const Organization_getterMapping: { [key: string]: string } = {
-  get_nft_address_by_index: 'getGetNftAddressByIndex',
-  get_nft_content: 'getGetNftContent',
-  get_collection_data: 'getGetCollectionData',
-  owner: 'getOwner',
+export const ManagerNFT_getterMapping: { [key: string]: string } = {
+  get_nft_data: 'getGetNftData',
 }
 
-const Organization_receivers: ABIReceiver[] = [
-  { receiver: 'internal', message: { kind: 'typed', type: 'AddManagerRequest' } },
-  { receiver: 'internal', message: { kind: 'typed', type: 'RemoveManagerRequest' } },
-  { receiver: 'internal', message: { kind: 'typed', type: 'RequestNftDeploy' } },
-  { receiver: 'internal', message: { kind: 'typed', type: 'RevokeCertificateRequest' } },
-  { receiver: 'internal', message: { kind: 'typed', type: 'OrgDestroy' } },
-  { receiver: 'internal', message: { kind: 'empty' } },
+const ManagerNFT_receivers: ABIReceiver[] = [
+  { receiver: 'internal', message: { kind: 'typed', type: 'NftTransfer' } },
+  { receiver: 'internal', message: { kind: 'typed', type: 'NftGetStaticData' } },
+  { receiver: 'internal', message: { kind: 'typed', type: 'NftDeploy' } },
+  { receiver: 'internal', message: { kind: 'typed', type: 'NftDestroy' } },
 ]
 
 export const BAD_REQUEST = 400n
@@ -2752,32 +2692,32 @@ export const DEPLOY_COINS = 50000000n
 export const MIN_COINS = 50000000n
 export const GAS_CONSUMPTION = 20000000n
 
-export class Organization implements Contract {
+export class ManagerNFT implements Contract {
   public static readonly storageReserve = 0n
-  public static readonly errors = Organization_errors_backward
-  public static readonly opcodes = Organization_opcodes
+  public static readonly errors = ManagerNFT_errors_backward
+  public static readonly opcodes = ManagerNFT_opcodes
 
-  static async init(content: Cell, owner: Address) {
-    return await Organization_init(content, owner)
+  static async init(collection: Address, index: bigint) {
+    return await ManagerNFT_init(collection, index)
   }
 
-  static async fromInit(content: Cell, owner: Address) {
-    const __gen_init = await Organization_init(content, owner)
+  static async fromInit(collection: Address, index: bigint) {
+    const __gen_init = await ManagerNFT_init(collection, index)
     const address = contractAddress(0, __gen_init)
-    return new Organization(address, __gen_init)
+    return new ManagerNFT(address, __gen_init)
   }
 
   static fromAddress(address: Address) {
-    return new Organization(address)
+    return new ManagerNFT(address)
   }
 
   readonly address: Address
   readonly init?: { code: Cell; data: Cell }
   readonly abi: ContractABI = {
-    types: Organization_types,
-    getters: Organization_getters,
-    receivers: Organization_receivers,
-    errors: Organization_errors,
+    types: ManagerNFT_types,
+    getters: ManagerNFT_getters,
+    receivers: ManagerNFT_receivers,
+    errors: ManagerNFT_errors,
   }
 
   constructor(address: Address, init?: { code: Cell; data: Cell }) {
@@ -2789,57 +2729,40 @@ export class Organization implements Contract {
     provider: ContractProvider,
     via: Sender,
     args: { value: bigint; bounce?: boolean | null | undefined },
-    message:
-      | AddManagerRequest
-      | RemoveManagerRequest
-      | RequestNftDeploy
-      | RevokeCertificateRequest
-      | OrgDestroy
-      | null
+    message: NftTransfer | NftGetStaticData | NftDeploy | NftDestroy
   ) {
     let body: Cell | null = null
     if (
       message &&
       typeof message === 'object' &&
       !(message instanceof Slice) &&
-      message.$$type === 'AddManagerRequest'
+      message.$$type === 'NftTransfer'
     ) {
-      body = beginCell().store(storeAddManagerRequest(message)).endCell()
+      body = beginCell().store(storeNftTransfer(message)).endCell()
     }
     if (
       message &&
       typeof message === 'object' &&
       !(message instanceof Slice) &&
-      message.$$type === 'RemoveManagerRequest'
+      message.$$type === 'NftGetStaticData'
     ) {
-      body = beginCell().store(storeRemoveManagerRequest(message)).endCell()
+      body = beginCell().store(storeNftGetStaticData(message)).endCell()
     }
     if (
       message &&
       typeof message === 'object' &&
       !(message instanceof Slice) &&
-      message.$$type === 'RequestNftDeploy'
+      message.$$type === 'NftDeploy'
     ) {
-      body = beginCell().store(storeRequestNftDeploy(message)).endCell()
+      body = beginCell().store(storeNftDeploy(message)).endCell()
     }
     if (
       message &&
       typeof message === 'object' &&
       !(message instanceof Slice) &&
-      message.$$type === 'RevokeCertificateRequest'
+      message.$$type === 'NftDestroy'
     ) {
-      body = beginCell().store(storeRevokeCertificateRequest(message)).endCell()
-    }
-    if (
-      message &&
-      typeof message === 'object' &&
-      !(message instanceof Slice) &&
-      message.$$type === 'OrgDestroy'
-    ) {
-      body = beginCell().store(storeOrgDestroy(message)).endCell()
-    }
-    if (message === null) {
-      body = new Cell()
+      body = beginCell().store(storeNftDestroy(message)).endCell()
     }
     if (body === null) {
       throw new Error('Invalid message type')
@@ -2848,34 +2771,10 @@ export class Organization implements Contract {
     await provider.internal(via, { ...args, body: body })
   }
 
-  async getGetNftAddressByIndex(provider: ContractProvider, index: bigint) {
+  async getGetNftData(provider: ContractProvider) {
     const builder = new TupleBuilder()
-    builder.writeNumber(index)
-    const source = (await provider.get('get_nft_address_by_index', builder.build())).stack
-    const result = source.readAddress()
-    return result
-  }
-
-  async getGetNftContent(provider: ContractProvider, _: bigint, individual_content: Cell) {
-    const builder = new TupleBuilder()
-    builder.writeNumber(_)
-    builder.writeCell(individual_content)
-    const source = (await provider.get('get_nft_content', builder.build())).stack
-    const result = source.readCell()
-    return result
-  }
-
-  async getGetCollectionData(provider: ContractProvider) {
-    const builder = new TupleBuilder()
-    const source = (await provider.get('get_collection_data', builder.build())).stack
-    const result = loadGetterTupleCollectionData(source)
-    return result
-  }
-
-  async getOwner(provider: ContractProvider) {
-    const builder = new TupleBuilder()
-    const source = (await provider.get('owner', builder.build())).stack
-    const result = source.readAddress()
+    const source = (await provider.get('get_nft_data', builder.build())).stack
+    const result = loadGetterTupleNftData(source)
     return result
   }
 }

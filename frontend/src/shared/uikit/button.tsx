@@ -11,7 +11,7 @@ const style: SxProps = {
   background: 'linear-gradient(90deg, #0198ea 0%, #14ccfa 50%, #777777 50%, #999999 100%)',
   backgroundSize: '210% 110%',
   backgroundPosition: '0% 0%',
-  transition: 'background-position 0.5s ease, opacity 0.3s ease',
+  transition: 'background-position 0.5s ease, opacity 0.3s ease, scale .2s',
 
   ':disabled': {
     backgroundPosition: '100% 0%',

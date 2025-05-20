@@ -31,7 +31,7 @@
   "revoke_certificate": "Revoke certificate",
   "create_certificate": "Create certificate",
   "create_organization": "Create organization",
-  "manage_organization": "Manage organization",
+  "my_organization": "My organization",
   "certificates_not_found": "Certificates Not Found",
   "show_certificates": "Show certificates",
   "search_user": "Search",
@@ -39,6 +39,7 @@
   "content_name": "Name",
   "content_description": "Description",
   "upload_cert_image": "Certificate icon",
+  "cert_owner_address": "Owner address",
   "upload_org_image": "Organization icon",
 
   "mint_cert_unit_title": "Certificate Creation",
@@ -50,6 +51,12 @@
   "all_certs_unit_title": "All Certificates",
   "revoke_certs_unit_title": "Certificates Revokation",
   "issued_certificates": "Issued certificates",
+
+  "add_manager_unit_title": "Manager Appending",
+  "manager_address": "Wallet address",
+  "add_manager": "Add manager",
+  "all_managers": "All managers",
+  "delete_organization": "Delete organization",
 
   "profile_unit_title": "Account",
 

@@ -50,7 +50,11 @@ const UploadContent: FC<UploadContentProps> = ({
   return (
     <div className='relative'>
       {!!!inputRef.current?.value && (
-        <span className='absolute text-[var(--text-third-color)] z-[1] font-bold top-1/2 left-4 -translate-y-1/2'>
+        <span
+          style={{
+            opacity: inputProps.disabled ? 0.5 : 1,
+          }}
+          className='absolute text-[var(--text-third-color)] z-[1] font-bold top-1/2 left-4 -translate-y-1/2'>
           {label}
         </span>
       )}
@@ -64,10 +68,9 @@ const UploadContent: FC<UploadContentProps> = ({
         activeIcon={+!!contentURL}
         isLoading={isPending}
         onChange={onUpload}
-        label='fas'
         Icons={[
           { action: handleUpload, element: Icon },
-          { action: handleClear, element: <RxCross2 className='w-8 h-8' /> },
+          { action: handleClear, element: <RxCross2 className='w-7 h-7' /> },
         ]}
       />
     </div>

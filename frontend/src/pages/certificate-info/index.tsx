@@ -1,4 +1,5 @@
 import { useCertificatesByOwner } from '@entities/certificate/model/use-certificates-by-owner'
+import { useOrganization } from '@entities/organization'
 import { AddressLabel, useIsMyAddress } from '@features/address-label'
 import NameLabel from '@features/name-label'
 import { OrganizationLabel } from '@features/organization-label'
@@ -20,6 +21,8 @@ export const CertificateInfoPage = () => {
     state.userAddress
   )
   const certificate = certificates?.find(({ id }) => id === state.certID)
+  const { isLoading: isOrgLoading } = useOrganization(certificate?.collection?.owner.wallet ?? '')
+
   const navigate = useNavigate()
   const { t } = useTranslation()
   const { sender } = useTonConnect()
@@ -37,7 +40,7 @@ export const CertificateInfoPage = () => {
 
   if (!state) return <Navigate to={Routes.PROFILE} />
 
-  if (isCertsLoading) return <FieldLoader />
+  if (isCertsLoading || isOrgLoading) return <FieldLoader />
 
   if (!certificate) return <Navigate to={Routes.PROFILE} />
 

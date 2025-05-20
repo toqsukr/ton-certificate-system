@@ -47,6 +47,16 @@ const OrgCertificatesPageLazy = async () => {
   return { Component: OrgCertificates }
 }
 
+const AllManagersPageLazy = async () => {
+  const { AllManagers } = await import('@pages/all-managers')
+  return { Component: AllManagers }
+}
+
+const AddManagerPageLazy = async () => {
+  const { AddManager } = await import('@pages/add-manager')
+  return { Component: AddManager }
+}
+
 export const router = createBrowserRouter([
   {
     element: (
@@ -79,6 +89,18 @@ export const router = createBrowserRouter([
               {
                 element: <ProfilePage />,
                 index: true,
+              },
+              {
+                path: Routes.MINT_CERTIFICATE,
+                lazy: MintCertificatePageLazy,
+              },
+              {
+                path: Routes.ORGANIZATION_INFO,
+                lazy: OrganizationInfoPageLazy,
+              },
+              {
+                path: Routes.CREATE_ORGANIZATION,
+                lazy: CreateOrganizationPageLazy,
               },
               {
                 path: Routes.ALL_CERTIFICATES,
@@ -118,14 +140,7 @@ export const router = createBrowserRouter([
                   },
                 ],
               },
-              {
-                path: Routes.ORGANIZATION_INFO,
-                lazy: OrganizationInfoPageLazy,
-              },
-              {
-                path: Routes.CREATE_ORGANIZATION,
-                lazy: CreateOrganizationPageLazy,
-              },
+
               {
                 path: Routes.MY_ORGANIZATION,
                 element: <Outlet />,
@@ -135,9 +150,14 @@ export const router = createBrowserRouter([
                     lazy: MyOrganizationPageLazy,
                   },
                   {
-                    path: Routes.MINT_CERTIFICATE,
-                    lazy: MintCertificatePageLazy,
+                    path: Routes.ALL_MANAGERS,
+                    lazy: AllManagersPageLazy,
                   },
+                  {
+                    path: Routes.ADD_MANAGER,
+                    lazy: AddManagerPageLazy,
+                  },
+
                   {
                     path: Routes.ORGANIZATION_CERTIFICATES,
                     element: <Outlet />,
