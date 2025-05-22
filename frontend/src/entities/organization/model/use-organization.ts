@@ -24,9 +24,5 @@ export const checkCollectionAddresses = async (owner: Address, collectionContent
 }
 
 export const useOrganization = (owner: string) => {
-  return useQuery(
-    getNFTCollectionByOwnerQuery(owner, (collectionContents: Cell[]) =>
-      checkCollectionAddresses(Address.parse(owner), collectionContents)
-    )
-  )
+  return useQuery(getNFTCollectionByOwnerQuery(owner))
 }

@@ -1,5 +1,6 @@
 import { useOrganization } from '@entities/organization'
 import { AddressInput } from '@features/address-input'
+import { checkIsWallet } from '@shared/lib/tcs'
 import { createOffchainContent } from '@shared/lib/ton'
 import { useTonConnect } from '@shared/lib/use-ton-connect'
 import Button from '@shared/uikit/button'
@@ -27,6 +28,11 @@ export const AddManager = () => {
   const handleAddManager = async () => {
     if (!managerAddress || !organization) return
     try {
+      const isWallet = await checkIsWallet(managerAddress.toString())
+      if (!isWallet) {
+        alert('Некорректный адрес кошелька')
+        throw new Error('Account is not wallet!')
+      }
       const managerContent = `${import.meta.env.VITE_TON_STORAGE_URL}${
         import.meta.env.VITE_MANAGER_CONTENT_BAGID
       }`

@@ -1,4 +1,4 @@
-import { openCertificateContract } from '@entities/certificate'
+import { openCertificateContractFromInit } from '@entities/certificate'
 import tonClient from '@shared/api/ton-client'
 import { useQuery } from '@tanstack/react-query'
 import { Address } from '@ton/core'
@@ -8,7 +8,11 @@ export const checkProxyAddresses = async (certs: { collection: string; index: nu
   const promiseArr = await Promise.allSettled(
     certs.map(async ({ collection, index }) => {
       const collectionAddress = Address.parse(collection)
-      const contract = await openCertificateContract(tonClient, collectionAddress, BigInt(index))
+      const contract = await openCertificateContractFromInit(
+        tonClient,
+        collectionAddress,
+        BigInt(index)
+      )
       contract.getGetNftData()
       return contract.address.toString()
     })
@@ -25,9 +29,5 @@ export const checkProxyAddresses = async (certs: { collection: string; index: nu
 }
 
 export const useManagerProxies = (owner: string) => {
-  return useQuery(
-    getManagerProxyByOwnerQuery(owner, (proxies: { collection: string; index: number }[]) =>
-      checkProxyAddresses(proxies)
-    )
-  )
+  return useQuery(getManagerProxyByOwnerQuery(owner))
 }

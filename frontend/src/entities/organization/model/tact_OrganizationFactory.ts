@@ -721,7 +721,7 @@ export type Excesses = {
   $$type: 'Excesses'
 }
 
-export function storeExcesses(_src: Excesses) {
+export function storeExcesses(_: Excesses) {
   return (builder: Builder) => {
     const b_0 = builder
     b_0.storeUint(3576854235, 32)
@@ -736,15 +736,15 @@ export function loadExcesses(slice: Slice) {
   return { $$type: 'Excesses' as const }
 }
 
-export function loadTupleExcesses(_source: TupleReader) {
+export function loadTupleExcesses(_: TupleReader) {
   return { $$type: 'Excesses' as const }
 }
 
-export function loadGetterTupleExcesses(_source: TupleReader) {
+export function loadGetterTupleExcesses(_: TupleReader) {
   return { $$type: 'Excesses' as const }
 }
 
-export function storeTupleExcesses(_source: Excesses) {
+export function storeTupleExcesses(_: Excesses) {
   const builder = new TupleBuilder()
   return builder.build()
 }
@@ -985,12 +985,54 @@ export function dictValueParserRevokeCertificateRequest(): DictionaryValue<Revok
   }
 }
 
+export type OrgDestroy = {
+  $$type: 'OrgDestroy'
+}
+
+export function storeOrgDestroy(_: OrgDestroy) {
+  return (builder: Builder) => {
+    const b_0 = builder
+    b_0.storeUint(520377211, 32)
+  }
+}
+
+export function loadOrgDestroy(slice: Slice) {
+  const sc_0 = slice
+  if (sc_0.loadUint(32) !== 520377211) {
+    throw Error('Invalid prefix')
+  }
+  return { $$type: 'OrgDestroy' as const }
+}
+
+export function loadTupleOrgDestroy(_: TupleReader) {
+  return { $$type: 'OrgDestroy' as const }
+}
+
+export function loadGetterTupleOrgDestroy(_: TupleReader) {
+  return { $$type: 'OrgDestroy' as const }
+}
+
+export function storeTupleOrgDestroy(_: OrgDestroy) {
+  const builder = new TupleBuilder()
+  return builder.build()
+}
+
+export function dictValueParserOrgDestroy(): DictionaryValue<OrgDestroy> {
+  return {
+    serialize: (src, builder) => {
+      builder.storeRef(beginCell().store(storeOrgDestroy(src)).endCell())
+    },
+    parse: src => {
+      return loadOrgDestroy(src.loadRef().beginParse())
+    },
+  }
+}
+
 export type Organization$Data = {
   $$type: 'Organization$Data'
   content: Cell
   owner: Address
   next_index: bigint
-  manager_next_index: bigint
   wallet_whitelist: Dictionary<Address, Address>
 }
 
@@ -1000,7 +1042,6 @@ export function storeOrganization$Data(src: Organization$Data) {
     b_0.storeRef(src.content)
     b_0.storeAddress(src.owner)
     b_0.storeUint(src.next_index, 256)
-    b_0.storeUint(src.manager_next_index, 256)
     b_0.storeDict(src.wallet_whitelist, Dictionary.Keys.Address(), Dictionary.Values.Address())
   }
 }
@@ -1010,7 +1051,6 @@ export function loadOrganization$Data(slice: Slice) {
   const _content = sc_0.loadRef()
   const _owner = sc_0.loadAddress()
   const _next_index = sc_0.loadUintBig(256)
-  const _manager_next_index = sc_0.loadUintBig(256)
   const _wallet_whitelist = Dictionary.load(
     Dictionary.Keys.Address(),
     Dictionary.Values.Address(),
@@ -1021,7 +1061,6 @@ export function loadOrganization$Data(slice: Slice) {
     content: _content,
     owner: _owner,
     next_index: _next_index,
-    manager_next_index: _manager_next_index,
     wallet_whitelist: _wallet_whitelist,
   }
 }
@@ -1030,7 +1069,6 @@ export function loadTupleOrganization$Data(source: TupleReader) {
   const _content = source.readCell()
   const _owner = source.readAddress()
   const _next_index = source.readBigNumber()
-  const _manager_next_index = source.readBigNumber()
   const _wallet_whitelist = Dictionary.loadDirect(
     Dictionary.Keys.Address(),
     Dictionary.Values.Address(),
@@ -1041,7 +1079,6 @@ export function loadTupleOrganization$Data(source: TupleReader) {
     content: _content,
     owner: _owner,
     next_index: _next_index,
-    manager_next_index: _manager_next_index,
     wallet_whitelist: _wallet_whitelist,
   }
 }
@@ -1050,7 +1087,6 @@ export function loadGetterTupleOrganization$Data(source: TupleReader) {
   const _content = source.readCell()
   const _owner = source.readAddress()
   const _next_index = source.readBigNumber()
-  const _manager_next_index = source.readBigNumber()
   const _wallet_whitelist = Dictionary.loadDirect(
     Dictionary.Keys.Address(),
     Dictionary.Values.Address(),
@@ -1061,7 +1097,6 @@ export function loadGetterTupleOrganization$Data(source: TupleReader) {
     content: _content,
     owner: _owner,
     next_index: _next_index,
-    manager_next_index: _manager_next_index,
     wallet_whitelist: _wallet_whitelist,
   }
 }
@@ -1071,7 +1106,6 @@ export function storeTupleOrganization$Data(source: Organization$Data) {
   builder.writeCell(source.content)
   builder.writeAddress(source.owner)
   builder.writeNumber(source.next_index)
-  builder.writeNumber(source.manager_next_index)
   builder.writeCell(
     source.wallet_whitelist.size > 0
       ? beginCell()
@@ -1901,7 +1935,7 @@ export type NftDestroy = {
   $$type: 'NftDestroy'
 }
 
-export function storeNftDestroy(_src: NftDestroy) {
+export function storeNftDestroy(_: NftDestroy) {
   return (builder: Builder) => {
     const b_0 = builder
     b_0.storeUint(520377210, 32)
@@ -1916,15 +1950,15 @@ export function loadNftDestroy(slice: Slice) {
   return { $$type: 'NftDestroy' as const }
 }
 
-export function loadTupleNftDestroy(_source: TupleReader) {
+export function loadTupleNftDestroy(_: TupleReader) {
   return { $$type: 'NftDestroy' as const }
 }
 
-export function loadGetterTupleNftDestroy(_source: TupleReader) {
+export function loadGetterTupleNftDestroy(_: TupleReader) {
   return { $$type: 'NftDestroy' as const }
 }
 
-export function storeTupleNftDestroy(_source: NftDestroy) {
+export function storeTupleNftDestroy(_: NftDestroy) {
   const builder = new TupleBuilder()
   return builder.build()
 }
@@ -2205,23 +2239,23 @@ export type OrganizationFactory$Data = {
   $$type: 'OrganizationFactory$Data'
 }
 
-export function storeOrganizationFactory$Data(_src: OrganizationFactory$Data) {
-  return (_builder: Builder) => {}
+export function storeOrganizationFactory$Data(_: OrganizationFactory$Data) {
+  return (_: Builder) => {}
 }
 
-export function loadOrganizationFactory$Data(_slice: Slice) {
+export function loadOrganizationFactory$Data(_: Slice) {
   return { $$type: 'OrganizationFactory$Data' as const }
 }
 
-export function loadTupleOrganizationFactory$Data(_source: TupleReader) {
+export function loadTupleOrganizationFactory$Data(_: TupleReader) {
   return { $$type: 'OrganizationFactory$Data' as const }
 }
 
-export function loadGetterTupleOrganizationFactory$Data(_source: TupleReader) {
+export function loadGetterTupleOrganizationFactory$Data(_: TupleReader) {
   return { $$type: 'OrganizationFactory$Data' as const }
 }
 
-export function storeTupleOrganizationFactory$Data(_source: OrganizationFactory$Data) {
+export function storeTupleOrganizationFactory$Data(_: OrganizationFactory$Data) {
   const builder = new TupleBuilder()
   return builder.build()
 }
@@ -2241,13 +2275,13 @@ type OrganizationFactory_init_args = {
   $$type: 'OrganizationFactory_init_args'
 }
 
-function initOrganizationFactory_init_args(_src: OrganizationFactory_init_args) {
-  return (_builder: Builder) => {}
+function initOrganizationFactory_init_args(_: OrganizationFactory_init_args) {
+  return (_: Builder) => {}
 }
 
 async function OrganizationFactory_init() {
   const __code = Cell.fromHex(
-    'b5ee9c72410220010007850001e0ff00208ee73001d072d721d200d200fa4021103450666f04f86102f862ed44d0d20030916d916de202915be07021d74920c21f953101d31f02de2182102a732d61bae30232c00001c121b08e1af8428010c8cb05ce70cf0b6ec98042fb0030c87f01ca00c9ed54e030f2c082e1f2c80b0102f05bd4fa40593031f8416f24135f03820afaf080bef2e2bcf84288c87001ca005a02cc01cf16c9820afaf080706d50437f595f41f90001f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f9040003c8cf8580ca0012cccccf884008cbff01fa028069cf40cf8634f400c901fb00f8427080426f00021f022cff008e88f4a413f4bcf2c80bed53208e8130e1ed43d9030d020271040b02012005070151b8b5ded44d0d200019dd4fa40d3ffd3fff40455406c159ad4fa405902d10170206de25514db3c6c51806000231020120080a014db4a3bda89a1a400033ba9f481a7ffa7ffe808aa80d82b35a9f480b205a202e040dbc5b678d8a30090002230151b4f47da89a1a400033ba9f481a7ffa7ffe808aa80d82b35a9f480b205a202e040dbc4aa09b678d8a3015014dbc82df6a268690000ceea7d2069ffe9fffa022aa0360acd6a7d202c816880b81036f16d9e3629c0c000654724304dc01d072d721d200d200fa4021103450666f04f86102f862ed44d0d200019dd4fa40d3ffd3fff40455406c159ad4fa405902d10170206de206925f06e07025d74920c21f953105d31f06de218208a9930dbae302218208d31373bae302218210bebeed9abae30221821098d0ac63ba0e10121402f45b04fa40d45932f8416f24135f03820afaf080bef2e2bcf8425240c705f2e1912681010b2259f40a6fa131b3f2e199f8282688c87001ca005a59cf16810101cf00c95c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0820afaf0807153a57009160f01e4c855208210b7c0c11b5004cb1f12cbff01cf16ccc923061035102410384800104645155043c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb0005a4102681010b5062206e953059f4593098c801cf164133f441e244301101e25b04fa400131f8416f24135f03820afaf080bef2e2bcf8425230c705f2e1912581010b2259f40a6fa192306ddf206eb3f2e194206ef2d080820afaf080716f00c8013082101f04537a01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00500581010bf45930443011002cc87f01ca0055405045cc58cf16cbffcbfff400c9ed5402f85b04fa40d45932f8416f24135f03820afaf080bef2e2bc81010bf842285959f40a6fa131917f96f8425240c705e2f2e191f8282388c87001ca005a59cf16810101cf00c95c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0820afaf0807170544878161300d2c855208210b7c0c11b5004cb1f12cbff01cf16ccc94650443012104645155043c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb00a44034c87f01ca0055405045cc58cf16cbffcbfff400c9ed5402fe8eed5b04810101d7000131f8416f24135f03820afaf080bef2e2bcf8425230c705f2e19110354430db3c820afaf080716f00c8013082101f04537a01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00c87f01ca0055405045cc58cf16cbffcbfff400c9ed54e036c00005c12115b0e3025f05f2c082151e0180f8280188c87001ca005a59cf16810101cf00c9705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0160228ff008e88f4a413f4bcf2c80bed5320e303ed43d917190267a663f3fb5134348000638434803e903e9020404075c03515501b0563a47e9020404075c01640b4405c08a2105004f8b6cf1b15601a18000a547413535302f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e206925f06e004d70d1ff2e0822182105fcc3d14ba8e205bf2c3eb4034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e0211a1b000002fe82102fcb26a2ba8e5b31d33f0131f842708040543375c8552082108b7717355004cb1f12cb3fcbff01cf16c9413040037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb004034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e032208210b7c0c11bbae3023182101f04537abae3025f04f2c0821c1d007e303403d3fffa40d4552033f8425260c705f2e1915242ba9202b3923270e2f2e1907f045033c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54004ef8425210c705f2e191f8284034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed5400304034c87f01ca0055405045cc58cf16cbffcbfff400c9ed540060c801308210d53276db01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb0030c87f01ca00c9ed543e5e3ca9'
+    'b5ee9c724102290100085d0001e0ff00208ee73001d072d721d200d200fa4021103450666f04f86102f862ed44d0d20030916d916de202915be07021d74920c21f953101d31f02de2182102a732d61bae30232c00001c121b08e1af8428010c8cb05ce70cf0b6ec98042fb0030c87f01ca00c9ed54e030f2c082e1f2c80b0102f05bd4fa40593031f8416f24135f03820afaf080bef2e2bcf84288c87001ca005a02cc01cf16c9820afaf080706d50437f595f41f90001f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f9040003c8cf8580ca0012cccccf884008cbff01fa028069cf40cf8634f400c901fb00f8427080426f000228022cff008e88f4a413f4bcf2c80bed53208e8130e1ed43d9030f020271040d0201200507014bb8b5ded44d0d200019bd4fa40d3fff40455306c1499d4fa405902d101706de25513db3c6c41806000231020120080c020120090b0147b1477b513434800066f53e9034fffd01154c1b0526753e901640b4405c1b78b6cf1b10600a0002220147b0447b513434800066f53e9034fffd01154c1b0526753e901640b4405c1b78b6cf1b106020014bb4f47da89a1a4000337a9f481a7ffe808aa60d82933a9f480b205a202e0dbc4aa07b678d88301a0147bc82df6a268690000cdea7d2069fffa022a98360a4cea7d202c816880b836f16d9e3621c0e000654713204d601d072d721d200d200fa4021103450666f04f86102f862ed44d0d200019bd4fa40d3fff40455306c1499d4fa405902d101706de205925f05e07024d74920c21f953104d31f05de218208a9930dbae302218208d31373bae302218210bebeed9abae30221821098d0ac63ba1015171902f45b03fa40d45932f8416f24135f03820afaf080bef2e2bcf8425230c705f2e1912581010b2259f40a6fa131b3f2e199f8282588c87001ca005a59cf16810101cf00c95c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0820afaf080715395700911140228ff008e88f4a413f4bcf2c80bed5320e303ed43d91221020378e01d130265bb46bed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e2db3c6c518222001e4c855208210b7c0c11b5004cb1f12cbff01cf16ccc923061035102410384800104645155043c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb0004a4102581010b5052206e953059f4593098c801cf164133f441e243301601e25b03fa400131f8416f24135f03820afaf080bef2e2bcf8425220c705f2e1912481010b2259f40a6fa192306ddf206eb3f2e194206ef2d080820afaf080716f00c8013082101f04537a01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00500481010bf459304330160028c87f01ca0055305034cc01cf16cbfff400c9ed5402f85b03fa40d45932f8416f24135f03820afaf080bef2e2bc81010bf842275959f40a6fa131917f96f8425230c705e2f2e191f8282588c87001ca005a59cf16810101cf00c95c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0820afaf0807170544a781b1800d0c855208210b7c0c11b5004cb1f12cbff01cf16ccc94650443012104645155043c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb0002a45003c87f01ca0055305034cc01cf16cbfff400c9ed5403fe8eea5b03810101d7000131f8416f24135f03820afaf080bef2e2bcf8425220c705f2e191443012db3c820afaf080716f00c8013082101f04537a01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00c87f01ca0055305034cc01cf16cbfff400c9ed54e0352082101f04537bbae302c00004c12114b01a26270180f8280188c87001ca005a59cf16810101cf00c9705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d01b0228ff008e88f4a413f4bcf2c80bed5320e303ed43d91c21020378e01d1f0265b8fcfed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e2db3c6c558221e000a54741353530265b918bed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e2db3c6c518222000027f02f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e206925f06e004d70d1ff2e0822182105fcc3d14ba8e205bf2c3eb4034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e0212223000002fe82102fcb26a2ba8e5b31d33f0131f842708040543375c8552082108b7717355004cb1f12cb3fcbff01cf16c9413040037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb004034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e032208210b7c0c11bbae3023182101f04537abae3025f04f2c0822425007e303403d3fffa40d4552033f8425260c705f2e1915242ba9202b3923270e2f2e1907f045033c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54004ef8425210c705f2e191f8284034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed5400423033f842c705f2e191f8284003c87f01ca0055305034cc01cf16cbfff400c9ed54003c8e164003c87f01ca0055305034cc01cf16cbfff400c9ed54e05f04f2c0820060c801308210d53276db01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb0030c87f01ca00c9ed54d6afa92d'
   )
   const builder = beginCell()
   builder.storeUint(0, 1)
@@ -2465,6 +2499,7 @@ const OrganizationFactory_types: ABIType[] = [
       { name: 'index', type: { kind: 'simple', type: 'int', optional: false, format: 257 } },
     ],
   },
+  { name: 'OrgDestroy', header: 520377211, fields: [] },
   {
     name: 'Organization$Data',
     header: null,
@@ -2472,10 +2507,6 @@ const OrganizationFactory_types: ABIType[] = [
       { name: 'content', type: { kind: 'simple', type: 'cell', optional: false } },
       { name: 'owner', type: { kind: 'simple', type: 'address', optional: false } },
       { name: 'next_index', type: { kind: 'simple', type: 'uint', optional: false, format: 256 } },
-      {
-        name: 'manager_next_index',
-        type: { kind: 'simple', type: 'uint', optional: false, format: 256 },
-      },
       { name: 'wallet_whitelist', type: { kind: 'dict', key: 'address', value: 'address' } },
     ],
   },
@@ -2637,6 +2668,7 @@ const OrganizationFactory_opcodes = {
   AddManagerRequest: 11113229,
   RemoveManagerRequest: 13833075,
   RevokeCertificateRequest: 2563812451,
+  OrgDestroy: 520377211,
   Deploy: 2490013878,
   DeployOk: 2952335191,
   FactoryDeploy: 1829761339,

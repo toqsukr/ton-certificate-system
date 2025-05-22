@@ -1,5 +1,7 @@
 import { execute } from '@shared/api/graphql/execute'
-import { NftItemConnection } from '@shared/api/graphql/graphql'
+import { NftItem, NftItemConnection } from '@shared/api/graphql/graphql'
+import { filterContractEntity } from '@shared/lib/tcs'
+import { openManagerContractFromAddress } from './model/open-manager-contract'
 
 const managerProxiesQueryKey = 'manager-proxies'
 
@@ -31,32 +33,18 @@ query NftItemsByOwner($ownerAddress: String!, $first: Int!) {
 }
 `
 
-const selectProxiesData = ({
-  data,
-  proxyAddresses,
-}: {
-  data: NftItemConnection
-  proxyAddresses: { [key: string]: string | undefined }
-}) => data.items.filter(({ address }) => !!proxyAddresses[address])
-
-export const getManagerProxyByOwnerQuery = (
-  owner: string,
-  getProxyAddresses: (
-    proxies: { collection: string; index: number }[]
-  ) => Promise<{ [key: string]: string | undefined }>
-) => ({
+export const getManagerProxyByOwnerQuery = (owner: string) => ({
   queryKey: [managerProxiesQueryKey, owner],
   queryFn: async () => {
     const res = await execute<NftItemConnection>(getNFTItemsByOwner, {
       ownerAddress: owner,
       first: 50,
     })
-    const certs = res.items.map(({ index, collection }) => ({
-      collection: collection?.address ?? '',
-      index,
-    }))
-    const proxyAddresses = await getProxyAddresses(certs)
-    return { data: res, proxyAddresses }
+    return Promise.all(
+      res.items.map(item => filterContractEntity(item, openManagerContractFromAddress, 'nft-item'))
+    )
   },
-  select: selectProxiesData,
+  select: (data: { checkResult: boolean; entity: NftItem }[]) => {
+    return data.filter(({ checkResult }) => checkResult).map(({ entity }) => entity)
+  },
 })

@@ -21,9 +21,11 @@ const ProxiesSelect = () => {
 
   return (
     <Select value={organization ?? undefined} onChange={handleSelect}>
-      <Select.Option value=''>Выберите организацию</Select.Option>
+      <Select.Option selected={!!organization} value=''>
+        Выберите организацию
+      </Select.Option>
       {options.map(({ address, name }) => (
-        <Select.Option key={address} value={address}>
+        <Select.Option selected={organization === address} key={address} value={address}>
           {name || address.slice(0, 24)}
         </Select.Option>
       ))}

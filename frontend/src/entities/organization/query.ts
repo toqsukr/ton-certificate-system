@@ -1,8 +1,8 @@
 import { execute } from '@shared/api/graphql/execute'
-import { NftCollectionConnection } from '@shared/api/graphql/graphql'
-import { getCollectionContent } from '@shared/lib/ton'
+import { NftCollection, NftCollectionConnection } from '@shared/api/graphql/graphql'
+import { filterContractEntity } from '@shared/lib/tcs'
 import { useQueryClient } from '@tanstack/react-query'
-import { Cell } from '@ton/core'
+import { openOrgFromAddressContract } from './model/open-org-contract'
 
 const organizationDataQueryKey = 'organization-data'
 
@@ -23,36 +23,22 @@ const getNFTCollectionsByOwner = `
   }
 `
 
-const selectOrganizationData = ({
-  data,
-  certAddresses,
-}: {
-  data: NftCollectionConnection
-  certAddresses: { [key: string]: string | undefined }
-}) =>
-  data.items.find(({ address }) => {
-    return !!certAddresses[address]
-  })
-
-export const getNFTCollectionByOwnerQuery = (
-  address: string,
-  getCollectionAddresses: (
-    collectionContents: Cell[]
-  ) => Promise<{ [key: string]: string | undefined }>
-) => ({
+export const getNFTCollectionByOwnerQuery = (address: string) => ({
   queryKey: [organizationDataQueryKey, address],
   queryFn: async () => {
     const res = await execute<NftCollectionConnection>(getNFTCollectionsByOwner, {
       ownerAddress: address,
       first: 50,
     })
-    const collectionContents = res.items.map(({ rawMetadata }) => {
-      return getCollectionContent(rawMetadata)
-    })
-    const certAddresses = await getCollectionAddresses(collectionContents)
-    return { data: res, certAddresses }
+    return Promise.all(
+      res.items.map(item =>
+        filterContractEntity(item, openOrgFromAddressContract, 'nft_collection')
+      )
+    )
   },
-  select: selectOrganizationData,
+  select: (data: { checkResult: boolean; entity: NftCollection }[]) => {
+    return data.filter(({ checkResult }) => checkResult).map(({ entity }) => entity)[0]
+  },
 })
 
 export const useInvaliateOrganizationData = () => {

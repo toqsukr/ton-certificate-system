@@ -721,7 +721,7 @@ export type Excesses = {
   $$type: 'Excesses'
 }
 
-export function storeExcesses(_src: Excesses) {
+export function storeExcesses(_: Excesses) {
   return (builder: Builder) => {
     const b_0 = builder
     b_0.storeUint(3576854235, 32)
@@ -736,15 +736,15 @@ export function loadExcesses(slice: Slice) {
   return { $$type: 'Excesses' as const }
 }
 
-export function loadTupleExcesses(_source: TupleReader) {
+export function loadTupleExcesses(_: TupleReader) {
   return { $$type: 'Excesses' as const }
 }
 
-export function loadGetterTupleExcesses(_source: TupleReader) {
+export function loadGetterTupleExcesses(_: TupleReader) {
   return { $$type: 'Excesses' as const }
 }
 
-export function storeTupleExcesses(_source: Excesses) {
+export function storeTupleExcesses(_: Excesses) {
   const builder = new TupleBuilder()
   return builder.build()
 }
@@ -985,12 +985,54 @@ export function dictValueParserRevokeCertificateRequest(): DictionaryValue<Revok
   }
 }
 
+export type OrgDestroy = {
+  $$type: 'OrgDestroy'
+}
+
+export function storeOrgDestroy(_: OrgDestroy) {
+  return (builder: Builder) => {
+    const b_0 = builder
+    b_0.storeUint(520377211, 32)
+  }
+}
+
+export function loadOrgDestroy(slice: Slice) {
+  const sc_0 = slice
+  if (sc_0.loadUint(32) !== 520377211) {
+    throw Error('Invalid prefix')
+  }
+  return { $$type: 'OrgDestroy' as const }
+}
+
+export function loadTupleOrgDestroy(_: TupleReader) {
+  return { $$type: 'OrgDestroy' as const }
+}
+
+export function loadGetterTupleOrgDestroy(_: TupleReader) {
+  return { $$type: 'OrgDestroy' as const }
+}
+
+export function storeTupleOrgDestroy(_: OrgDestroy) {
+  const builder = new TupleBuilder()
+  return builder.build()
+}
+
+export function dictValueParserOrgDestroy(): DictionaryValue<OrgDestroy> {
+  return {
+    serialize: (src, builder) => {
+      builder.storeRef(beginCell().store(storeOrgDestroy(src)).endCell())
+    },
+    parse: src => {
+      return loadOrgDestroy(src.loadRef().beginParse())
+    },
+  }
+}
+
 export type Organization$Data = {
   $$type: 'Organization$Data'
   content: Cell
   owner: Address
   next_index: bigint
-  manager_next_index: bigint
   wallet_whitelist: Dictionary<Address, Address>
 }
 
@@ -1000,7 +1042,6 @@ export function storeOrganization$Data(src: Organization$Data) {
     b_0.storeRef(src.content)
     b_0.storeAddress(src.owner)
     b_0.storeUint(src.next_index, 256)
-    b_0.storeUint(src.manager_next_index, 256)
     b_0.storeDict(src.wallet_whitelist, Dictionary.Keys.Address(), Dictionary.Values.Address())
   }
 }
@@ -1010,7 +1051,6 @@ export function loadOrganization$Data(slice: Slice) {
   const _content = sc_0.loadRef()
   const _owner = sc_0.loadAddress()
   const _next_index = sc_0.loadUintBig(256)
-  const _manager_next_index = sc_0.loadUintBig(256)
   const _wallet_whitelist = Dictionary.load(
     Dictionary.Keys.Address(),
     Dictionary.Values.Address(),
@@ -1021,7 +1061,6 @@ export function loadOrganization$Data(slice: Slice) {
     content: _content,
     owner: _owner,
     next_index: _next_index,
-    manager_next_index: _manager_next_index,
     wallet_whitelist: _wallet_whitelist,
   }
 }
@@ -1030,7 +1069,6 @@ export function loadTupleOrganization$Data(source: TupleReader) {
   const _content = source.readCell()
   const _owner = source.readAddress()
   const _next_index = source.readBigNumber()
-  const _manager_next_index = source.readBigNumber()
   const _wallet_whitelist = Dictionary.loadDirect(
     Dictionary.Keys.Address(),
     Dictionary.Values.Address(),
@@ -1041,7 +1079,6 @@ export function loadTupleOrganization$Data(source: TupleReader) {
     content: _content,
     owner: _owner,
     next_index: _next_index,
-    manager_next_index: _manager_next_index,
     wallet_whitelist: _wallet_whitelist,
   }
 }
@@ -1050,7 +1087,6 @@ export function loadGetterTupleOrganization$Data(source: TupleReader) {
   const _content = source.readCell()
   const _owner = source.readAddress()
   const _next_index = source.readBigNumber()
-  const _manager_next_index = source.readBigNumber()
   const _wallet_whitelist = Dictionary.loadDirect(
     Dictionary.Keys.Address(),
     Dictionary.Values.Address(),
@@ -1061,7 +1097,6 @@ export function loadGetterTupleOrganization$Data(source: TupleReader) {
     content: _content,
     owner: _owner,
     next_index: _next_index,
-    manager_next_index: _manager_next_index,
     wallet_whitelist: _wallet_whitelist,
   }
 }
@@ -1071,7 +1106,6 @@ export function storeTupleOrganization$Data(source: Organization$Data) {
   builder.writeCell(source.content)
   builder.writeAddress(source.owner)
   builder.writeNumber(source.next_index)
-  builder.writeNumber(source.manager_next_index)
   builder.writeCell(
     source.wallet_whitelist.size > 0
       ? beginCell()
@@ -1901,7 +1935,7 @@ export type NftDestroy = {
   $$type: 'NftDestroy'
 }
 
-export function storeNftDestroy(_src: NftDestroy) {
+export function storeNftDestroy(_: NftDestroy) {
   return (builder: Builder) => {
     const b_0 = builder
     b_0.storeUint(520377210, 32)
@@ -1916,15 +1950,15 @@ export function loadNftDestroy(slice: Slice) {
   return { $$type: 'NftDestroy' as const }
 }
 
-export function loadTupleNftDestroy(_source: TupleReader) {
+export function loadTupleNftDestroy(_: TupleReader) {
   return { $$type: 'NftDestroy' as const }
 }
 
-export function loadGetterTupleNftDestroy(_source: TupleReader) {
+export function loadGetterTupleNftDestroy(_: TupleReader) {
   return { $$type: 'NftDestroy' as const }
 }
 
-export function storeTupleNftDestroy(_source: NftDestroy) {
+export function storeTupleNftDestroy(_: NftDestroy) {
   const builder = new TupleBuilder()
   return builder.build()
 }
@@ -2205,23 +2239,23 @@ export type OrganizationFactory$Data = {
   $$type: 'OrganizationFactory$Data'
 }
 
-export function storeOrganizationFactory$Data(_src: OrganizationFactory$Data) {
-  return (_builder: Builder) => {}
+export function storeOrganizationFactory$Data(_: OrganizationFactory$Data) {
+  return (_: Builder) => {}
 }
 
-export function loadOrganizationFactory$Data(_slice: Slice) {
+export function loadOrganizationFactory$Data(_: Slice) {
   return { $$type: 'OrganizationFactory$Data' as const }
 }
 
-export function loadTupleOrganizationFactory$Data(_source: TupleReader) {
+export function loadTupleOrganizationFactory$Data(_: TupleReader) {
   return { $$type: 'OrganizationFactory$Data' as const }
 }
 
-export function loadGetterTupleOrganizationFactory$Data(_source: TupleReader) {
+export function loadGetterTupleOrganizationFactory$Data(_: TupleReader) {
   return { $$type: 'OrganizationFactory$Data' as const }
 }
 
-export function storeTupleOrganizationFactory$Data(_source: OrganizationFactory$Data) {
+export function storeTupleOrganizationFactory$Data(_: OrganizationFactory$Data) {
   const builder = new TupleBuilder()
   return builder.build()
 }
@@ -2253,7 +2287,7 @@ function initCertificateNFT_init_args(src: CertificateNFT_init_args) {
 
 async function CertificateNFT_init(collection: Address, index: bigint) {
   const __code = Cell.fromHex(
-    'b5ee9c72410208010001c6000228ff008e88f4a413f4bcf2c80bed5320e303ed43d901030267a663f3fb5134348000638434803e903e9020404075c03515501b0563a47e9020404075c01640b4405c08a2105004f8b6cf1b15600402000a547413535302f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e206925f06e004d70d1ff2e0822182105fcc3d14ba8e205bf2c3eb4034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e0210405000002fe82102fcb26a2ba8e5b31d33f0131f842708040543375c8552082108b7717355004cb1f12cb3fcbff01cf16c9413040037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb004034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e032208210b7c0c11bbae3023182101f04537abae3025f04f2c0820607007e303403d3fffa40d4552033f8425260c705f2e1915242ba9202b3923270e2f2e1907f045033c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54004ef8425210c705f2e191f8284034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed548869deb6'
+    'b5ee9c7241020b01000205000228ff008e88f4a413f4bcf2c80bed5320e303ed43d90106020378e002040265b8fcfed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e2db3c6c5580703000a54741353530265b918bed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e2db3c6c518070500027f02f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e206925f06e004d70d1ff2e0822182105fcc3d14ba8e205bf2c3eb4034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e0210708000002fe82102fcb26a2ba8e5b31d33f0131f842708040543375c8552082108b7717355004cb1f12cb3fcbff01cf16c9413040037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb004034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e032208210b7c0c11bbae3023182101f04537abae3025f04f2c082090a007e303403d3fffa40d4552033f8425260c705f2e1915242ba9202b3923270e2f2e1907f045033c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54004ef8425210c705f2e191f8284034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed540c78048b'
   )
   const builder = beginCell()
   builder.storeUint(0, 1)
@@ -2471,6 +2505,7 @@ const CertificateNFT_types: ABIType[] = [
       { name: 'index', type: { kind: 'simple', type: 'int', optional: false, format: 257 } },
     ],
   },
+  { name: 'OrgDestroy', header: 520377211, fields: [] },
   {
     name: 'Organization$Data',
     header: null,
@@ -2478,10 +2513,6 @@ const CertificateNFT_types: ABIType[] = [
       { name: 'content', type: { kind: 'simple', type: 'cell', optional: false } },
       { name: 'owner', type: { kind: 'simple', type: 'address', optional: false } },
       { name: 'next_index', type: { kind: 'simple', type: 'uint', optional: false, format: 256 } },
-      {
-        name: 'manager_next_index',
-        type: { kind: 'simple', type: 'uint', optional: false, format: 256 },
-      },
       { name: 'wallet_whitelist', type: { kind: 'dict', key: 'address', value: 'address' } },
     ],
   },
@@ -2643,6 +2674,7 @@ const CertificateNFT_opcodes = {
   AddManagerRequest: 11113229,
   RemoveManagerRequest: 13833075,
   RevokeCertificateRequest: 2563812451,
+  OrgDestroy: 520377211,
   Deploy: 2490013878,
   DeployOk: 2952335191,
   FactoryDeploy: 1829761339,
@@ -2661,6 +2693,12 @@ const CertificateNFT_opcodes = {
 
 const CertificateNFT_getters: ABIGetter[] = [
   {
+    name: 'is_certificate',
+    methodId: 119179,
+    arguments: [],
+    returnType: { kind: 'simple', type: 'bool', optional: false },
+  },
+  {
     name: 'get_nft_data',
     methodId: 102351,
     arguments: [],
@@ -2669,6 +2707,7 @@ const CertificateNFT_getters: ABIGetter[] = [
 ]
 
 export const CertificateNFT_getterMapping: { [key: string]: string } = {
+  is_certificate: 'getIsCertificate',
   get_nft_data: 'getGetNftData',
 }
 
@@ -2769,6 +2808,13 @@ export class CertificateNFT implements Contract {
     }
 
     await provider.internal(via, { ...args, body: body })
+  }
+
+  async getIsCertificate(provider: ContractProvider) {
+    const builder = new TupleBuilder()
+    const source = (await provider.get('is_certificate', builder.build())).stack
+    const result = source.readBoolean()
+    return result
   }
 
   async getGetNftData(provider: ContractProvider) {

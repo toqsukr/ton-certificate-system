@@ -151,7 +151,17 @@ export const router = createBrowserRouter([
                   },
                   {
                     path: Routes.ALL_MANAGERS,
-                    lazy: AllManagersPageLazy,
+                    element: <Outlet />,
+                    children: [
+                      {
+                        index: true,
+                        lazy: AllManagersPageLazy,
+                      },
+                      {
+                        path: Routes.USER_INFO,
+                        lazy: UserInfoPageLazy,
+                      },
+                    ],
                   },
                   {
                     path: Routes.ADD_MANAGER,

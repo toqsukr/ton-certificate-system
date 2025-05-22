@@ -2,13 +2,17 @@ import tonClient from '@shared/api/ton-client'
 import { useQuery } from '@tanstack/react-query'
 import { Address } from '@ton/core'
 import { getCertByOwnerQuery } from '../query'
-import { openCertificateContract } from './open-certificate'
+import { openCertificateContractFromInit } from './open-certificate'
 
 export const checkCertificateAddresses = async (certs: { collection: string; index: number }[]) => {
   const promiseArr = await Promise.allSettled(
     certs.map(async ({ collection, index }) => {
       const collectionAddress = Address.parse(collection)
-      const contract = await openCertificateContract(tonClient, collectionAddress, BigInt(index))
+      const contract = await openCertificateContractFromInit(
+        tonClient,
+        collectionAddress,
+        BigInt(index)
+      )
       contract.getGetNftData()
       return contract.address.toString()
     })
@@ -25,9 +29,5 @@ export const checkCertificateAddresses = async (certs: { collection: string; ind
 }
 
 export const useCertificatesByOwner = (owner: string) => {
-  return useQuery(
-    getCertByOwnerQuery(owner, (certificates: { collection: string; index: number }[]) =>
-      checkCertificateAddresses(certificates)
-    )
-  )
+  return useQuery(getCertByOwnerQuery(owner))
 }

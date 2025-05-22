@@ -13,7 +13,7 @@ import './tonconnect.css'
 
 try {
   init()
-} catch {
+} catch (e) {
   console.log('outside telegram usage')
 }
 

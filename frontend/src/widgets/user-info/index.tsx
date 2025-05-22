@@ -34,7 +34,7 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
   const isMyProfile = useIsMyAddress()
   const { sender } = useTonConnect()
   const { mutate: deleteManager } = useDeleteManager()
-  const { data: managerProxies, isLoading: isProxiesLoading } = useManagerProxies(walletAddress)
+  const { data: managerProxies, isLoading: isProxiesLoading } = useManagerProxies(address)
 
   const profileMode = isMyProfile(address) ? 'my-profile' : 'user-profile'
 
@@ -63,7 +63,8 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
 
   const defineDeleteManager = () => {
     const isManager = !!managerProxies?.find(
-      ({ owner }) => Address.normalize(owner.wallet) === Address.normalize(address)
+      ({ owner }) =>
+        !isMyProfile(address) && Address.normalize(owner.wallet) === Address.normalize(address)
     )
     if (isManager) {
       const collection = Address.parse(organization?.address ?? '')

@@ -20,6 +20,7 @@ export const useAddManager = () => {
       manager: Address
     }) => {
       const contract = await openOrgFromAddressContract(tonClient, collection)
+
       return contract.send(
         sender,
         {

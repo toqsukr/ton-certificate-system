@@ -1,6 +1,7 @@
 import { useOrganization } from '@entities/organization'
 import { AddressInput } from '@features/address-input'
 import { UploadContent, useSaveOffchainContent } from '@features/upload-content'
+import { checkIsWallet } from '@shared/lib/tcs'
 import { useTonConnect } from '@shared/lib/use-ton-connect'
 import Button from '@shared/uikit/button'
 import ClearableInput from '@shared/uikit/clearable-input'
@@ -22,7 +23,7 @@ export const MintCertificatePage = () => {
   const address = useTonAddress()
   const { sender } = useTonConnect()
   const [owner, setOwner] = useState<Address | null>(null)
-  const { mutateAsync: mintCertificate, isPending } = useMintCertificate()
+  const { mutateAsync: mintCertificate, isPending: isCertMinting } = useMintCertificate()
   const { mutateAsync: saveContentFile, isPending: isContentSaving } = useSaveOffchainContent()
   const { isLoading: isOrgLoading } = useOrganization(address)
   const {
@@ -37,6 +38,14 @@ export const MintCertificatePage = () => {
 
   const handleMintCert = async () => {
     if (!owner || !CertContentFormSchema.safeParse(storeValues).success) return
+
+    const isWallet = await checkIsWallet(owner.toString())
+
+    if (!isWallet) {
+      alert('Некорректный адрес кошелька')
+      return
+    }
+
     const { organization, ...contentData } = storeValues
 
     try {
@@ -78,6 +87,12 @@ export const MintCertificatePage = () => {
     updateImage(content)
   }
 
+  const onAddressUpdate = async (address: Address | null) => {
+    setOwner(address)
+  }
+
+  const formDisabled = !storeValues.organization || isCertMinting || isContentSaving
+
   if (isOrgLoading) return <FieldLoader />
 
   return (
@@ -85,23 +100,25 @@ export const MintCertificatePage = () => {
       <div className='flex flex-col gap-4'>
         <ProxiesSelect />
         <ClearableInput
-          disabled={!storeValues.organization || isPending || isContentSaving}
+          value={storeValues.name ?? ''}
+          disabled={formDisabled}
           onChange={e => updateName(e.currentTarget.value)}
           placeholder={t('content_name')}
         />
         <ClearableInput
-          disabled={!storeValues.organization || isPending || isContentSaving}
+          value={storeValues.description ?? ''}
+          disabled={formDisabled}
           onChange={e => updateDescription(e.currentTarget.value)}
           placeholder={t('content_description')}
         />
         <AddressInput
-          disabled={!storeValues.organization || isPending || isContentSaving}
+          disabled={formDisabled}
           placeholder={t('cert_owner_address')}
           address={owner}
-          onAddressUpdate={address => setOwner(address)}
+          onAddressUpdate={onAddressUpdate}
         />
         <UploadContent
-          disabled={!storeValues.organization}
+          disabled={formDisabled}
           label={t('upload_cert_image')}
           accept='image/png, image/jpeg'
           contentURL={storeValues.image}
@@ -112,10 +129,7 @@ export const MintCertificatePage = () => {
         <Button
           onClick={handleMintCert}
           disabled={
-            isPending ||
-            isContentSaving ||
-            !owner ||
-            !CertContentFormSchema.safeParse(storeValues).success
+            formDisabled || !owner || !CertContentFormSchema.safeParse(storeValues).success
           }>
           {t('mint_certificate')}
         </Button>

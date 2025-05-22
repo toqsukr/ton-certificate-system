@@ -25,6 +25,7 @@ export async function validateJsonFile(
 
     return { success: true, data: parsedData }
   } catch (error) {
+    console.error(error)
     return { success: false, error: 'Неверный формат JSON.' }
   }
 }

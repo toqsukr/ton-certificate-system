@@ -7,7 +7,7 @@ export const openOrgFromInitContract = async (client: TonClient, owner: Address,
   return client.open(contract) as OpenedContract<Organization>
 }
 
-export const openOrgFromAddressContract = async (client: TonClient, collection: Address) => {
-  const contract = Organization.fromAddress(collection)
+export const openOrgFromAddressContract = (client: TonClient, address: Address) => {
+  const contract = Organization.fromAddress(address)
   return client.open(contract) as OpenedContract<Organization>
 }

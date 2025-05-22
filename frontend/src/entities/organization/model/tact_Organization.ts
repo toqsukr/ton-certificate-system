@@ -721,7 +721,7 @@ export type Excesses = {
   $$type: 'Excesses'
 }
 
-export function storeExcesses(_src: Excesses) {
+export function storeExcesses(_: Excesses) {
   return (builder: Builder) => {
     const b_0 = builder
     b_0.storeUint(3576854235, 32)
@@ -736,15 +736,15 @@ export function loadExcesses(slice: Slice) {
   return { $$type: 'Excesses' as const }
 }
 
-export function loadTupleExcesses(_source: TupleReader) {
+export function loadTupleExcesses(_: TupleReader) {
   return { $$type: 'Excesses' as const }
 }
 
-export function loadGetterTupleExcesses(_source: TupleReader) {
+export function loadGetterTupleExcesses(_: TupleReader) {
   return { $$type: 'Excesses' as const }
 }
 
-export function storeTupleExcesses(_source: Excesses) {
+export function storeTupleExcesses(_: Excesses) {
   const builder = new TupleBuilder()
   return builder.build()
 }
@@ -989,7 +989,7 @@ export type OrgDestroy = {
   $$type: 'OrgDestroy'
 }
 
-export function storeOrgDestroy(_src: OrgDestroy) {
+export function storeOrgDestroy(_: OrgDestroy) {
   return (builder: Builder) => {
     const b_0 = builder
     b_0.storeUint(520377211, 32)
@@ -1004,15 +1004,15 @@ export function loadOrgDestroy(slice: Slice) {
   return { $$type: 'OrgDestroy' as const }
 }
 
-export function loadTupleOrgDestroy(_source: TupleReader) {
+export function loadTupleOrgDestroy(_: TupleReader) {
   return { $$type: 'OrgDestroy' as const }
 }
 
-export function loadGetterTupleOrgDestroy(_source: TupleReader) {
+export function loadGetterTupleOrgDestroy(_: TupleReader) {
   return { $$type: 'OrgDestroy' as const }
 }
 
-export function storeTupleOrgDestroy(_source: OrgDestroy) {
+export function storeTupleOrgDestroy(_: OrgDestroy) {
   const builder = new TupleBuilder()
   return builder.build()
 }
@@ -1935,7 +1935,7 @@ export type NftDestroy = {
   $$type: 'NftDestroy'
 }
 
-export function storeNftDestroy(_src: NftDestroy) {
+export function storeNftDestroy(_: NftDestroy) {
   return (builder: Builder) => {
     const b_0 = builder
     b_0.storeUint(520377210, 32)
@@ -1950,15 +1950,15 @@ export function loadNftDestroy(slice: Slice) {
   return { $$type: 'NftDestroy' as const }
 }
 
-export function loadTupleNftDestroy(_source: TupleReader) {
+export function loadTupleNftDestroy(_: TupleReader) {
   return { $$type: 'NftDestroy' as const }
 }
 
-export function loadGetterTupleNftDestroy(_source: TupleReader) {
+export function loadGetterTupleNftDestroy(_: TupleReader) {
   return { $$type: 'NftDestroy' as const }
 }
 
-export function storeTupleNftDestroy(_source: NftDestroy) {
+export function storeTupleNftDestroy(_: NftDestroy) {
   const builder = new TupleBuilder()
   return builder.build()
 }
@@ -2239,23 +2239,23 @@ export type OrganizationFactory$Data = {
   $$type: 'OrganizationFactory$Data'
 }
 
-export function storeOrganizationFactory$Data(_src: OrganizationFactory$Data) {
-  return (_builder: Builder) => {}
+export function storeOrganizationFactory$Data(_: OrganizationFactory$Data) {
+  return (_: Builder) => {}
 }
 
-export function loadOrganizationFactory$Data(_slice: Slice) {
+export function loadOrganizationFactory$Data(_: Slice) {
   return { $$type: 'OrganizationFactory$Data' as const }
 }
 
-export function loadTupleOrganizationFactory$Data(_source: TupleReader) {
+export function loadTupleOrganizationFactory$Data(_: TupleReader) {
   return { $$type: 'OrganizationFactory$Data' as const }
 }
 
-export function loadGetterTupleOrganizationFactory$Data(_source: TupleReader) {
+export function loadGetterTupleOrganizationFactory$Data(_: TupleReader) {
   return { $$type: 'OrganizationFactory$Data' as const }
 }
 
-export function storeTupleOrganizationFactory$Data(_source: OrganizationFactory$Data) {
+export function storeTupleOrganizationFactory$Data(_: OrganizationFactory$Data) {
   const builder = new TupleBuilder()
   return builder.build()
 }
@@ -2287,7 +2287,7 @@ function initOrganization_init_args(src: Organization_init_args) {
 
 async function Organization_init(content: Cell, owner: Address) {
   const __code = Cell.fromHex(
-    'b5ee9c7241021e0100067c00022cff008e88f4a413f4bcf2c80bed53208e8130e1ed43d9010b02027102090201200305014bb8b5ded44d0d200019bd4fa40d3fff40455306c1499d4fa405902d101706de25513db3c6c4180400023102012006080147b4a3bda89a1a4000337a9f481a7ffe808aa60d82933a9f480b205a202e0dbc5b678d883007000222014bb4f47da89a1a4000337a9f481a7ffe808aa60d82933a9f480b205a202e0dbc4aa07b678d8830130147bc82df6a268690000cdea7d2069fffa022a98360a4cea7d202c816880b836f16d9e3621c0a000654713204d601d072d721d200d200fa4021103450666f04f86102f862ed44d0d200019bd4fa40d3fff40455306c1499d4fa405902d101706de205925f05e07024d74920c21f953104d31f05de218208a9930dbae302218208d31373bae302218210bebeed9abae30221821098d0ac63ba0c0e101202f45b03fa40d45932f8416f24135f03820afaf080bef2e2bcf8425230c705f2e1912581010b2259f40a6fa131b3f2e199f8282588c87001ca005a59cf16810101cf00c95c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0820afaf0807153957009140d01e4c855208210b7c0c11b5004cb1f12cbff01cf16ccc923061035102410384800104645155043c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb0004a4102581010b5052206e953059f4593098c801cf164133f441e243300f01e25b03fa400131f8416f24135f03820afaf080bef2e2bcf8425220c705f2e1912481010b2259f40a6fa192306ddf206eb3f2e194206ef2d080820afaf080716f00c8013082101f04537a01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00500481010bf4593043300f0028c87f01ca0055305034cc01cf16cbfff400c9ed5402f85b03fa40d45932f8416f24135f03820afaf080bef2e2bc81010bf842275959f40a6fa131917f96f8425230c705e2f2e191f8282588c87001ca005a59cf16810101cf00c95c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0820afaf0807170544a78141100d0c855208210b7c0c11b5004cb1f12cbff01cf16ccc94650443012104645155043c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb0002a45003c87f01ca0055305034cc01cf16cbfff400c9ed5403fe8eea5b03810101d7000131f8416f24135f03820afaf080bef2e2bcf8425220c705f2e191443012db3c820afaf080716f00c8013082101f04537a01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00c87f01ca0055305034cc01cf16cbfff400c9ed54e0352082101f04537bbae302c00004c12114b0131c1d0180f8280188c87001ca005a59cf16810101cf00c9705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0140228ff008e88f4a413f4bcf2c80bed5320e303ed43d915170267a663f3fb5134348000638434803e903e9020404075c03515501b0563a47e9020404075c01640b4405c08a2105004f8b6cf1b15601816000a547413535302f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e206925f06e004d70d1ff2e0822182105fcc3d14ba8e205bf2c3eb4034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e0211819000002fe82102fcb26a2ba8e5b31d33f0131f842708040543375c8552082108b7717355004cb1f12cb3fcbff01cf16c9413040037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb004034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e032208210b7c0c11bbae3023182101f04537abae3025f04f2c0821a1b007e303403d3fffa40d4552033f8425260c705f2e1915242ba9202b3923270e2f2e1907f045033c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54004ef8425210c705f2e191f8284034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed5400423033f842c705f2e191f8284003c87f01ca0055305034cc01cf16cbfff400c9ed54003c8e164003c87f01ca0055305034cc01cf16cbfff400c9ed54e05f04f2c082f1db69ad'
+    'b5ee9c724102260100073c00022cff008e88f4a413f4bcf2c80bed53208e8130e1ed43d9010d020271020b0201200305014bb8b5ded44d0d200019bd4fa40d3fff40455306c1499d4fa405902d101706de25513db3c6c41804000231020120060a02012007090147b1477b513434800066f53e9034fffd01154c1b0526753e901640b4405c1b78b6cf1b1060080002220147b0447b513434800066f53e9034fffd01154c1b0526753e901640b4405c1b78b6cf1b10601e014bb4f47da89a1a4000337a9f481a7ffe808aa60d82933a9f480b205a202e0dbc4aa07b678d8830180147bc82df6a268690000cdea7d2069fffa022a98360a4cea7d202c816880b836f16d9e3621c0c000654713204d601d072d721d200d200fa4021103450666f04f86102f862ed44d0d200019bd4fa40d3fff40455306c1499d4fa405902d101706de205925f05e07024d74920c21f953104d31f05de218208a9930dbae302218208d31373bae302218210bebeed9abae30221821098d0ac63ba0e13151702f45b03fa40d45932f8416f24135f03820afaf080bef2e2bcf8425230c705f2e1912581010b2259f40a6fa131b3f2e199f8282588c87001ca005a59cf16810101cf00c95c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0820afaf08071539570090f120228ff008e88f4a413f4bcf2c80bed5320e303ed43d9101f020378e01b110265bb46bed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e2db3c6c518201e01e4c855208210b7c0c11b5004cb1f12cbff01cf16ccc923061035102410384800104645155043c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb0004a4102581010b5052206e953059f4593098c801cf164133f441e243301401e25b03fa400131f8416f24135f03820afaf080bef2e2bcf8425220c705f2e1912481010b2259f40a6fa192306ddf206eb3f2e194206ef2d080820afaf080716f00c8013082101f04537a01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00500481010bf459304330140028c87f01ca0055305034cc01cf16cbfff400c9ed5402f85b03fa40d45932f8416f24135f03820afaf080bef2e2bc81010bf842275959f40a6fa131917f96f8425230c705e2f2e191f8282588c87001ca005a59cf16810101cf00c95c705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0820afaf0807170544a78191600d0c855208210b7c0c11b5004cb1f12cbff01cf16ccc94650443012104645155043c8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb0002a45003c87f01ca0055305034cc01cf16cbfff400c9ed5403fe8eea5b03810101d7000131f8416f24135f03820afaf080bef2e2bcf8425220c705f2e191443012db3c820afaf080716f00c8013082101f04537a01cb1fc940037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb00c87f01ca0055305034cc01cf16cbfff400c9ed54e0352082101f04537bbae302c00004c12114b01824250180f8280188c87001ca005a59cf16810101cf00c9705920f90022f9005ad76501d76582020134c8cb17cb0fcb0fcbffcbff71f90400c87401cb0212ca07cbffc9d0190228ff008e88f4a413f4bcf2c80bed5320e303ed43d91a1f020378e01b1d0265b8fcfed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e2db3c6c558201c000a54741353530265b918bed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e2db3c6c518201e00027f02f83001d072d721d200d200fa4021103450666f04f86102f862ed44d0d200018e10d200fa40fa40810101d700d455406c158e91fa40810101d7005902d101702288414013e206925f06e004d70d1ff2e0822182105fcc3d14ba8e205bf2c3eb4034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e0212021000002fe82102fcb26a2ba8e5b31d33f0131f842708040543375c8552082108b7717355004cb1f12cb3fcbff01cf16c9413040037fc8cf8580ca00cf8440ce01fa02806acf40f400c901fb004034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54e032208210b7c0c11bbae3023182101f04537abae3025f04f2c0822223007e303403d3fffa40d4552033f8425260c705f2e1915242ba9202b3923270e2f2e1907f045033c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed54004ef8425210c705f2e191f8284034c87f01ca0055405045ca0058cf1601cf16810101cf00ccc9ed5400423033f842c705f2e191f8284003c87f01ca0055305034cc01cf16cbfff400c9ed54003c8e164003c87f01ca0055305034cc01cf16cbfff400c9ed54e05f04f2c082b27826ed'
   )
   const builder = beginCell()
   builder.storeUint(0, 1)
@@ -2716,6 +2716,12 @@ const Organization_getters: ABIGetter[] = [
     returnType: { kind: 'simple', type: 'CollectionData', optional: false },
   },
   {
+    name: 'is_organization',
+    methodId: 86289,
+    arguments: [],
+    returnType: { kind: 'simple', type: 'bool', optional: false },
+  },
+  {
     name: 'owner',
     methodId: 83229,
     arguments: [],
@@ -2727,6 +2733,7 @@ export const Organization_getterMapping: { [key: string]: string } = {
   get_nft_address_by_index: 'getGetNftAddressByIndex',
   get_nft_content: 'getGetNftContent',
   get_collection_data: 'getGetCollectionData',
+  is_organization: 'getIsOrganization',
   owner: 'getOwner',
 }
 
@@ -2869,6 +2876,13 @@ export class Organization implements Contract {
     const builder = new TupleBuilder()
     const source = (await provider.get('get_collection_data', builder.build())).stack
     const result = loadGetterTupleCollectionData(source)
+    return result
+  }
+
+  async getIsOrganization(provider: ContractProvider) {
+    const builder = new TupleBuilder()
+    const source = (await provider.get('is_organization', builder.build())).stack
+    const result = source.readBoolean()
     return result
   }
 
