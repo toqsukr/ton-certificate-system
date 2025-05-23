@@ -1,8 +1,7 @@
 import { execute } from '@shared/api/graphql/execute'
-import { NftCollection, NftCollectionConnection } from '@shared/api/graphql/graphql'
-import { filterContractEntity } from '@shared/lib/tcs'
-import { useQueryClient } from '@tanstack/react-query'
-import { openOrgFromAddressContract } from './model/open-org-contract'
+import { NftCollectionConnection } from '@shared/api/graphql/graphql'
+import { getCollectionContent } from '@shared/lib/ton'
+import { Cell } from '@ton/core'
 
 const organizationDataQueryKey = 'organization-data'
 
@@ -23,29 +22,34 @@ const getNFTCollectionsByOwner = `
   }
 `
 
-export const getNFTCollectionByOwnerQuery = (address: string) => ({
+const selectOrganizationData = ({
+  data,
+  certAddresses,
+}: {
+  data: NftCollectionConnection
+  certAddresses: { [key: string]: string | undefined }
+}) =>
+  data.items.find(({ address }) => {
+    return !!certAddresses[address]
+  })
+
+export const getNFTCollectionByOwnerQuery = (
+  address: string,
+  getCollectionAddresses: (
+    collectionContents: Cell[]
+  ) => Promise<{ [key: string]: string | undefined }>
+) => ({
   queryKey: [organizationDataQueryKey, address],
   queryFn: async () => {
     const res = await execute<NftCollectionConnection>(getNFTCollectionsByOwner, {
       ownerAddress: address,
       first: 50,
     })
-    return Promise.all(
-      res.items.map(item =>
-        filterContractEntity(item, openOrgFromAddressContract, 'nft_collection')
-      )
-    )
-  },
-  select: (data: { checkResult: boolean; entity: NftCollection }[]) => {
-    return data.filter(({ checkResult }) => checkResult).map(({ entity }) => entity)[0]
-  },
-})
-
-export const useInvaliateOrganizationData = () => {
-  const queryClient = useQueryClient()
-
-  return (address: string) =>
-    queryClient.invalidateQueries({
-      queryKey: [organizationDataQueryKey, address],
+    const collectionContents = res.items.map(({ rawMetadata }) => {
+      return getCollectionContent(rawMetadata)
     })
-}
+    const certAddresses = await getCollectionAddresses(collectionContents)
+    return { data: res, certAddresses }
+  },
+  select: selectOrganizationData,
+})

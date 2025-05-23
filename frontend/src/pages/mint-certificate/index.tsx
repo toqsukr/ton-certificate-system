@@ -2,7 +2,7 @@ import { useManagerProxies } from '@entities/manager'
 import { useOrganization } from '@entities/organization'
 import { AddressInput } from '@features/address-input'
 import { UploadContent, useSaveOffchainContent } from '@features/upload-content'
-import { checkIsWallet } from '@shared/lib/tcs'
+import { checkIsWallet, generateFilename } from '@shared/lib/tcs'
 import { useTonConnect } from '@shared/lib/use-ton-connect'
 import Button from '@shared/uikit/button'
 import ClearableInput from '@shared/uikit/clearable-input'
@@ -51,8 +51,19 @@ export const MintCertificatePage = () => {
 
     const { organization, ...contentData } = storeValues
 
+    const fullContentData = {
+      ...contentData,
+      attributes: [
+        ...(contentData.attributes ?? []),
+        {
+          trait_type: 'tcs-type',
+          value: 'certificate',
+        },
+      ],
+    }
+
     try {
-      const jsonString = JSON.stringify(contentData, null, 2)
+      const jsonString = JSON.stringify(fullContentData, null, 2)
 
       const blob = new Blob([jsonString], { type: 'application/json' })
 
@@ -65,7 +76,7 @@ export const MintCertificatePage = () => {
 
         const response = await saveContentFile({
           file: base64Data,
-          filename: `cert-data-${new Date().toISOString().slice(0, 10)}.json`,
+          filename: `cert-data-${generateFilename()}.json`,
         })
         const content = `${import.meta.env.VITE_TON_STORAGE_URL}${response.bagID}`
         const collectionAddress = Address.parse(organization!).toString()

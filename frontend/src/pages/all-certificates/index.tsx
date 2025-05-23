@@ -16,9 +16,7 @@ export const AllCertificatesPage = () => {
   if (isCertsLoading) return <FieldLoader />
 
   return (
-    <ContentField
-      title={t('all_certs_unit_title')}
-      onBack={() => navigate('..', { state: { userAddress: state?.address } })}>
+    <ContentField title={t('all_certs_unit_title')} onBack={() => navigate(-1)}>
       <CertificateList certificates={certificates} />
     </ContentField>
   )

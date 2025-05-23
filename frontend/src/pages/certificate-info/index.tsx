@@ -52,9 +52,7 @@ export const CertificateInfoPage = () => {
           icon={<CertIcon className='h-[2rem] text-[var(--primary-color)]' />}
         />
       }
-      onBack={() =>
-        navigate('..', { preventScrollReset: true, state: { address: certificate.owner.wallet } })
-      }>
+      onBack={() => navigate(-1)}>
       <div className='flex flex-col gap-6'>
         <AddressLabel address={certificate.address} />
         <OwnerLabel userAddress={certificate.owner.wallet} />

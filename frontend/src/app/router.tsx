@@ -159,7 +159,27 @@ export const router = createBrowserRouter([
                       },
                       {
                         path: Routes.USER_INFO,
-                        lazy: UserInfoPageLazy,
+                        element: <Outlet />,
+                        children: [
+                          {
+                            index: true,
+                            lazy: UserInfoPageLazy,
+                          },
+                          {
+                            path: Routes.ALL_CERTIFICATES,
+                            element: <Outlet />,
+                            children: [
+                              {
+                                index: true,
+                                lazy: AllCertificatesPageLazy,
+                              },
+                              {
+                                path: Routes.CERTIFICATE_INFO,
+                                lazy: CertificateInfoPageLazy,
+                              },
+                            ],
+                          },
+                        ],
                       },
                     ],
                   },

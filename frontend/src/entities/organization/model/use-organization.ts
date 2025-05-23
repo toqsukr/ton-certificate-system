@@ -22,7 +22,10 @@ export const checkCollectionAddresses = async (owner: Address, collectionContent
 
   return result
 }
-
 export const useOrganization = (owner: string) => {
-  return useQuery(getNFTCollectionByOwnerQuery(owner))
+  return useQuery(
+    getNFTCollectionByOwnerQuery(owner, (collectionContents: Cell[]) =>
+      checkCollectionAddresses(Address.parse(owner), collectionContents)
+    )
+  )
 }

@@ -1,5 +1,5 @@
 import { getNFTByCollectionQuery } from '@entities/certificate'
-import { useManagerProxies } from '@entities/manager'
+import { getManagerProxyByCollectionQuery } from '@entities/manager/query'
 import { useOrganization } from '@entities/organization'
 import { AddressLabel } from '@features/address-label'
 import NameLabel from '@features/name-label'
@@ -19,11 +19,14 @@ export const MyOrganizationPage = () => {
   const { t } = useTranslation()
   const address = useTonAddress()
   const navigate = useNavigate()
-  const { data: proxies, isLoading: isProxiesLoading } = useManagerProxies(address)
   const { data: organization, isLoading: isOrgLoading } = useOrganization(address)
+  const { data: proxies, isLoading: isProxiesLoading } = useQuery(
+    getManagerProxyByCollectionQuery(organization?.address ?? '')
+  )
   const { data: certificates, isLoading: isCertsLoading } = useQuery(
     getNFTByCollectionQuery(organization?.address ?? '')
   )
+
   if (isOrgLoading || isCertsLoading || isProxiesLoading) return <FieldLoader />
 
   if (!organization) return <Navigate to={'..'} />

@@ -1,3 +1,4 @@
+import { generateFilename } from '@shared/lib/tcs'
 import FlipIconInput from '@shared/uikit/filp-icon-input/flip-icon-input'
 import { ChangeEvent, FC, HTMLProps, ReactNode, useRef } from 'react'
 import { RxCross2 } from 'react-icons/rx'
@@ -28,7 +29,7 @@ const UploadContent: FC<UploadContentProps> = ({
     reader.onloadend = async () => {
       const response = await saveContent({
         file: reader.result as string,
-        filename: `${file.name}-${new Date().toISOString().slice(0, 10)}`,
+        filename: `${generateFilename()}${file.name.slice(file.name.lastIndexOf('.'))}`,
       })
       const content = `${import.meta.env.VITE_TON_STORAGE_URL}${response.bagID}`
       onContentUpload(content)

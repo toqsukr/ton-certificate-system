@@ -30,7 +30,7 @@ export const OrganizationInfoPage = () => {
           icon={<GoOrganization className='h-[1.5rem] w-[1.5rem] text-[var(--primary-color)]' />}
         />
       }
-      onBack={() => navigate('..', { preventScrollReset: true })}>
+      onBack={() => navigate(-1)}>
       <div className='flex flex-col gap-6'>
         <AddressLabel address={organization.address} />
         <OwnerLabel userAddress={organization.owner.wallet} />

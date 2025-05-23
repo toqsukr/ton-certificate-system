@@ -1,7 +1,9 @@
-import { useManagerProxies } from '@entities/manager/model/use-manager-proxies'
+import { getManagerProxyByCollectionQuery } from '@entities/manager/query'
+import { useOrganization } from '@entities/organization'
 import { Routes } from '@shared/model/routes'
 import ContentField from '@shared/uikit/content-field'
 import FieldLoader from '@shared/uikit/field-loader'
+import { useQuery } from '@tanstack/react-query'
 import { useTonAddress } from '@tonconnect/ui-react'
 import { useTranslation } from 'react-i18next'
 import { TbSettings } from 'react-icons/tb'
@@ -12,7 +14,10 @@ export const AllManagers = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const address = useTonAddress()
-  const { data: proxies, isLoading: isProxiesLoading } = useManagerProxies(address)
+  const { data: organization, isLoading: isOrgLoading } = useOrganization(address)
+  const { data: proxies, isLoading: isProxiesLoading } = useQuery(
+    getManagerProxyByCollectionQuery(organization?.address ?? '')
+  )
 
   const navigateToManager = (userAddress: string) => {
     navigate(Routes.USER_INFO, {
@@ -21,7 +26,7 @@ export const AllManagers = () => {
     })
   }
 
-  if (isProxiesLoading) return <FieldLoader />
+  if (isProxiesLoading || isOrgLoading) return <FieldLoader />
 
   return (
     <ContentField title={t('all_managers_unit_title')} onBack={() => navigate(-1)}>

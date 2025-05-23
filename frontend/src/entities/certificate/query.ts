@@ -1,8 +1,6 @@
 import { execute } from '@shared/api/graphql/execute'
-import { NftItem, NftItemConnection } from '@shared/api/graphql/graphql'
-import { filterContractEntity } from '@shared/lib/tcs'
-import { Address } from '@ton/core'
-import { openCertificateContractFromAddress } from './model/open-certificate'
+import { NftItemConnection } from '@shared/api/graphql/graphql'
+import { certificateTagAttribute, filterNftItems } from '@shared/lib/tcs'
 
 const userCertsQueryKey = 'user-certs'
 const userOrgQueryKey = 'user-org'
@@ -33,15 +31,11 @@ const getNFTItemsByCollection = `
 export const getNFTByCollectionQuery = (collection: string) => ({
   queryKey: [userOrgQueryKey, collection],
   queryFn: async () => {
-    return await execute<NftItemConnection>(getNFTItemsByCollection, {
+    const res = await execute<NftItemConnection>(getNFTItemsByCollection, {
       address: collection,
       first: 50,
     })
-  },
-  select: (data: NftItemConnection) => {
-    return data.items.filter(
-      ({ address, owner }) => Address.normalize(address) !== Address.normalize(owner.wallet)
-    )
+    return await filterNftItems(certificateTagAttribute, res.items)
   },
 })
 
@@ -80,13 +74,6 @@ export const getCertByOwnerQuery = (owner: string) => ({
       ownerAddress: owner,
       first: 50,
     })
-    return Promise.all(
-      res.items.map(item =>
-        filterContractEntity(item, openCertificateContractFromAddress, 'nft_item')
-      )
-    )
-  },
-  select: (data: { checkResult: boolean; entity: NftItem }[]) => {
-    return data.filter(({ checkResult }) => checkResult).map(({ entity }) => entity)
+    return await filterNftItems(certificateTagAttribute, res.items)
   },
 })

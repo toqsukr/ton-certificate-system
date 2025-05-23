@@ -1,6 +1,7 @@
 import { useOrganization } from '@entities/organization'
 import { useCreateOrgTag } from '@features/create-organization-tag'
 import { UploadContent, useIsContentSaving, useSaveOffchainContent } from '@features/upload-content'
+import { generateFilename } from '@shared/lib/tcs'
 import { useTonConnect } from '@shared/lib/use-ton-connect'
 import Button from '@shared/uikit/button'
 import ClearableInput from '@shared/uikit/clearable-input'
@@ -53,7 +54,7 @@ export const CreateOrganizationPage = () => {
 
         const response = await saveContentFile({
           file: base64Data,
-          filename: `org-data-${new Date().toISOString().slice(0, 10)}.json`,
+          filename: `org-data-${generateFilename()}.json`,
         })
         const content = `${import.meta.env.VITE_TON_STORAGE_URL}${response.bagID}`
         await createOrganization({
