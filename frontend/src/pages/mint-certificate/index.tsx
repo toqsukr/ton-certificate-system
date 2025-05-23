@@ -1,3 +1,4 @@
+import { useManagerProxies } from '@entities/manager'
 import { useOrganization } from '@entities/organization'
 import { AddressInput } from '@features/address-input'
 import { UploadContent, useSaveOffchainContent } from '@features/upload-content'
@@ -26,6 +27,8 @@ export const MintCertificatePage = () => {
   const { mutateAsync: mintCertificate, isPending: isCertMinting } = useMintCertificate()
   const { mutateAsync: saveContentFile, isPending: isContentSaving } = useSaveOffchainContent()
   const { isLoading: isOrgLoading } = useOrganization(address)
+  const { isLoading: isProxiesLoading } = useManagerProxies(address)
+
   const {
     updateAttributes,
     updateDescription,
@@ -93,7 +96,7 @@ export const MintCertificatePage = () => {
 
   const formDisabled = !storeValues.organization || isCertMinting || isContentSaving
 
-  if (isOrgLoading) return <FieldLoader />
+  if (isOrgLoading || isProxiesLoading) return <FieldLoader />
 
   return (
     <ContentField title={t('mint_cert_unit_title')} onBack={() => navigate(-1)}>

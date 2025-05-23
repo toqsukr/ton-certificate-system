@@ -31,6 +31,5 @@ export const checkGetMethod = async (address: string, getMethodName: string) => 
 
 export const checkIsWallet = async (address: string) => {
   const accountInfo = await accountService.getAccountInfo(address)
-  console.log(accountInfo)
   return accountInfo.is_wallet
 }

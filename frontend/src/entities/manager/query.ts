@@ -41,7 +41,7 @@ export const getManagerProxyByOwnerQuery = (owner: string) => ({
       first: 50,
     })
     return Promise.all(
-      res.items.map(item => filterContractEntity(item, openManagerContractFromAddress, 'nft-item'))
+      res.items.map(item => filterContractEntity(item, openManagerContractFromAddress, 'nft_item'))
     )
   },
   select: (data: { checkResult: boolean; entity: NftItem }[]) => {
