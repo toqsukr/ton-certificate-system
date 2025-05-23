@@ -54,7 +54,7 @@ const UserInfo: FC<{ address: string }> = ({ address }) => {
     'user-profile': null,
   }
   const defineMint = () => {
-    if (!isMyProfile(address) || !managerProxies || !organization) return null
+    if (!isMyProfile(address) || (!managerProxies && !organization)) return null
 
     return (
       <Button onClick={() => navigate(Routes.MINT_CERTIFICATE)}>{t('create_certificate')}</Button>
