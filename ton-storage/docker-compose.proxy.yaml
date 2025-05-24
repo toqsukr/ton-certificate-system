@@ -1,4 +1,5 @@
 version: '3.9'
+
 services:
   rldp-proxy:
     image: localhost:5000/ton-proxy:latest
@@ -6,12 +7,11 @@ services:
       dockerfile: Dockerfile
       context: proxy-docker
       args:
-        BUILDKIT_CPU_LIMIT: 0.5
         TON_REPO: https://github.com/ton-blockchain/ton
         TON_BRANCH: master
     ports:
-      - "8080:8080"
-      - "3334:3334"
+      - '8080:8080'
+      - '3334:3334'
     environment:
       TON_PROXY_PORT:
       TON_PUBLIC_IP:
@@ -20,7 +20,7 @@ services:
       TON_PROXY_GLOBAL_CONFIG: /run/secrets/proxy-global-config
       TON_STORAGE_GATEWAY_PORT:
     command: /app/entrypoint.sh
-    secrets: 
+    secrets:
       - adnl
       - adnl-hex
       - adnl-private

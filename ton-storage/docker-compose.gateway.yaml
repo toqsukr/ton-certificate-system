@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  gateway:
+    image: localhost:5000/tonstorage-gateway:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        TON_REPO: https://github.com/ton-blockchain/ton
+        TON_BRANCH: master
+    ports:
+      - '3000:3000'
+      - '2222:22'
+      - '3333:3333'
+    networks:
+      - ton-network
+    environment:
+      TON_STORAGE_ADNL_PORT:
+      TON_STORAGE_CONTROL_PORT:
+      TON_STORAGE_VERBOSITY_LEVEL:
+      TON_PUBLIC_IP:
+      TON_STORAGE_GLOBAL_CONFIG: /run/secrets/global-config
+      TON_STORAGE_DATABASE_NAME:
+      TON_STORAGE_GATEWAY_PORT:
+      TON_STORAGE_GATEWAY_DOMAIN:
+    secrets:
+      - global-config
+    volumes:
+      - shared-temp:/app/shared-temp
+      - ./exchange:/exchange
+      - ton-storage-data:/data
+    restart: always

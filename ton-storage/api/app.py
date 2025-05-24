@@ -20,7 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*", "supports_credentials": False}})
 TEMP_DIR = "/app/shared-temp/"
 os.makedirs(TEMP_DIR, exist_ok=True)
 
