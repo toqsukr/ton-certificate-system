@@ -6,7 +6,7 @@
 
 **TON CERTIFICATE SYSTEM** is a decentralized application (dApp) built on **The Open Network (TON)**, designed to securely store, manage, and verify achievements such as certificates, diplomas, and awards. With blockchain-powered immutability and Telegram Mini Apps integration, your accomplishments are always accessible and tamper-proof.
 
-🔗 **Live Demo**: [Available in Telegram Mini Apps](https://t.me/ton_cert_system_bot) (Coming Soon)
+🔗 **Live Demo**: [Available in Telegram Mini Apps](https://t.me/ton_cert_system_bot)
 
 ## 🌟 Features
 
@@ -18,10 +18,13 @@
 
 ## 📸 Screenshots
 
-| Profile View                                                            | Certificate Issuance                                                        | Mobile Telegram App                                                          |
-| ----------------------------------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| ![Profile Preview](https://placehold.co/300x200?text=User+Profile+View) | ![Issuance Preview](https://placehold.co/300x200?text=Certificate+Creation) | ![Telegram Mini App](https://placehold.co/300x200?text=Telegram+Integration) |
+| Profile Preview                                                                                      | Certificate                                                                                         |
+| ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------|
+| ![Profile Preview](https://github.com/user-attachments/assets/019d1c14-8a40-4946-bb9f-a736320be685)  | ![Certificate](https://github.com/user-attachments/assets/b623ef9e-13c7-4370-a63e-f0732588435f)
 
+| Certificate Issuance                                                                                 | My Organization                                                                                     |
+| ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------|
+| ![Issuance Preview](https://github.com/user-attachments/assets/faadb238-0b62-4274-ab9e-5e50131a6e0f) | ![My Organization](https://github.com/user-attachments/assets/e51a7d03-1f8e-42a4-8938-7960be9266ac) |
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -30,28 +33,14 @@
 - TON Wallet (e.g., Tonkeeper)
 - Telegram (for Mini Apps testing)
 
-### Installation
-
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/yourusername/achievex.git
-   ```
-2. Install dependencies:
-   ```sh
-   cd achievex && npm install
-   ```
-3. Run the development server:
-   ```sh
-   npm run dev
-   ```
-4. Access via Telegram Mini Apps or web browser.
-
 ## 📜 Smart Contracts
 
 Achievement records are anchored on TON via:
 
-- **AchievementStorage** – Stores user certificates as NFTs.
-- **OrganizationRegistry** – Manages trusted issuers.
+- **CertificateNFT** – Stores user certificate as NFT.
+- **ManagerNFT** – Used to certificate management delegation
+- **OrganizationFactory** – Organization contract-factory.
+- **Organization** – Manages trusted issuers.
 
 ## 🤝 Contributing
 
@@ -64,5 +53,3 @@ We welcome contributions! Open an issue or submit a PR.
 ---
 
 💡 **Powered by TON Blockchain**
-
----
