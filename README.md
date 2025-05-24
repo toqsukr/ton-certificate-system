@@ -6,7 +6,7 @@
 
 **TON CERTIFICATE SYSTEM** is a decentralized application (dApp) built on **The Open Network (TON)**, designed to securely store, manage, and verify achievements such as certificates, diplomas, and awards. With blockchain-powered immutability and Telegram Mini Apps integration, your accomplishments are always accessible and tamper-proof.
 
-🔗 **Live Demo**: [Available in Telegram Mini Apps](https://t.me/ton_cert_system_bot) (Coming Soon)
+🔗 **Live Demo**: [Available in Telegram Mini Apps](https://t.me/ton_cert_system_bot)
 
 ## 🌟 Features
 
@@ -20,11 +20,11 @@
 
 | Profile Preview                                                                                      | Certificate                                                                                         |
 | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------|
-| ![Profile Preview](https://github.com/user-attachments/assets/8686ffae-e07f-4cec-9c83-2ab0aeaa6abd)  | ![Certificate](https://github.com/user-attachments/assets/af35377d-ffed-43e9-88bc-66321c3085ff)
+| ![Profile Preview](https://github.com/user-attachments/assets/019d1c14-8a40-4946-bb9f-a736320be685)  | ![Certificate](https://github.com/user-attachments/assets/b623ef9e-13c7-4370-a63e-f0732588435f)
 
 | Certificate Issuance                                                                                 | My Organization                                                                                     |
 | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------|
-| ![Issuance Preview](https://github.com/user-attachments/assets/a21481d0-5585-4d7f-945f-47054c407014) | ![My Organization](https://github.com/user-attachments/assets/71751538-98ec-487d-adbd-905e9fc240f0) |
+| ![Issuance Preview](https://github.com/user-attachments/assets/faadb238-0b62-4274-ab9e-5e50131a6e0f) | ![My Organization](https://github.com/user-attachments/assets/e51a7d03-1f8e-42a4-8938-7960be9266ac) |
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -32,23 +32,6 @@
 - Node.js ≥ 18.x
 - TON Wallet (e.g., Tonkeeper)
 - Telegram (for Mini Apps testing)
-
-### Installation
-
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/toqsukr/ton-certificate-system.git
-   ```
-2. Install dependencies:
-   ```sh
-   cd ton-certificate-system && npm install
-   ```
-3. Update .env file.
-4. Run the development server:
-   ```sh
-   npm run dev
-   ```
-5. Access via Telegram Mini Apps or web browser.
 
 ## 📜 Smart Contracts
 
