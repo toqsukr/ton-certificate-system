@@ -43,10 +43,10 @@
   "upload_org_image": "Organization icon",
 
   "mint_cert_unit_title": "Certificate Creation",
-  "create_cert_unit_text": "To issue a certificate, download a JSON file with the necessary data and paste the owner's address in the fields above",
+  "create_cert_unit_text": "To issue a certificate, fill out the form by selecting the appropriate organization. The metadata file will be saved in the decentralized storage automatically!",
 
   "create_org_unit_title": "Organization Creation",
-  "create_org_unit_text": "To create an organization, insert and upload a JSON file with the necessary data in the field above.",
+  "create_org_unit_text": "To create an organization, fill out the form by selecting the appropriate organization. The metadata file will be saved in the decentralized storage automatically!",
 
   "all_certs_unit_title": "All Certificates",
   "revoke_certs_unit_title": "Certificates Revokation",
@@ -58,6 +58,7 @@
   "delete_manager": "Delete manager",
   "all_managers": "All managers",
   "delete_organization": "Delete organization",
+  "choose_organization": "Select organization",
 
   "profile_unit_title": "Account",
 

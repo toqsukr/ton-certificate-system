@@ -4,8 +4,10 @@ import { useCertContent } from '@pages/mint-certificate/lib/store'
 import Select from '@shared/uikit/select/select'
 import { useTonAddress } from '@tonconnect/ui-react'
 import { FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const ProxiesSelect = () => {
+  const { t } = useTranslation()
   const address = useTonAddress()
   const { data: myOrganization } = useOrganization(address)
   const { data: proxies } = useManagerProxies(address)
@@ -22,7 +24,7 @@ const ProxiesSelect = () => {
   return (
     <Select value={organization ?? undefined} onChange={handleSelect}>
       <Select.Option selected={!!organization} value=''>
-        Выберите организацию
+        {t('choose_organization')}
       </Select.Option>
       {options.map(({ address, name }) => (
         <Select.Option selected={organization === address} key={address} value={address}>
