@@ -18,10 +18,13 @@
 
 ## 📸 Screenshots
 
-| Profile View                                                            | Certificate Issuance                                                        | Mobile Telegram App                                                          |
-| ----------------------------------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| ![Profile Preview](https://placehold.co/300x200?text=User+Profile+View) | ![Issuance Preview](https://placehold.co/300x200?text=Certificate+Creation) | ![Telegram Mini App](https://placehold.co/300x200?text=Telegram+Integration) |
+| Profile Preview                                                                                      | Certificate                                                                                         |
+| ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------|
+| ![Profile Preview](https://github.com/user-attachments/assets/8686ffae-e07f-4cec-9c83-2ab0aeaa6abd)  | ![Certificate](https://github.com/user-attachments/assets/af35377d-ffed-43e9-88bc-66321c3085ff)
 
+| Certificate Issuance                                                                                 | My Organization                                                                                     |
+| ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------|
+| ![Issuance Preview](https://github.com/user-attachments/assets/a21481d0-5585-4d7f-945f-47054c407014) | ![My Organization](https://github.com/user-attachments/assets/71751538-98ec-487d-adbd-905e9fc240f0) |
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -34,24 +37,27 @@
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/achievex.git
+   git clone https://github.com/toqsukr/ton-certificate-system.git
    ```
 2. Install dependencies:
    ```sh
-   cd achievex && npm install
+   cd ton-certificate-system && npm install
    ```
-3. Run the development server:
+3. Update .env file.
+4. Run the development server:
    ```sh
    npm run dev
    ```
-4. Access via Telegram Mini Apps or web browser.
+5. Access via Telegram Mini Apps or web browser.
 
 ## 📜 Smart Contracts
 
 Achievement records are anchored on TON via:
 
-- **AchievementStorage** – Stores user certificates as NFTs.
-- **OrganizationRegistry** – Manages trusted issuers.
+- **CertificateNFT** – Stores user certificate as NFT.
+- **ManagerNFT** – Used to certificate management delegation
+- **OrganizationFactory** – Organization contract-factory.
+- **Organization** – Manages trusted issuers.
 
 ## 🤝 Contributing
 
@@ -64,5 +70,3 @@ We welcome contributions! Open an issue or submit a PR.
 ---
 
 💡 **Powered by TON Blockchain**
-
----
