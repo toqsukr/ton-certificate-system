@@ -135,11 +135,6 @@ contract Organization with Ownable {
             body: NftDestroy{}.toCell()
         });
     }
-
-    receive(msg: OrgDestroy) {
-        throwUnless(NON_AUTHORIZED, sender() == self.owner);
-        self.owner = myAddress();
-    }
-
+    
     receive() {}
 }
